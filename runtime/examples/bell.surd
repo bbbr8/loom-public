@@ -1,0 +1,11 @@
+# Bell pair: wires receive gates. Two wires that always agree, each one a fair coin.
+wires q: 2
+bits c: 2
+q <- h & id >> cx            # one gate value: h on the first wire beside id, then cx across both
+print state
+expect prob(q, "00") == 1/2
+expect prob(q, "11") == 1/2
+expect entanglement(q[0]) == 1/2
+c <- measure q
+expect c == "00" or c == "11"
+print circuit

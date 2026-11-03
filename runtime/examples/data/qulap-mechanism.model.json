@@ -1,0 +1,100 @@
+{
+  "schema": "qulap.model.v1",
+  "source_tier": "synthetic",
+  "question": "Is owner funding forced into a related-party payment under the declared capacities?",
+  "variables": [
+    {
+      "id": "owner_part",
+      "domain": [
+        0,
+        10000,
+        20000,
+        30000,
+        40000
+      ],
+      "unit": "cents",
+      "lane": {
+        "currency": "USD",
+        "scope": "synthetic_pooled_account",
+        "stage": "hypothetical_related_payment_application",
+        "basis": "net_cash"
+      },
+      "source_ids": [],
+      "next_record": "Full pooled-account statement, opening balance and linked source receipts"
+    },
+    {
+      "id": "lender_part",
+      "domain": [
+        0,
+        10000,
+        20000,
+        30000,
+        40000
+      ],
+      "unit": "cents",
+      "lane": {
+        "currency": "USD",
+        "scope": "synthetic_pooled_account",
+        "stage": "hypothetical_related_payment_application",
+        "basis": "net_cash"
+      },
+      "source_ids": []
+    },
+    {
+      "id": "actor_knew_use",
+      "domain": [
+        false,
+        true
+      ],
+      "unit": "boolean",
+      "source_ids": [],
+      "next_record": "Actor-specific direction and acknowledgment before the payment"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "payment_total",
+      "expr": "owner_part + lender_part == 40000",
+      "source_ids": [
+        "S_cash"
+      ]
+    },
+    {
+      "id": "lender_capacity",
+      "expr": "lender_part <= 10000",
+      "source_ids": [
+        "S_cash"
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "owner_related_application",
+      "expr": "owner_part",
+      "unit": "cents"
+    }
+  ],
+  "propositions": [
+    {
+      "id": "owner_funding_required",
+      "expr": "owner_part >= 30000",
+      "category": "accounting"
+    },
+    {
+      "id": "knowing_use_hypothesis",
+      "expr": "owner_part > 0 and actor_knew_use",
+      "category": "fraud_mechanism"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S_cash",
+      "locator": "SYNTHETIC account and source-capacity fixture",
+      "lineage_id": "SYN_CASH"
+    }
+  ],
+  "coverage_gaps": [
+    "Finite $100-step application domain; unmodeled deposits, opening cash or borrowing can change bounds.",
+    "Related-party payment purpose and actor knowledge require separate native support."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "version": "0.2.0",
+  "files": {
+    "bridges.py": {
+      "source": "qulap/bridges.py",
+      "sha256": "b14f4bb60f28c27d4051b2ab9055ac5aeee429c6f412b98ea1556f6fdd1ee729"
+    },
+    "temporal.py": {
+      "source": "qulap/temporal.py",
+      "sha256": "8c7d91b8b35e59e638f219df31b18d97949ec3033157b670f1c34fa8c41815c0"
+    },
+    "accounting.py": {
+      "source": "qulap/accounting.py",
+      "sha256": "16e1359fc4290df4bdaabbe585c8bc85340042126be60a21d43ab74c1892b3f3"
+    },
+    "cubes.py": {
+      "source": "qulap/cubes.py",
+      "sha256": "6de64b3f53cd0a6de812b0aadf1f895164852af2c2b5f6bdbb81426d6a9c72ba"
+    },
+    "__init__.py": {
+      "source": "qulap/__init__.py",
+      "sha256": "29f16876affa7ec814a540424fc11b659ed47887008585a7fecb4de23c39d2b2"
+    },
+    "model.py": {
+      "source": "qulap/model.py",
+      "sha256": "04e6bbe9a4e8819389e01fd5d51361e2deabdec6310b795659461072a58fbb49"
+    },
+    "bind.py": {
+      "source": "qulap/bind.py",
+      "sha256": "77fe05694a1dfb810a63234da86d64ba9dd86ab5eacbf82e1aa53984c96d733e"
+    },
+    "cli.py": {
+      "source": "qulap/cli.py",
+      "sha256": "b82b1722da4fc3cb92c9837512cdbde109feb6359ee815bc5e0786788335fe0b"
+    },
+    "surd_bridge.py": {
+      "source": "qulap/surd_bridge.py",
+      "sha256": "b9aefc41d3a21f0c906fc890dd2b3fb2c7dd91480091b5442be03e0657635fe4"
+    }
+  },
+  "local_changes": [
+    "cli default backend uses adjacent Loom runtime"
+  ]
+}

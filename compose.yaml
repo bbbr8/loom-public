@@ -1,0 +1,13 @@
+services:
+  loom:
+    build: .
+    ports:
+      - "127.0.0.1:10000:10000"
+    environment:
+      LOOM_API_KEY: ${LOOM_API_KEY:?Set LOOM_API_KEY in your local .env file}
+      LOOM_DATA_DIR: /data
+      LOOM_STORAGE_MODE: persistent Docker volume
+    volumes:
+      - loom-data:/data
+volumes:
+  loom-data:

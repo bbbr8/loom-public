@@ -1,0 +1,11 @@
+# A wasteful circuit; `surd opt examples/optimize_me.surd` shrinks it and proves the result equal.
+wires q: 3
+q[0] <- h >> h
+q[1] <- t >> t
+(q[1], q[2]) <- cx >> cx
+q[0] <- s >> s
+q[2] <- rz(pi/2) >> rz(-pi/2)
+q[0] <- h
+(q[0], q[1]) <- cx
+q[2] <- tdg >> t
+expect prob(q, "000") == 1/2

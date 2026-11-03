@@ -1,0 +1,64 @@
+{
+  "schema": "qulap.allocations.v1",
+  "source_tier": "synthetic",
+  "scope": "A",
+  "currency": "USD",
+  "basis": "net_cash",
+  "payments": [
+    {
+      "id": "p1",
+      "amount_cents": 10000,
+      "scope": "A",
+      "currency": "USD",
+      "basis": "net_cash",
+      "stage": "paid",
+      "locator": "SYNTHETIC bank p1",
+      "lineage_id": "SYN_p1",
+      "event_time": "2020-01-02",
+      "eligible_invoices": [
+        "i1",
+        "i2"
+      ]
+    },
+    {
+      "id": "p2",
+      "amount_cents": 10000,
+      "scope": "A",
+      "currency": "USD",
+      "basis": "net_cash",
+      "stage": "paid",
+      "locator": "SYNTHETIC bank p2",
+      "lineage_id": "SYN_p2",
+      "event_time": "2020-01-02",
+      "eligible_invoices": [
+        "i1",
+        "i2"
+      ]
+    }
+  ],
+  "invoices": [
+    {
+      "id": "i1",
+      "amount_cents": 10000,
+      "scope": "A",
+      "currency": "USD",
+      "basis": "net_cash",
+      "stage": "invoiced",
+      "locator": "SYNTHETIC invoice i1",
+      "lineage_id": "SYN_i1",
+      "event_time": "2020-01-01"
+    },
+    {
+      "id": "i2",
+      "amount_cents": 10000,
+      "scope": "A",
+      "currency": "USD",
+      "basis": "net_cash",
+      "stage": "invoiced",
+      "locator": "SYNTHETIC invoice i2",
+      "lineage_id": "SYN_i2",
+      "event_time": "2020-01-01"
+    }
+  ],
+  "require_exact_invoices": true
+}

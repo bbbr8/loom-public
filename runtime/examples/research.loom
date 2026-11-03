@@ -1,0 +1,6 @@
+# Synthetic exact research planning, with complementary record outcomes.
+let planned = research_plan("examples/data/qulap-credit.model.json", {"max_bundle": 2})
+expect planned["bundles"][0]["guaranteed_gain"] == 60000
+expect planned["bundles"][0]["synergy"] == 60000
+expect planned["proof_effect"] == "NONE"
+print planned["bundles"][0]

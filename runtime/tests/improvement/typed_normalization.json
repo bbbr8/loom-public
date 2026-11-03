@@ -1,0 +1,29 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "typed_identity_field_normalization",
+  "oracle_basis": "Identity field comparisons preserve mailbox local-part case unless a provider policy is declared. An explicit US phone profile aligns national/international formatting. Domain-case-only changes remain equal.",
+  "original": {
+    "source": "expect graph_resolve(@@GRAPH@@)[\"pairs\"][0][\"matching_field_count\"] == 0",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/normalization-original.sqlite"
+    }
+  },
+  "transfer": {
+    "source": "expect graph_resolve(@@GRAPH@@)[\"pairs\"][0][\"matching_field_count\"] == 1",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/normalization-transfer.sqlite"
+    }
+  },
+  "control": {
+    "source": "expect graph_resolve(@@GRAPH@@)[\"pairs\"][0][\"matching_field_count\"] == 1",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/normalization-control.sqlite"
+    }
+  }
+}

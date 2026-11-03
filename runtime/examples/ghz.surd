@@ -1,0 +1,8 @@
+# GHZ on 4 wires.
+wires q: 4
+q[0] <- h
+for i in 1..4 { (q[0], q[i]) <- cx }
+print probs
+expect prob(q, "0000") == 1/2
+expect prob(q, "1111") == 1/2
+expect entanglement(q[0], q[1]) == 1/2

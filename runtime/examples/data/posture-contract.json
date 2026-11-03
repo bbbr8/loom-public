@@ -1,0 +1,164 @@
+{
+  "argument": {
+    "claims": [
+      {
+        "id": "issued",
+        "text": "The builder recorded a credit.",
+        "support": [
+          {
+            "document": "ledger",
+            "quote": "The builder recorded a credit of $100."
+          },
+          {
+            "document": "copy",
+            "quote": "The builder recorded a credit of $100."
+          }
+        ]
+      },
+      {
+        "id": "demand",
+        "text": "The demand lists no credit.",
+        "support": [
+          {
+            "document": "demand",
+            "quote": "The demand lists no credit."
+          }
+        ]
+      },
+      {
+        "id": "difference",
+        "text": "The ledger and demand differ in their displayed credit treatment."
+      },
+      {
+        "id": "application",
+        "text": "The credit was actually applied to this owner's obligation."
+      },
+      {
+        "id": "knowledge",
+        "text": "The builder knew of the discrepancy when making the demand."
+      },
+      {
+        "id": "concede",
+        "text": "Assume they concede the credit was due.",
+        "assumption": true
+      },
+      {
+        "id": "hold",
+        "text": "Assume they hold that no credit was due.",
+        "assumption": true
+      },
+      {
+        "id": "consequence_c",
+        "text": "Under the declared concession, the demand requires reconciliation."
+      },
+      {
+        "id": "consequence_h",
+        "text": "Under the declared refusal, their ledger requires explanation."
+      }
+    ],
+    "rules": [
+      {
+        "id": "compare",
+        "if": [
+          "issued",
+          "demand"
+        ],
+        "then": "difference"
+      },
+      {
+        "id": "concession",
+        "if": [
+          "concede",
+          "difference"
+        ],
+        "then": "consequence_c"
+      },
+      {
+        "id": "refusal",
+        "if": [
+          "hold",
+          "issued"
+        ],
+        "then": "consequence_h"
+      }
+    ],
+    "facets": [
+      {
+        "id": "challenge",
+        "query": "reversed credit",
+        "role": "challenge"
+      }
+    ]
+  },
+  "issues": [
+    {
+      "id": "credit",
+      "title": "Credit treatment",
+      "goal": "difference",
+      "floor": "issued",
+      "materiality": "high",
+      "coordinates": {
+        "actor": "Builder",
+        "stage": "issued versus applied",
+        "knowledge_as_of": null
+      },
+      "bridges": [
+        {
+          "role": "actual_application",
+          "claim": "application"
+        },
+        {
+          "role": "actor_knowledge",
+          "claim": "knowledge"
+        }
+      ],
+      "opponent": {
+        "text": "The credit was applied elsewhere.",
+        "citations": [
+          {
+            "document": "response",
+            "quote": "The credit was applied elsewhere."
+          }
+        ]
+      },
+      "forks": [
+        {
+          "id": "concede",
+          "label": "credit was due",
+          "assume": [
+            "concede"
+          ],
+          "goal": "consequence_c"
+        },
+        {
+          "id": "hold",
+          "label": "no credit was due",
+          "assume": [
+            "hold"
+          ],
+          "goal": "consequence_h"
+        }
+      ]
+    }
+  ],
+  "source_families": {
+    "ledger": "ledger-origin",
+    "copy": "ledger-origin",
+    "demand": "demand-origin",
+    "response": "response-origin"
+  },
+  "records": [
+    {
+      "id": "subledger",
+      "claims": [
+        "application",
+        "knowledge"
+      ],
+      "record": "Complete job subledger and posting audit",
+      "custodian": "Builder bookkeeper",
+      "identifier": "synthetic job A, period 1",
+      "if_confirms": "A posted credit to job A narrows or resolves the application gap.",
+      "if_weakens": "A posting to another job leaves this owner's credit treatment open."
+    }
+  ]
+}

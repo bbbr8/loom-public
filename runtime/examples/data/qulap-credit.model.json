@@ -1,0 +1,123 @@
+{
+  "schema": "qulap.model.v1",
+  "source_tier": "synthetic",
+  "question": "Which credit dispositions remain possible, and what resolves the residual?",
+  "variables": [
+    {
+      "id": "issued",
+      "domain": [
+        60000
+      ],
+      "unit": "cents",
+      "lane": {
+        "currency": "USD",
+        "scope": "synthetic_project_A",
+        "stage": "credit_issued",
+        "basis": "face_value"
+      },
+      "source_ids": [
+        "S_credit"
+      ]
+    },
+    {
+      "id": "applied",
+      "domain": [
+        0,
+        60000
+      ],
+      "unit": "cents",
+      "lane": {
+        "currency": "USD",
+        "scope": "synthetic_project_A",
+        "stage": "credit_applied",
+        "basis": "face_value"
+      },
+      "source_ids": [],
+      "next_record": "Vendor job subledger including reversals and the final balance"
+    },
+    {
+      "id": "refunded",
+      "domain": [
+        0,
+        60000
+      ],
+      "unit": "cents",
+      "lane": {
+        "currency": "USD",
+        "scope": "synthetic_project_A",
+        "stage": "cash_refunded",
+        "basis": "face_value"
+      },
+      "source_ids": [],
+      "next_record": "Refund instrument and recipient bank clearing"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "single_disposition",
+      "expr": "applied + refunded <= issued",
+      "source_ids": [
+        "S_assumption"
+      ],
+      "bridge": {
+        "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+        "source_ids": [
+          "S_assumption"
+        ]
+      }
+    }
+  ],
+  "metrics": [
+    {
+      "id": "unresolved_credit",
+      "expr": "issued - applied - refunded",
+      "unit": "cents",
+      "bridge": {
+        "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+        "source_ids": [
+          "S_assumption"
+        ]
+      }
+    }
+  ],
+  "propositions": [
+    {
+      "id": "credit_not_delivered",
+      "expr": "issued - applied - refunded > 0",
+      "category": "fraud_mechanism",
+      "bridge": {
+        "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+        "source_ids": [
+          "S_assumption"
+        ]
+      }
+    },
+    {
+      "id": "double_satisfaction",
+      "expr": "applied + refunded > issued",
+      "category": "accounting",
+      "bridge": {
+        "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+        "source_ids": [
+          "S_assumption"
+        ]
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "S_credit",
+      "locator": "SYNTHETIC credit memo C1",
+      "lineage_id": "SYN_C1"
+    },
+    {
+      "id": "S_assumption",
+      "locator": "SYNTHETIC modeling assumptions",
+      "lineage_id": "SYN_MODEL"
+    }
+  ],
+  "coverage_gaps": [
+    "Synthetic binary whole-credit choices; partial dispositions are outside the declared domain.",
+    "A positive residual does not establish intent, retention or net damages."
+  ]
+}

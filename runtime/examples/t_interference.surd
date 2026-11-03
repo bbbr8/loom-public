@@ -1,0 +1,6 @@
+# h >> t >> h: a π/4 phase turned into an amplitude. The answer is irrational and printed exactly.
+wire q
+q <- h >> t >> h
+print "P(0) =", prob(q, "0")
+expect prob(q, "0") == 1/2 + sqrt(2)/4
+print bloch q

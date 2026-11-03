@@ -1,0 +1,9 @@
+# Superdense coding: one wire carries two classical bits ("10") over a shared Bell pair.
+wire a, b
+bits c: 2
+(a, b) <- h & id >> cx
+a <- z                                 # encode 1 (z) then 0 (no x)
+(a, b) <- cx >> h & id
+c[0] <- measure a
+c[1] <- measure b
+expect c == "10"

@@ -1,0 +1,37 @@
+{
+  "id": "upgrade-bench-original",
+  "scope": "upgrade-test-original",
+  "method_id": "recipe-original",
+  "activate": true,
+  "baseline": {
+    "hops": 0
+  },
+  "candidate": {
+    "hops": 0
+  },
+  "queries": [
+    {
+      "id": "a",
+      "query": "activation cell",
+      "relevant": [
+        "paper"
+      ],
+      "context": "original"
+    },
+    {
+      "id": "b",
+      "query": "activation cell source",
+      "relevant": [
+        "paper"
+      ],
+      "context": "transfer"
+    },
+    {
+      "id": "c",
+      "query": "zzzznomatch",
+      "relevant": [],
+      "answerable": false,
+      "context": "adversarial"
+    }
+  ]
+}

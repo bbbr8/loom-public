@@ -1,0 +1,28 @@
+[
+  {
+    "id": "credit",
+    "text": "A credit of $100 was issued for Job A.",
+    "locator": "SYNTHETIC credit memo row 1",
+    "metadata": {
+      "fact_kind": "credit_issued",
+      "project": "Job A",
+      "transaction": "C-1",
+      "amount": "100.00",
+      "event_date": "2020-01-01",
+      "author_side": "opponent"
+    }
+  },
+  {
+    "id": "demand",
+    "text": "The demand lists a balance without this credit.",
+    "locator": "SYNTHETIC demand row 1",
+    "metadata": {
+      "fact_kind": "demand",
+      "project": "Job A",
+      "transaction": "C-1",
+      "amount": "100",
+      "event_date": "2020-02-01",
+      "author_side": "opponent"
+    }
+  }
+]

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loom · Research workbench</title>
+  <link rel="stylesheet" href="/app.css"><script src="/app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <header class="masthead"><div><div class="wordmark">loom<span class="mark">↗</span></div><p>Research, connected.</p></div><div class="service"><span id="connection" class="dot"></span><span id="health">Connecting…</span><span class="version">1.19.0</span></div></header>
+  <section class="intro"><h1>A question. A traceable answer.</h1><p>Search sources, grow a knowledge graph, and compare exact alternatives in one workspace.</p></section>
+  <section class="studio-bar" aria-labelledby="studio-title"><div><span class="eyebrow">RESEARCH STUDIO</span><h2 id="studio-title">Find it. Understand it. Open its evidence.</h2></div>
+    <div class="studio-controls"><label>Project graph<input id="studio-graph" value="research-demo" maxlength="64" pattern="[A-Za-z0-9][A-Za-z0-9_-]*"></label><label class="studio-question">Your question<input id="studio-query" placeholder="Who received this version before the draw?" maxlength="8192"></label></div>
+    <div class="studio-actions"><button type="button" data-studio="graph_hybrid_search">Search records</button><button type="button" data-studio="graph_explain">Build explanation</button><button type="button" data-studio="research_next" class="secondary">Find next records</button><button type="button" data-studio="graph_case_episode" class="secondary">Open case episode</button><button id="studio-back" type="button" class="secondary" hidden>Back to results</button></div>
+    <p class="panel-note">For a mapped case episode, enter its episode ID in the question field and choose “Open case episode”.</p>
+    <p class="panel-note">Choose a graph already imported into this service. Open record buttons reveal its source, context, relationships and revisions.</p>
+  </section>
+  <form id="workbench">
+    <div class="toolbar">
+      <label class="example-field">Start with an example<select id="example" aria-label="Example request"></select></label>
+      <label class="key-field">Access key<input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Enter your Loom API key" required minlength="32"></label>
+    </div>
+    <p class="disclosure"><span class="badge">SYNTHETIC EXAMPLES</span><span id="storage">Checking graph storage…</span><span>Key stays in this page’s memory.</span></p>
+    <main class="workspace">
+      <section class="panel request-panel"><div class="panel-head"><div><span class="eyebrow">01 / INPUT</span><h2 id="request-title">Source search</h2></div><button id="run" type="submit">Run analysis <span>↗</span></button></div>
+        <p id="description" class="panel-note"></p>
+        <label for="request" class="sr-only">Editable JSON request</label><textarea id="request" spellcheck="false" aria-describedby="request-help"></textarea>
+        <div class="panel-footer" id="request-help">Edit the example with your own records. Graphs and queued job results use the service’s configured storage.</div>
+      </section>
+      <section class="panel result-panel"><div class="panel-head"><div><span class="eyebrow">02 / RESULT</span><h2>Inspect the answer</h2></div><button id="download" class="secondary" type="button" disabled>Export JSON</button></div>
+        <div id="status" role="status" aria-live="polite">Ready when you are.</div>
+        <div id="job-controls" hidden><button id="resume-job" class="secondary" type="button">Check retained job</button><span id="job-note" class="panel-note"></span></div>
+        <button id="next-page" class="secondary" type="button" hidden>Next graph page →</button>
+        <div id="summary" class="summary"></div><div id="result" class="result"><div class="empty"><span class="empty-symbol">⌁</span><h3>Follow the reasoning.</h3><p>Source hits, model ranges, and research receipts appear here. Full structured results remain available for inspection.</p></div></div>
+        <details id="raw-details" hidden><summary>Full structured result</summary><pre id="raw"></pre></details>
+      </section>
+    </main>
+  </form>
+  <footer><span>Source lineage · Exact models · Evolving memory</span><span>Relevance scores describe retrieval. Model results follow declared assumptions.</span></footer>
+</div>
+</body>
+</html>

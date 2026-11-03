@@ -1,0 +1,145 @@
+{
+  "operation": "research_plan",
+  "packet": {
+    "schema": "qulap.model.v1",
+    "source_tier": "synthetic",
+    "question": "credit",
+    "variables": [
+      {
+        "domain": [
+          60000
+        ],
+        "id": "issued",
+        "lane": {
+          "basis": "face_value",
+          "currency": "USD",
+          "scope": "synthetic_project_A",
+          "stage": "credit_issued"
+        },
+        "source_ids": [
+          "S_162d365aaf070d4c8661a35d"
+        ],
+        "unit": "cents"
+      },
+      {
+        "domain": [
+          0,
+          60000
+        ],
+        "id": "applied",
+        "lane": {
+          "basis": "face_value",
+          "currency": "USD",
+          "scope": "synthetic_project_A",
+          "stage": "credit_applied"
+        },
+        "next_record": "Vendor job subledger including reversals and the final balance",
+        "source_ids": [],
+        "unit": "cents"
+      },
+      {
+        "domain": [
+          0,
+          60000
+        ],
+        "id": "refunded",
+        "lane": {
+          "basis": "face_value",
+          "currency": "USD",
+          "scope": "synthetic_project_A",
+          "stage": "cash_refunded"
+        },
+        "next_record": "Refund instrument and recipient bank clearing",
+        "source_ids": [],
+        "unit": "cents"
+      }
+    ],
+    "constraints": [
+      {
+        "bridge": {
+          "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+          "source_ids": [
+            "S_26c13820f353a3d6100709b6"
+          ]
+        },
+        "expr": "applied + refunded <= issued",
+        "id": "single_disposition",
+        "source_ids": [
+          "S_26c13820f353a3d6100709b6"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "bridge": {
+          "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+          "source_ids": [
+            "S_26c13820f353a3d6100709b6"
+          ]
+        },
+        "expr": "issued - applied - refunded",
+        "id": "unresolved_credit",
+        "unit": "cents",
+        "source_ids": [
+          "S_26c13820f353a3d6100709b6"
+        ]
+      }
+    ],
+    "propositions": [
+      {
+        "bridge": {
+          "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+          "source_ids": [
+            "S_26c13820f353a3d6100709b6"
+          ]
+        },
+        "category": "fraud_mechanism",
+        "expr": "issued - applied - refunded > 0",
+        "id": "credit_not_delivered",
+        "source_ids": [
+          "S_26c13820f353a3d6100709b6"
+        ]
+      },
+      {
+        "bridge": {
+          "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+          "source_ids": [
+            "S_26c13820f353a3d6100709b6"
+          ]
+        },
+        "category": "accounting",
+        "expr": "applied + refunded > issued",
+        "id": "double_satisfaction",
+        "source_ids": [
+          "S_26c13820f353a3d6100709b6"
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "S_26c13820f353a3d6100709b6",
+        "locator": "SYNTHETIC modeling assumptions",
+        "lineage_id": "SYN_MODEL",
+        "graph_id": "S_assumption",
+        "graph_revision": 1,
+        "graph_content_hash": "ecb77914d6eed120e5c6156ccc7df910459e4703199d41cb8cf15785981f580e",
+        "receipt_by_actor": {}
+      },
+      {
+        "id": "S_162d365aaf070d4c8661a35d",
+        "locator": "SYNTHETIC credit memo C1",
+        "lineage_id": "SYN_C1",
+        "graph_id": "S_credit",
+        "graph_revision": 1,
+        "graph_content_hash": "5292333745c7782583b9598c3352d648d7ad3a189bb903e14ad28fece2c388e9",
+        "receipt_by_actor": {}
+      }
+    ],
+    "coverage_gaps": [
+      "Explicit finite domains; alternatives outside these domains remain outside the model."
+    ]
+  },
+  "options": {
+    "max_bundle": 2
+  }
+}

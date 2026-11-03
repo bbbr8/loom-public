@@ -1,0 +1,32 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "financial_to_date_header_roles",
+  "oracle_basis": "Cost to date and Updated budget label accumulated monetary amounts. Statement Date labels an actual calendar date. Native spelling and values remain preserved.",
+  "original": {
+    "source": "let db = @@GRAPH@@\nlet imported = graph_import_documents(db,{\"batch_id\":\"date-role\",\"files\":[{\"path\":@@CSV@@,\"normalization_profile\":{\"currency\":\"USD\"}}]})\nlet snapshot = graph_snapshot(db)\nexpect snapshot[\"nodes\"][0][\"data\"][\"normalization\"][\"fields\"][0][\"value\"][\"kind\"] == \"money\"\nexpect snapshot[\"nodes\"][0][\"data\"][\"normalization\"][\"fields\"][0][\"value\"][\"canonical\"] == \"15400\"\n",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/case-source-original.sqlite",
+      "CSV": "examples/data/to-date-original.csv"
+    }
+  },
+  "transfer": {
+    "source": "let db = @@GRAPH@@\nlet imported = graph_import_documents(db,{\"batch_id\":\"date-role\",\"files\":[{\"path\":@@CSV@@,\"normalization_profile\":{\"currency\":\"USD\"}}]})\nlet snapshot = graph_snapshot(db)\nexpect snapshot[\"nodes\"][0][\"data\"][\"normalization\"][\"fields\"][0][\"value\"][\"kind\"] == \"money\"\nexpect snapshot[\"nodes\"][0][\"data\"][\"normalization\"][\"fields\"][0][\"value\"][\"canonical\"] == \"3722.15\"\n",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/case-source-transfer.sqlite",
+      "CSV": "examples/data/to-date-transfer.csv"
+    }
+  },
+  "control": {
+    "source": "let db = @@GRAPH@@\nlet imported = graph_import_documents(db,{\"batch_id\":\"date-role\",\"files\":[{\"path\":@@CSV@@,\"normalization_profile\":{\"currency\":\"USD\"}}]})\nlet snapshot = graph_snapshot(db)\nexpect snapshot[\"nodes\"][0][\"data\"][\"normalization\"][\"fields\"][0][\"value\"][\"kind\"] == \"date\"\n",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/case-source-control.sqlite",
+      "CSV": "examples/data/to-date-control.csv"
+    }
+  }
+}

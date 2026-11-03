@@ -1,0 +1,55 @@
+{
+  "release": {
+    "ok": true,
+    "version": "1.15.0",
+    "archive_sha256": "2b1763eb5d9e8fe301b12c5503fa0e4df80be80dae264181db2ba4f1d5df7844",
+    "manifest_sha256": "ef38e0ba8ec18943339bda2c97c04d717fbb26f24957cfa8e48d9f26d466603f",
+    "counts": {
+      "failed": 0,
+      "passed": 140,
+      "skipped": 0
+    },
+    "seconds": 129.4111,
+    "host": "benchmark-host.local",
+    "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 17.0.0 (clang-1700.6.4.2)]"
+  },
+  "fuzz": {
+    "ok": true,
+    "archive_sha256": "2b1763eb5d9e8fe301b12c5503fa0e4df80be80dae264181db2ba4f1d5df7844",
+    "counts": {
+      "failed": 0,
+      "passed": 2,
+      "skipped": 0
+    },
+    "seconds": 22.455,
+    "host": "benchmark-host.local",
+    "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 17.0.0 (clang-1700.6.4.2)]"
+  },
+  "suites": [
+    {
+      "label": "release",
+      "exit_code": 0,
+      "seconds": 129.46315912529826
+    },
+    {
+      "label": "fuzz",
+      "exit_code": 0,
+      "seconds": 22.50753862503916
+    },
+    {
+      "label": "retained",
+      "exit_code": 0,
+      "seconds": 4.77684108261019
+    },
+    {
+      "label": "jobs",
+      "exit_code": 0,
+      "seconds": 2.537702292203903
+    },
+    {
+      "label": "api",
+      "exit_code": 0,
+      "seconds": 4.607940792106092
+    }
+  ]
+}

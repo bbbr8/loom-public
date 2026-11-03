@@ -1,0 +1,22 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "measurement_alias",
+  "oracle_basis": "A sampled classical alias cannot be represented by an unconditional unitary trace.",
+  "original": {
+    "source": "wires q: 1\nbits c: 1\nq <- h\nc <- measure q\nlet mm = c\nif mm == \"1\" { q <- x }",
+    "mode": "qasm",
+    "outcome": "reject",
+    "error_code": "S-E013"
+  },
+  "transfer": {
+    "source": "wires q: 1\nbits c: 1\nq <- h\nc <- measure q\nlet mm = c[0]\nlet nn = mm\nrepeat nn { q <- x }",
+    "mode": "qasm",
+    "outcome": "reject",
+    "error_code": "S-E013"
+  },
+  "control": {
+    "source": "wires q: 1\nq <- h\nexpect prob(q,\"1\") == 1/2",
+    "mode": "run",
+    "outcome": "accept"
+  }
+}

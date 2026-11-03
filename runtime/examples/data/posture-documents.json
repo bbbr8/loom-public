@@ -1,0 +1,48 @@
+[
+  {
+    "fields": {},
+    "id": "ledger",
+    "locator": "synthetic ledger row 1",
+    "metadata": {
+      "author_side": "opponent"
+    },
+    "text": "The builder recorded a credit of $100.",
+    "title": ""
+  },
+  {
+    "fields": {},
+    "id": "copy",
+    "locator": "synthetic copy row 1",
+    "metadata": {},
+    "text": "The builder recorded a credit of $100.",
+    "title": ""
+  },
+  {
+    "fields": {},
+    "id": "demand",
+    "locator": "synthetic demand p1",
+    "metadata": {
+      "author_side": "opponent"
+    },
+    "text": "The demand lists no credit.",
+    "title": ""
+  },
+  {
+    "fields": {},
+    "id": "response",
+    "locator": "synthetic response p2",
+    "metadata": {},
+    "text": "The credit was applied elsewhere.",
+    "title": ""
+  },
+  {
+    "fields": {},
+    "id": "adverse",
+    "locator": "synthetic supplier row 2",
+    "metadata": {
+      "author_side": "third_party"
+    },
+    "text": "The supplier reversed the credit.",
+    "title": ""
+  }
+]

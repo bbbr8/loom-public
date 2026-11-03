@@ -1,0 +1,22 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "noise_domain",
+  "oracle_basis": "Probabilities must be nonnegative and sum to one exactly before float conversion.",
+  "original": {
+    "source": "wires q: 1\nq <- pauli(1,1/2000000000,0)",
+    "mode": "run",
+    "outcome": "reject",
+    "error_code": "S-E009"
+  },
+  "transfer": {
+    "source": "wires q: 1\nq <- bitflip(1+1/10^30)",
+    "mode": "run",
+    "outcome": "reject",
+    "error_code": "S-E009"
+  },
+  "control": {
+    "source": "wires q: 1\nq <- bitflip(1)\nexpect prob(q,\"1\") == 1",
+    "mode": "run",
+    "outcome": "accept"
+  }
+}

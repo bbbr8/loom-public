@@ -1,0 +1,11 @@
+# A Bell pair on imperfect hardware: 1% depolarizing noise after every gate, exact to the last digit.
+noise depolarize(1/100)
+wires q: 2
+q <- h & id >> cx
+noise off
+print state
+print "P(agree) =", prob(q, "00") + prob(q, "11")
+print "purity   =", purity(q)
+print "<ZZ>     =", expval(q, "ZZ")
+expect prob(q, "00") + prob(q, "11") < 1
+expect expval(q, "ZZ") == prob(q, "00") + prob(q, "11") - prob(q, "01") - prob(q, "10")

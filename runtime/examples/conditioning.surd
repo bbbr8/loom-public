@@ -1,0 +1,23 @@
+# Synthetic example: conditional amplitude, probability and numeric representation.
+space PURPOSE { construction, furniture }
+space AUDIENCE { owner, lender }
+let meaning_pair = joint(PURPOSE, AUDIENCE, [
+    ["construction", "owner", 1],
+    ["furniture", "owner", 1],
+    ["construction", "lender", 2]
+])
+let selected = condition(meaning_pair, "owner")
+expect selected["probability"] == 1/2
+expect distribution(selected["meaning"])["construction"] == 1/2
+expect exactness(selected["meaning"])["status"] == "exact"
+
+# given retains the original projection; normalize makes it reusable on fresh wires.
+let with_phase = phase(given(meaning_pair, "owner"), "furniture", pi)
+let ready = normalize(with_phase)
+expect fidelity(ready, with_phase) == 1
+wires q: 1
+encode(ready, q)
+expect norm() == 1
+expect prob(q, "0") == 1/2
+print selected["probability"]
+print exactness([selected["probability"], float(1/3)])

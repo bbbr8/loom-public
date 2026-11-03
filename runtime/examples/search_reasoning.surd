@@ -1,0 +1,26 @@
+# SYNTHETIC FIXTURE: argument mechanics, not a case finding.
+let ix = search_index([
+  {"id":"test", "text":"Version 2 passed the test.", "locator":"fixture/test.txt:1", "version":2},
+  {"id":"scope", "text":"Version 2 is the target.", "locator":"fixture/scope.txt:1", "version":2},
+  {"id":"challenge", "text":"Version 3 failed the test.", "locator":"fixture/challenge.txt:1", "version":3}
+])
+let spec = {
+  "where":{"version":2},
+  "claims":[
+    {"id":"passes", "text":"The target passed its test.",
+     "support":[{"document":"test", "quote":"Version 2 passed the test."}]},
+    {"id":"scope", "text":"The tested version is the target.",
+     "support":[{"document":"scope", "quote":"Version 2 is the target."}]},
+    {"id":"ready", "text":"Ready under the declared test rule."}
+  ],
+  "rules":[{"id":"readiness", "if":["passes","scope"], "then":"ready"}],
+  "facets":[{"id":"challenge", "query":"failed", "role":"challenge"}],
+  "goal":"ready"
+}
+let r = search_reason(ix, "Is version 2 ready?", spec)
+expect r["assessment"]["status"] == "supported"
+expect r["assessment"]["entailment_verified"] == false
+expect len(r["facets"][0]["results"]["hits"]) == 0
+expect r["sensitivity"]["documents"][0]["goal_after"] == "unresolved"
+print r["assessment"]
+print r["sensitivity"]

@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+SURD_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+exec "${PYTHON:-python3}" "$SURD_ROOT/surd.py" "$@"

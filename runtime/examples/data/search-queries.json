@@ -1,0 +1,25 @@
+{
+  "queries": [
+    {
+      "id": "negation",
+      "query": "\"not authorized\"",
+      "relevant": {
+        "record-1": 2,
+        "record-2": 0
+      }
+    },
+    {
+      "id": "identifier",
+      "query": "record-2",
+      "relevant": {
+        "record-2": 1
+      }
+    },
+    {
+      "id": "absent",
+      "query": "unfindable_999",
+      "answerable": false,
+      "relevant": {}
+    }
+  ]
+}

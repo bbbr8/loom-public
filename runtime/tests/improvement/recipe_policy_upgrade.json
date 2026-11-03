@@ -1,0 +1,29 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "recipe_evaluation_survives_policy_upgrade",
+  "oracle_basis": "A frozen benchmark may be re-evaluated under a changed retrieval policy without reusing an incompatible journal batch identity. Two independently seeded legacy recipes must re-evaluate, and a fresh benchmark must still activate.",
+  "original": {
+    "source": "expect research_learn(@@GRAPH@@,\"examples/data/recipe-upgrade-original.json\")[\"state\"] == \"PASSED\"",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/recipe-upgrade-original.sqlite"
+    }
+  },
+  "transfer": {
+    "source": "expect research_learn(@@GRAPH@@,\"examples/data/recipe-upgrade-transfer.json\")[\"state\"] == \"PASSED\"",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/recipe-upgrade-transfer.sqlite"
+    }
+  },
+  "control": {
+    "source": "expect research_learn(@@GRAPH@@,\"examples/data/recipe-upgrade-control.json\")[\"state\"] == \"PASSED\"",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/recipe-upgrade-control.sqlite"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "release": "1.16.0",
+  "interpretation": "SQLite initialization/inspection/backup for Loom; separate Bootstrap language unchanged",
+  "runtime_files": 183,
+  "release_counts": {
+    "failed": 0,
+    "passed": 142,
+    "skipped": 0
+  },
+  "fuzz_counts": {
+    "failed": 0,
+    "passed": 2,
+    "skipped": 0
+  },
+  "platform_tests": {
+    "sqlite": 17,
+    "api": 29,
+    "jobs": 9
+  },
+  "retained_cases": 9,
+  "retained_assertions": 27,
+  "scale": {
+    "nodes": 20000,
+    "edges": 100000,
+    "upgrade_seconds": 0.022422875000000175,
+    "backup_seconds": 0.308518125,
+    "replay_ok": true,
+    "original_source_unchanged": true
+  },
+  "synthetic_starter": {
+    "nodes": 17,
+    "edges": 15,
+    "revision": 2,
+    "migration_version": 1
+  },
+  "runtime_archive_sha256": "fec5b0566e8b0579f664cb1d978a717d93aa3ad1034be3d90e86b13d9f8ac218",
+  "final_stack_sha256": "ced3573a826c5ec6239cd393624a092782c9348afe6e763aa3f22ab5a932269c",
+  "initial_api_failure": "Intel test_body_limit reproduced a broken pipe on early rejection; bounded prefix draining fixed it; final 29 API tests passed."
+}

@@ -1,0 +1,11 @@
+# Realms: any table becomes quantum states. Each record is read in two incompatible bases —
+#   anchor (exact cents ⊗ a date window)  and  meaning (a superposition of its words).
+# Same money + orthogonal meaning = a COLLISION; same money + same meaning = an AGREEMENT.
+realm books = load("examples/data/books.csv")
+realm invoices = load("examples/data/invoices.json")
+compare books, invoices within 3
+expect agreements(books, invoices, 3) == 2         # concrete, permit
+expect collisions(books, invoices, 3) == 1         # $8,800: cabinets in the books, furniture on the invoice
+expect fidelity(books[0], invoices[0]) == 3/4      # |A∩B|²/(|A||B|) = 3²/(3·4), exact
+swaptest books[0], invoices[0]                     # the real swap-test circuit gives the same number
+grover books where amount > 10000                  # quantum search over the realm, exact success probability

@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.env
+.env.*
+.venv/
+work/
+.loom-data/
+runtime/state/
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite-journal
+.DS_Store

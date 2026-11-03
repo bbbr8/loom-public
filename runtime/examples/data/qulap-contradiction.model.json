@@ -1,0 +1,43 @@
+{
+  "schema": "qulap.model.v1",
+  "source_tier": "synthetic",
+  "variables": [
+    {
+      "id": "version_charge",
+      "domain": [
+        0,
+        1,
+        2
+      ],
+      "unit": "integer"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "earliest_copy",
+      "expr": "version_charge == 0"
+    },
+    {
+      "id": "later_copy",
+      "expr": "version_charge == 2"
+    },
+    {
+      "id": "nonnegative",
+      "expr": "version_charge >= 0"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "charge",
+      "expr": "version_charge",
+      "unit": "integer"
+    }
+  ],
+  "propositions": [
+    {
+      "id": "disputed",
+      "expr": "version_charge > 0"
+    }
+  ],
+  "sources": []
+}

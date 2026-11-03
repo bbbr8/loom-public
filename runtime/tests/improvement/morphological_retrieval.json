@@ -1,0 +1,20 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "morphological_retrieval",
+  "oracle_basis": "Unquoted relevance search should retrieve morphological variants while quoted phrases and explicit term constraints remain literal. Original and transfer use distinct roots; control distinguishes a negated literal phrase.",
+  "original": {
+    "source": "let ix = search_index([{\"id\":\"paper\",\"text\":\"activated cells\"}])\nexpect len(search(ix,\"activation cell\")[\"hits\"]) == 1",
+    "mode": "run",
+    "outcome": "accept"
+  },
+  "transfer": {
+    "source": "let ix = search_index([{\"id\":\"record\",\"text\":\"authorizing payments\"}])\nexpect len(search(ix,\"authorized payment\")[\"hits\"]) == 1",
+    "mode": "run",
+    "outcome": "accept"
+  },
+  "control": {
+    "source": "let ix = search_index([{\"id\":\"a\",\"text\":\"payment was authorized\"},{\"id\":\"b\",\"text\":\"payment was not authorized\"}])\nexpect search(ix,\"\\\"not authorized\\\"\")[\"hits\"][0][\"id\"] == \"b\"",
+    "mode": "run",
+    "outcome": "accept"
+  }
+}

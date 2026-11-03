@@ -1,0 +1,20 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "evidence_before_lexical_concepts",
+  "oracle_basis": "Source passages matching an unquoted query must occupy evidence result slots before generated lexical concept nodes. Distinct topics transfer the policy; a graph with only a matching passage remains unchanged.",
+  "original": {
+    "source": "expect graph_search(\"examples/data/ranking-original.sqlite\",\"enzyme activation\", {\"top\":1,\"hops\":0})[\"hits\"][0][\"id\"] == \"paper\"",
+    "mode": "run",
+    "outcome": "accept"
+  },
+  "transfer": {
+    "source": "expect graph_search(\"examples/data/ranking-transfer.sqlite\",\"refund disposition\", {\"top\":1,\"hops\":0})[\"hits\"][0][\"id\"] == \"paper\"",
+    "mode": "run",
+    "outcome": "accept"
+  },
+  "control": {
+    "source": "expect graph_search(\"examples/data/ranking-control.sqlite\",\"signed contract\", {\"top\":1,\"hops\":0})[\"hits\"][0][\"id\"] == \"paper\"",
+    "mode": "run",
+    "outcome": "accept"
+  }
+}

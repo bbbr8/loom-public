@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "n": 100,
+  "cold_ms": 3986.92675,
+  "warm_p50_ms": 737.9389170000011,
+  "warm_p95_ms": 870.7612080000047,
+  "recall10": 0.7281666666666666,
+  "ndcg10": 0.6247517096551739,
+  "complete_misses": 26,
+  "all_rankings_match_114": true,
+  "source_sha256": "638eafd20c93a9ab6c361885fa8384a9adbdf50a2ff25c35b0fd12ab5a740289",
+  "first_100_warm_p50_ms": 737.9389170000011,
+  "first_100_warm_p95_ms": 870.7612080000047
+}

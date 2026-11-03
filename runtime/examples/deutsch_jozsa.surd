@@ -1,0 +1,9 @@
+# Deutsch–Jozsa, 3 input bits, balanced oracle f(x) = x0 xor x1 xor x2. One query decides.
+wires inp: 3
+wire anc
+anc <- x >> h
+inp <- h
+(inp, anc) <- cx                       # zip: each input wire controls the ancilla
+inp <- h
+expect prob(inp, "000") == 0           # balanced
+print probs inp

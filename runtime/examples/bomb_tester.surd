@@ -1,0 +1,14 @@
+# Can you find out a bomb is there without setting it off? (Elitzur–Vaidman, with the quantum Zeno effect)
+# A photon's path is rotated a little at a time; a live bomb watches the lower path (copied onto a fresh "boom"
+# wire each step). If the bomb never fires, the photon stays in the upper path — and you know a bomb is there.
+wire photon
+wires boom: 4
+repeat 1 { }
+for i in 0..4 {
+  photon <- ry(pi/4)                               # 4 steps of π/4: with no bomb, the photon would end at |1>
+  (photon, boom[i]) <- cx                          # the bomb looks: a "1" here means it exploded
+}
+let safe = prob(boom, "0000")
+print "P(bomb detected, never fired) =", safe
+expect safe == cos(pi/8)^8                         # each look survives with cos²(π/8)
+expect safe > 1/2                                  # more than half the time you learn it without touching it

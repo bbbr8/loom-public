@@ -1,0 +1,6 @@
+# Energy relaxation (T1): a wire in |1> leaks to |0>. Ten steps of 1/10 damping leave (9/10)^10 in |1>.
+wire q
+q <- x
+repeat 10 { q <- ampdamp(1/10) }
+print "P(1) after 10 steps =", prob(q, "1")
+expect prob(q, "1") == (9/10)^10

@@ -1,0 +1,12 @@
+# Read-only demonstration over the explicitly synthetic SQLite starter fixture.
+let db = "examples/data/loom-bootstrap.sqlite"
+let inspected = sqlite_status(db,{"check":true})
+expect inspected["bootstrap_schema"] == 1
+expect inspected["counts"]["node"]["active"] == 17
+let matched = graph_search(db,"release approval",{"hops":0,"top":1})
+expect matched["hits"][0]["id"] == "demo:release"
+realm applied = load(db,"SELECT text AS meaning, locator, json_extract(data_json,'$.amount_cents') AS cents FROM loom_node_rows WHERE node_type='passage' AND materialized_active=1 AND json_extract(data_json,'$.money_stage')='applied'")
+expect len(applied) == 1
+expect graph_verify(db)["ok"] == true
+print inspected
+print matched

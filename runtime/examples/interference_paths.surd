@@ -1,0 +1,9 @@
+# Why does H·H do nothing? Every path into each outcome, with its exact weight — and which ones cancel.
+wire q
+q <- h >> h
+print paths "0"                        # two paths, +1/2 and +1/2: they add to 1
+print paths "1"                        # two paths, +1/2 and -1/2: they cancel to 0
+wires m: 2                             # a Mach–Zehnder with a phase in one arm
+m[0] <- h >> t >> h
+print paths "000"                      # all wires in declaration order: q, m[0], m[1]
+expect prob(m, "00") == 1/2 + sqrt(2)/4

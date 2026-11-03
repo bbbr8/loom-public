@@ -1,0 +1,59 @@
+{
+  "host": "benchmark-host.local",
+  "ok": true,
+  "upgrade_seconds": 0.022422875000000175,
+  "backup_seconds": 0.308518125,
+  "initialization": {
+    "schema": "loom.research.result.v1",
+    "state": "READY",
+    "proof_effect": "NONE",
+    "database": "portable-validation-workspace",
+    "bootstrap_schema": 1,
+    "migration_sha256": "f21b59f33cfaff1fc3f9f21900a8da5090e7bd818d05c244d85972516adf71c6",
+    "sqlite_version": "3.54.0",
+    "revision": 37,
+    "commit_hash": "04b5fc584f26e94fdca75abcf1949f904fdea70c951c05b2f8b3b1b924618f85",
+    "counts": {
+      "node": {
+        "active": 20000,
+        "inactive": 0
+      },
+      "edge": {
+        "active": 100000,
+        "inactive": 0
+      }
+    },
+    "views": [
+      "loom_edge_rows",
+      "loom_journal_rows",
+      "loom_node_rows"
+    ],
+    "quick_check": null,
+    "boundary": "SQL counts/views describe stored materialization. Native graph snapshots calculate stale and temporal eligibility.",
+    "initialization": "UPGRADED_NATIVE_GRAPH",
+    "demo_seeded": false
+  },
+  "backup": {
+    "schema": "loom.research.result.v1",
+    "state": "COMPLETE",
+    "proof_effect": "NONE",
+    "database": "portable-validation-workspace",
+    "backup": "portable-validation-workspace",
+    "revision": 37,
+    "commit_hash": "04b5fc584f26e94fdca75abcf1949f904fdea70c951c05b2f8b3b1b924618f85",
+    "sha256": "377c64e77557c4bd7c34924d6ccce31492b29fae7740b580412f13d76cda5201",
+    "boundary": "Pinned SQLite backup; replay verification is a separate graph_verify operation."
+  },
+  "replay": {
+    "schema": "loom.research.result.v1",
+    "state": "COMPLETE",
+    "proof_effect": "NONE",
+    "ok": true,
+    "revision": 37,
+    "graph_hash": "9f676f53585fc4cffa71a98ea543106dad041eafc8d74d745e1ee745066b4bda",
+    "integrity": "replayed hash chain and materialized graph match"
+  },
+  "source_unchanged": true,
+  "source_sha256": "b454c5b129817d3696349dd8c61841340063576fffc6c6722ec5b75cd4827bf9",
+  "seconds": 41.197091334
+}

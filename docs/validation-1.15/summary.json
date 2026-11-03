@@ -1,0 +1,30 @@
+{
+  "release": "1.15.0",
+  "baseline_commit": "9c49828325098f5e6a1105e9df36750b5bf78918",
+  "warm_query_common_cohort": {
+    "baseline_ms": 1345.8398749999958,
+    "shipping_ms": 737.9389170000011,
+    "latency_reduction": 0.45168891878760586,
+    "speedup_ratio": 1.8237822182780934,
+    "queries": 100,
+    "all_rankings_preserved": true
+  },
+  "all_300_development_query_rankings_preserved": true,
+  "scifact_recall10": 0.8148888888888889,
+  "scifact_complete_misses": 51,
+  "release_groups": 140,
+  "api_tests": 27,
+  "job_tests": 9,
+  "storage_tests": 12,
+  "retained_cases": 9,
+  "retained_assertions": 27,
+  "soak_suite_runs": 60,
+  "validation_jobs_verified": 6,
+  "maximum_graph_ok": true,
+  "shipping_source": {
+    "runtime_sha256": "2b1763eb5d9e8fe301b12c5503fa0e4df80be80dae264181db2ba4f1d5df7844",
+    "runtime_manifest_sha256": "ef38e0ba8ec18943339bda2c97c04d717fbb26f24957cfa8e48d9f26d466603f",
+    "stack_sha256": "b6e57d96edcc5251585ab19107e4aee435fcc93a466e2b43517afe723791b6d8",
+    "runtime_files": 177
+  }
+}

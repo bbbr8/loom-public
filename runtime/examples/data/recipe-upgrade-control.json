@@ -1,0 +1,37 @@
+{
+  "id": "upgrade-bench-control",
+  "scope": "upgrade-test-control",
+  "method_id": "recipe-control",
+  "activate": true,
+  "baseline": {
+    "hops": 0
+  },
+  "candidate": {
+    "hops": 0
+  },
+  "queries": [
+    {
+      "id": "a",
+      "query": "signed document",
+      "relevant": [
+        "paper"
+      ],
+      "context": "original"
+    },
+    {
+      "id": "b",
+      "query": "signed document source",
+      "relevant": [
+        "paper"
+      ],
+      "context": "transfer"
+    },
+    {
+      "id": "c",
+      "query": "zzzznomatch",
+      "relevant": [],
+      "answerable": false,
+      "context": "adversarial"
+    }
+  ]
+}

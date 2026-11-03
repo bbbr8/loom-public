@@ -1,0 +1,58 @@
+{
+  "schema": "loom.ontology.instances.v1",
+  "ontology_id": "org",
+  "ontology_version": 1,
+  "nodes": [
+    {
+      "id": "A",
+      "type": "Person",
+      "properties": {
+        "name": "A",
+        "balance": "12345678901234567890.01",
+        "manager": "B",
+        "profile": {
+          "active": true
+        },
+        "tags": [
+          "synthetic"
+        ],
+        "stage": "requested",
+        "when": "2026-10-13"
+      }
+    },
+    {
+      "id": "B",
+      "type": "Person",
+      "properties": {
+        "name": "B"
+      }
+    },
+    {
+      "id": "C",
+      "type": "Person",
+      "properties": {
+        "name": "C"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "ab",
+      "subject": "A",
+      "predicate": "reports_to",
+      "object": "B",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    {
+      "id": "bc",
+      "subject": "B",
+      "predicate": "reports_to",
+      "object": "C",
+      "source_ids": [
+        "s2"
+      ]
+    }
+  ]
+}

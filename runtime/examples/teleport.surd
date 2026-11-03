@@ -1,0 +1,17 @@
+# Teleportation: q[0]'s state arrives on q[2]; only two classical bits cross.
+wires q: 3
+bits c: 2
+q[0] <- h >> t >> h >> s               # an uneven state, still exact
+let x0 = bloch_x(q[0])
+let y0 = bloch_y(q[0])
+let z0 = bloch_z(q[0])
+q[1..] <- h & id >> cx                 # shared Bell pair on q[1], q[2]
+q[0..2] <- cx >> h & id
+c[0] <- measure q[0]
+c[1] <- measure q[1]
+if c[1] == 1 { q[2] <- x }
+if c[0] == 1 { q[2] <- z }
+expect bloch_x(q[2]) == x0
+expect bloch_y(q[2]) == y0
+expect bloch_z(q[2]) == z0
+print "teleported, bits", c

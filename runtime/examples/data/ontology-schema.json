@@ -1,0 +1,104 @@
+{
+  "schema": "loom.ontology.v1",
+  "id": "org",
+  "version": 1,
+  "types": {
+    "Thing": {
+      "abstract": true,
+      "properties": {
+        "name": {
+          "kind": "string",
+          "required": true
+        }
+      }
+    },
+    "Person": {
+      "extends": [
+        "Thing"
+      ],
+      "properties": {
+        "balance": {
+          "kind": "decimal"
+        },
+        "manager": {
+          "kind": "reference",
+          "target": "Person"
+        },
+        "tags": {
+          "kind": "array",
+          "items": {
+            "kind": "string"
+          },
+          "max_items": 3
+        },
+        "profile": {
+          "kind": "object",
+          "properties": {
+            "active": {
+              "kind": "boolean",
+              "required": true
+            }
+          }
+        },
+        "stage": {
+          "kind": "enum",
+          "enum": [
+            "requested",
+            "paid"
+          ]
+        },
+        "when": {
+          "kind": "date",
+          "nullable": true
+        }
+      }
+    },
+    "Company": {
+      "extends": [
+        "Thing"
+      ],
+      "disjoint": [
+        "Person"
+      ]
+    }
+  },
+  "relations": {
+    "reports_to": {
+      "domain": [
+        "Person"
+      ],
+      "range": [
+        "Person"
+      ],
+      "functional": true,
+      "acyclic": true,
+      "inverse": "manages"
+    },
+    "manages": {
+      "domain": [
+        "Person"
+      ],
+      "range": [
+        "Person"
+      ]
+    },
+    "ancestor": {
+      "domain": [
+        "Person"
+      ],
+      "range": [
+        "Person"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "id": "hierarchy",
+      "chain": [
+        "reports_to",
+        "reports_to"
+      ],
+      "infer": "ancestor"
+    }
+  ]
+}

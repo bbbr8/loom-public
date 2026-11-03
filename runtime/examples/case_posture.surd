@@ -1,0 +1,32 @@
+# Synthetic posture mechanics. These are invented records, not the user case evidence.
+let ix = search_index("examples/data/posture-documents.json")
+let spec = {
+  "argument": {
+    "claims": [
+      {"id":"credit", "text":"The builder recorded a credit.", "support":[{"document":"ledger", "quote":"The builder recorded a credit of $100."}, {"document":"copy", "quote":"The builder recorded a credit of $100."}]},
+      {"id":"applied", "text":"The credit reached this owner's obligation."},
+      {"id":"concede", "text":"Assume the recorded credit is due.", "assumption":true},
+      {"id":"hold", "text":"Assume they deny that credit is due.", "assumption":true},
+      {"id":"reconcile", "text":"Under that concession, reconcile the credit with the final obligation."},
+      {"id":"explain", "text":"Under that denial, explain the builder's own credit entry."}
+    ],
+    "rules":[{"id":"c", "if":["credit","concede"], "then":"reconcile"}, {"id":"h", "if":["credit","hold"], "then":"explain"}],
+    "facets":[{"id":"challenge", "query":"reversed credit", "role":"challenge"}]
+  },
+  "issues":[{"id":"credit", "title":"Recorded credit versus application", "goal":"credit", "floor":"credit", "materiality":"high",
+    "bridges":[{"role":"actual_application", "claim":"applied"}],
+    "opponent":{"text":"The credit was applied elsewhere.", "citations":[{"document":"response", "quote":"The credit was applied elsewhere."}]},
+    "forks":[{"id":"concede", "label":"credit is due", "assume":["concede"], "goal":"reconcile"}, {"id":"hold", "label":"credit is not due", "assume":["hold"], "goal":"explain"}]}],
+  "source_families":{"ledger":"one-ledger", "copy":"one-ledger", "response":"one-response"},
+  "records":[{"id":"posting", "claims":["applied"], "record":"Complete job posting history", "custodian":"Bookkeeper", "identifier":"Synthetic job A",
+    "if_confirms":"A credit on this obligation closes the application bridge.", "if_weakens":"A posting elsewhere leaves this obligation unresolved."}]
+}
+let r = search_posture(ix, "What can the credit record establish?", spec)
+expect r["issues"][0]["record_floor"]["status"] == "supported"
+expect r["issues"][0]["bridges"][0]["assessment"]["status"] == "unresolved"
+expect r["issues"][0]["two_branches_supported"] == true
+expect r["reasoning"]["argument"]["claims"]["concede"]["status"] == "unresolved"
+expect r["issues"][0]["family_withdrawals"][0]["documents"] == ["copy", "ledger"]
+expect r["issues"][0]["family_withdrawals"][0]["goal_after"]["status"] == "unresolved"
+print r["issues"][0]["record_floor"]
+print r["next_records"]

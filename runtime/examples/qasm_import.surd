@@ -1,0 +1,13 @@
+# Read circuits written in other tools (OpenQASM 2.0) and prove them equal — exactly, over every input.
+let a = qasm("examples/data/ghz_qiskit.qasm")
+let b = qasm("examples/data/ghz_fanout.qasm")
+expect a =~ b                       # the same circuit up to a global phase (u2 carries one)
+print "Qiskit-style GHZ:", a
+wires q: 3
+q <- b                              # an imported circuit is an ordinary gate value
+expect prob(q, "000") == 1/2
+expect prob(q, "111") == 1/2
+expect tcount(a) == 0
+# a near miss is caught too: a controlled-Z is not a CNOT
+let wrong = qasm("examples/data/ghz_wrong.qasm")
+expect not (a =~ wrong)

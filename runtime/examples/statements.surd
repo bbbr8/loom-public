@@ -1,0 +1,17 @@
+# Native statements (synthetic demo data): every month foots, a bounced deposit is paired with its return,
+# and the bank's own overdraft notice decides the same-day posting order.
+let st = bank("examples/data/statement_demo.csv")
+for m in foot(st) {
+  print m["month"] + " ties: " + str(m["ties"])
+}
+let rt = returns(st)
+let line1 = "returned: " + str(rt[0]["amount"]) + " deposited " + str(rt[0]["deposit_date"]) + ", returned " + str(rt[0]["return_date"])
+let line2 = "paid while provisional: " + str(rt[0]["paid_while_provisional"]) + ", of it spent from the bounced money: " + str(rt[0]["spent"])
+print line1
+print line2
+let cal = calibrate(st)
+let line3 = "notices: " + str(cal["notices"]) + ", deposits-first consistent: " + str(cal["deposits_first"]["consistent"])
+print line3
+expect foot(st)[1]["ties"]
+expect rt[0]["spent"] == bound($0, $600)
+expect cal["deposits_first"]["consistent"]

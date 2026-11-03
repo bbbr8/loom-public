@@ -1,0 +1,5 @@
+[{"date": "2021-03-02", "amount": 12000, "meaning": "concrete foundation pour and pump", "locator": "INV-7"},
+ {"date": "2021-03-08", "amount": "4,500.00", "meaning": "owner advance toward windows", "locator": "BK-102"},
+ {"date": "2021-03-16", "amount": 8800, "meaning": "furniture allowance", "locator": "INV-9"},
+ {"date": "2021-03-21", "amount": 2500, "meaning": "city permit", "locator": "INV-10"},
+ {"date": "2021-05-01", "amount": 999, "meaning": "late fee", "locator": "INV-11"}]

@@ -1,0 +1,15 @@
+# Loom 1.14 scalability and research retrieval
+
+The 1.13 real-data stress run is retained as the baseline. This release adds English Porter normalization for unquoted relevance ranking, sparse posting scoring and top-k-only explanations. Exact identifiers, quoted phrases, required/excluded terms, source text and metadata filters remain literal. Default title/body weights are both 1 and b=0.45, selected using only the 809 SciFact training queries. Test labels were excluded from selection. Configuration `{"analysis":"none","stopwords":false}` retains raw token behavior. Existing 1.0 search snapshots are integrity-checked before rebuilding.
+
+Graph search ranks direct evidence before graph-only neighbors. Concepts and source containers remain available through explicit structural mode and related-concept metadata. Two memory indexes are cached within a 24 MiB serialized-input budget; ordinary graph search also uses disposable compressed disk accelerators keyed by actual input rows, configuration and engine version. Portable tests disable disk indexing unless `LOOM_INDEX_CACHE=1`. Source or scope changes invalidate caches. Cached research results also carry a retrieval-policy hash.
+
+Graph evolution now uses max_concepts/max_links as per-page sizes. `continuation` binds further pages to unchanged underlying evidence. `remaining`, `limits` and `evolution_complete` expose exact pending work. Invoke `graph_evolve(path,{"max_batches":64,"seconds":90})` for bounded multi-page growth, or pass the returned continuation to the next call. Source-reference shards prevent popular concepts from silently losing their provenance. Existing source records and reviewed identities remain authoritative. Actual graph, source-reference and identity-pair caps still produce explicit partial results. Time budgets are checked between atomic page commits.
+
+GraphStore.page(limit=200,cursor=None,**snapshot_options) provides byte-bounded, revision-bound graph pages. Cursors must be restarted after an incompatible revision/view change. Disposable page caches accelerate later pages. Native graph_snapshot retains its full output contract; the full-stack HTTP snapshot operation uses pagination by default. Expensive verification runs through authenticated, durable jobs with a larger bounded budget. See the full-stack docs/API.md for queue, idempotency and interruption contracts.
+
+All performance and accuracy figures belong in the accompanying measured release report. These capabilities do not establish source truth, calibrated probabilities, natural-language entailment, or unlimited-scale performance.
+
+Saved recipe evaluations carry the retrieval-policy hash. A changed policy receives a new evaluation identity while preserving prior receipts. Old recipes remain inspectable with REVALIDATION_REQUIRED and are excluded from automatic selection until explicitly re-evaluated. Frozen benchmark labels stay immutable.
+
+Loom 1.15 adds revision-pinned reads, guarded derived commits and commit-head-bound disposable projections; see [architecture and operating contracts](ARCHITECTURE_1_15.md).

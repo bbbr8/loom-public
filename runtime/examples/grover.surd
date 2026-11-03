@@ -1,0 +1,8 @@
+# Grover search over 4 items, marked item |11>: one iteration finds it with certainty.
+gate oracle = cz
+gate diffuse = (h & h) >> (x & x) >> cz >> (x & x) >> (h & h)
+wires q: 2
+q <- h
+q <- oracle >> diffuse
+expect prob(q, "11") == 1
+print probs

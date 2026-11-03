@@ -1,0 +1,8 @@
+# Meyer's penny flip: Q (quantum) moves, Picard (classical) flips the coin or not, Q moves again. Who wins?
+# Q wins if the coin ends heads (|0>). With a Hadamard, Q wins whatever Picard does.
+wire coin_kept, coin_flipped
+coin_kept <- h >> id >> h                          # Picard leaves it
+coin_flipped <- h >> x >> h                        # Picard flips it
+expect prob(coin_kept, "0") == 1
+expect prob(coin_flipped, "0") == 1                # |+> is unchanged by a flip: Q wins both ways
+print "Q wins with probability", prob(coin_flipped, "0"), "against every Picard move"

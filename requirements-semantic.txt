@@ -1,0 +1,2 @@
+# Optional offline models. Supply installed model directories explicitly.
+sentence-transformers==5.4.1

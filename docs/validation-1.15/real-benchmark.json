@@ -1,0 +1,41 @@
+{
+  "host": "benchmark-host.local",
+  "ok": true,
+  "graph": {
+    "nodes": 16249,
+    "edges": 25915,
+    "revision": 19,
+    "pages_committed": 13
+  },
+  "baseline": {
+    "ok": true,
+    "n": 100,
+    "cold_ms": 3740.6524170000002,
+    "warm_p50_ms": 1345.8398749999958,
+    "warm_p95_ms": 1496.5941250000014,
+    "recall10": 0.7281666666666666,
+    "ndcg10": 0.6247517096551739,
+    "complete_misses": 26,
+    "all_rankings_match_114": true,
+    "source_sha256": "638eafd20c93a9ab6c361885fa8384a9adbdf50a2ff25c35b0fd12ab5a740289",
+    "first_100_warm_p50_ms": 1345.8398749999958,
+    "first_100_warm_p95_ms": 1496.5941250000014
+  },
+  "candidate": {
+    "ok": true,
+    "n": 300,
+    "cold_ms": 3926.4844169999997,
+    "warm_p50_ms": 742.7937079999936,
+    "warm_p95_ms": 865.242582999997,
+    "recall10": 0.8148888888888889,
+    "ndcg10": 0.6706616083348484,
+    "complete_misses": 51,
+    "all_rankings_match_114": true,
+    "source_sha256": "638eafd20c93a9ab6c361885fa8384a9adbdf50a2ff25c35b0fd12ab5a740289",
+    "first_100_warm_p50_ms": 724.9489999999952,
+    "first_100_warm_p95_ms": 858.024459000001
+  },
+  "comparison_cohort": "first 100 sorted SciFact test queries; warm timings exclude first cold query",
+  "warm_median_speedup": 1.8564614545299114,
+  "seconds": 411.07797966699997
+}

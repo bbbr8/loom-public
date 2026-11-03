@@ -1,0 +1,45 @@
+# Meanings as qubit states. A space names the senses; a meaning is a state over them; a joint meaning of a word
+# and its audience is an entangled state — its entanglement measures how much the meaning depends on who hears it.
+# (A precise notation for meaning; `encode` then puts it on real wires, where gates act on it.)
+
+space PURPOSE { music, fishing, sound, other }
+space AUDIENCE { musician, angler }
+let cues = {"sound": "sound", "music": "music", "fishing": "fishing"}
+
+# Synthetic word-sense example: one label has two everyday meanings.
+let to_musician = read(PURPOSE, "deep sound", cues)
+let to_angler = read(PURPOSE, "fishing trip", cues)
+print "to the musician:", to_musician
+print "to the angler: ", to_angler
+expect fidelity(to_musician, to_angler) == 0          # orthogonal: no shared sense at all
+expect read(PURPOSE, "quiet afternoon", cues) == none     # no matching cue
+
+# one statement, two audiences: an entangled joint meaning
+let said = joint(PURPOSE, AUDIENCE, [["sound", "musician", 1], ["fishing", "angler", 1]])
+print "joint:", said
+expect entanglement(said) == 1/2                  # maximal for two audiences: the meaning IS the audience
+expect given(said, "musician") == to_musician
+expect given(said, "angler") == to_angler
+
+# put the joint meaning on real wires: measuring the audience wire decides the sense wire
+wires sense_w: 2
+wires aud_w: 1
+encode(said, sense_w, aud_w)
+print "sense wires:", senses(sense_w, PURPOSE), "  audience wire:", senses(aud_w, AUDIENCE)
+expect entanglement(aud_w) == 1/2
+
+# meanings interfere: a phase between two senses changes what a Hadamard reveals
+space ANSWER { yes, no }
+wire w1, w2
+encode(blend(ANSWER, {"yes": 1, "no": 1}), w1)
+encode(phase(blend(ANSWER, {"yes": 1, "no": 1}), "no", pi), w2)
+w1 <- h
+w2 <- h
+expect senses(w1, ANSWER) == {"yes": 1}            # in-phase senses interfere to "yes"
+expect senses(w2, ANSWER) == {"no": 1}             # opposite phase: to "no"
+
+# trust earned by agreement, and the superposed belief it leaves
+let claims = [["SENSOR_A", "SAMPLE_A", 7], ["SENSOR_B", "SAMPLE_A", 7], ["SENSOR_C", "SAMPLE_A", 0]]
+print "trust:", trust(claims)
+print "belief about SAMPLE_A:", beliefs(claims, "SAMPLE_A"), "  entropy:", entropy(beliefs(claims, "SAMPLE_A"))
+expect belnap(true, true) == "B"                   # witnessed and contradicted

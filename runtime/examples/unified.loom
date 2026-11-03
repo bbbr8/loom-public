@@ -1,0 +1,11 @@
+# Synthetic finite-state and exact-circuit composition.
+let result = qulap_solve("examples/data/qulap-credit.model.json")
+expect result["feasible_states"] == 3
+expect result["proof_effect"] == "NONE"
+let simulated = qulap_quantum("examples/data/qulap-mechanism.model.json", {"proposition": "owner_funding_required"})
+expect simulated["marked_states"] == 4
+expect h >> h == id
+let timeline = timeline_run("say synthetic timeline")
+expect timeline["state"] == "COMPLETE"
+print result["metrics"]
+print simulated["measurement_probability_exact"]

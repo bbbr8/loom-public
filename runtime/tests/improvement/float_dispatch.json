@@ -1,0 +1,20 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "float_dispatch",
+  "oracle_basis": "Ordinary real arithmetic must evaluate only the selected operator.",
+  "original": {
+    "source": "expect float(1)+0 == 1",
+    "mode": "run",
+    "outcome": "accept"
+  },
+  "transfer": {
+    "source": "expect float(1000)+1000 == 2000",
+    "mode": "run",
+    "outcome": "accept"
+  },
+  "control": {
+    "source": "expect float(8)/2 == 4",
+    "mode": "run",
+    "outcome": "accept"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "standalone_workbook_version_fingerprints",
+  "oracle_basis": "Workbook differences use the byte hash of the workbook itself. A standalone native workbook and an embedded workbook are equally supported; the enclosing email hash has a separate identity.",
+  "original": {
+    "source": "let db = @@GRAPH@@\nlet raw = graph_ingest(db,{\"schema\": \"loom.graph.batch.v1\", \"batch_id\": \"test\", \"nodes\": [{\"id\": \"s\", \"type\": \"source\", \"origin\": \"synthetic:workbook\", \"locator\": \"Sheet1\"}, {\"id\": \"a\", \"type\": \"passage\", \"label\": \"a\", \"text\": \"25\", \"source_ids\": [\"s\"], \"data\": {\"native_sha256\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"sheet\": \"Sheet1\", \"cells\": {\"A1\": \"25\"}}}, {\"id\": \"b\", \"type\": \"passage\", \"label\": \"b\", \"text\": \"20\", \"source_ids\": [\"s\"], \"data\": {\"native_sha256\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\", \"sheet\": \"Sheet1\", \"cells\": {\"A1\": \"20\"}}}]}, {\"evolution\":false})\nlet compared = graph_case_versions(db,{\"left_hash\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"right_hash\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\", \"scope\": \"same synthetic coordinate\"})\nexpect len(compared[\"changes\"]) == 1\nexpect compared[\"changes\"][0][\"left\"] == \"25\"\nexpect compared[\"changes\"][0][\"right\"] == \"20\"\n",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/case-source-original.sqlite"
+    }
+  },
+  "transfer": {
+    "source": "let db = @@GRAPH@@\nlet raw = graph_ingest(db,{\"schema\": \"loom.graph.batch.v1\", \"batch_id\": \"test\", \"nodes\": [{\"id\": \"s\", \"type\": \"source\", \"origin\": \"synthetic:workbook\", \"locator\": \"Sheet1\"}, {\"id\": \"a\", \"type\": \"passage\", \"label\": \"a\", \"text\": \"25\", \"source_ids\": [\"s\"], \"data\": {\"native_sha256\": \"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\", \"sheet\": \"Sheet1\", \"cells\": {\"A1\": \"25\"}, \"attachment_sha256\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}}, {\"id\": \"b\", \"type\": \"passage\", \"label\": \"b\", \"text\": \"20\", \"source_ids\": [\"s\"], \"data\": {\"native_sha256\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\", \"sheet\": \"Sheet1\", \"cells\": {\"A1\": \"20\"}}}]}, {\"evolution\":false})\nlet compared = graph_case_versions(db,{\"left_hash\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"right_hash\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\", \"scope\": \"same synthetic coordinate\"})\nexpect len(compared[\"changes\"]) == 1\nexpect compared[\"changes\"][0][\"left\"] == \"25\"\nexpect compared[\"changes\"][0][\"right\"] == \"20\"\n",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/case-source-transfer.sqlite"
+    }
+  },
+  "control": {
+    "source": "let db = @@GRAPH@@\nlet raw = graph_ingest(db,{\"schema\": \"loom.graph.batch.v1\", \"batch_id\": \"test\", \"nodes\": [{\"id\": \"s\", \"type\": \"source\", \"origin\": \"synthetic:workbook\", \"locator\": \"Sheet1\"}, {\"id\": \"a\", \"type\": \"passage\", \"label\": \"a\", \"text\": \"25\", \"source_ids\": [\"s\"], \"data\": {\"native_sha256\": \"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\", \"sheet\": \"Sheet1\", \"cells\": {\"A1\": \"25\"}, \"attachment_sha256\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}}, {\"id\": \"b\", \"type\": \"passage\", \"label\": \"b\", \"text\": \"20\", \"source_ids\": [\"s\"], \"data\": {\"native_sha256\": \"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\", \"sheet\": \"Sheet1\", \"cells\": {\"A1\": \"20\"}, \"attachment_sha256\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"}}]}, {\"evolution\":false})\nlet compared = graph_case_versions(db,{\"left_hash\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"right_hash\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\", \"scope\": \"same synthetic coordinate\"})\nexpect len(compared[\"changes\"]) == 1\nexpect compared[\"changes\"][0][\"left\"] == \"25\"\nexpect compared[\"changes\"][0][\"right\"] == \"20\"\n",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/case-source-control.sqlite"
+    }
+  }
+}

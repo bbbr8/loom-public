@@ -1,0 +1,27 @@
+# Synthetic proof-path mechanics. The rules and assumptions are caller-declared.
+let ix = search_index([{"id":"fixture", "text":"Synthetic record."}])
+let spec = {
+  "claims":[
+    {"id":"a", "text":"Assumption A.", "assumption":true},
+    {"id":"b", "text":"Assumption B.", "assumption":true},
+    {"id":"c", "text":"Assumption C.", "assumption":true},
+    {"id":"p", "text":"First premise."},
+    {"id":"q", "text":"Second premise."},
+    {"id":"goal", "text":"Conclusion under the declared rules."}
+  ],
+  "rules":[
+    {"id":"ap", "if":["a"], "then":"p"},
+    {"id":"bp", "if":["b"], "then":"p"},
+    {"id":"bq", "if":["b"], "then":"q"},
+    {"id":"cq", "if":["c"], "then":"q"},
+    {"id":"join", "if":["p","q"], "then":"goal"}
+  ],
+  "goal":"goal"
+}
+let r = search_reason(ix, "Synthetic record", spec)
+expect r["assessment"]["status"] == "conditional"
+expect r["assessment"]["conditional_on"] == ["b"]
+expect r["assessment"]["assumption_sets"] == [["b"],["a","c"]]
+expect r["assessment"]["assumption_analysis"]["complete"] == true
+print r["assessment"]
+print r["sensitivity"]["assumptions"]

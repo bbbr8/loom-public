@@ -1,0 +1,11 @@
+# Circuit identities, proved exactly over every input: gates are values and == compares whole unitaries.
+expect h >> x >> h == z
+expect id & h >> cz >> id & h == cx           # a CNOT built from a CZ
+expect cx >> (x & x) >> cx == x & id          # pushing X through a CNOT
+expect t ^ 8 == id
+expect sx ^ 2 == x
+expect ~(h >> t) == tdg >> h                  # inverse reverses the order
+expect ctl (h >> t) == ctl h >> ctl t         # control distributes over sequence
+expect rz(pi) =~ z                            # equal up to a global phase …
+expect rz(pi) != z                            # … but not the same matrix
+print unitary sx

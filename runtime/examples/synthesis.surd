@@ -1,0 +1,11 @@
+# Give Surd a gate; it returns the provably T-optimal circuit (1 wire) or the shortest circuit (2 wires),
+# and proves the answer equal before handing it back.
+let messy = h >> t >> h >> t >> h >> s >> t >> t >> h
+print "input  T-count:", tcount(messy), "   gates:", gcount(messy)
+print "synth:", synth(messy)
+print "output T-count:", tcount(synth(messy))
+expect tcount(synth(messy)) == 2
+expect synth(messy) =~ messy
+print "cz   =", synth(cz)
+print "swap =", synth(swap)
+expect gcount(synth(swap)) == 3

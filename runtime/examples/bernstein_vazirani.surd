@@ -1,0 +1,12 @@
+# Bernstein–Vazirani: recover the hidden string s = 101 in a single query.
+wires inp: 3
+wire anc
+bits c: 3
+anc <- x >> h
+inp <- h
+(inp[0], anc) <- cx
+(inp[2], anc) <- cx
+inp <- h
+c <- measure inp
+expect c == "101"
+print "secret", c

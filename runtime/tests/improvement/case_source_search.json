@@ -1,0 +1,29 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "case_annotations_preserve_source_retrieval",
+  "oracle_basis": "Source search must retain native passage slots when named case annotations are mapped. Original and transfer use distinct topics; the control has no analytical mapping.",
+  "original": {
+    "source": "let db = @@GRAPH@@\nlet raw = graph_ingest(db,{\"schema\": \"loom.graph.batch.v1\", \"batch_id\": \"seed\", \"nodes\": [{\"id\": \"s\", \"type\": \"source\", \"origin\": \"synthetic:case-control\", \"locator\": \"test:1\"}, {\"id\": \"paper\", \"type\": \"passage\", \"label\": \"Source document\", \"text\": \"The budget revision was recorded in the retained document.\", \"source_ids\": [\"s\"]}]}, {\"evolution\": false})\nlet mapped = graph_case_map(db,{\"batch_id\": \"mapped\", \"reviewer\": \"Synthetic test\", \"expected_revision\": 1, \"mappings\": [{\"id\": \"summary\", \"episode\": \"test\", \"kind\": \"statement\", \"summary\": \" budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision budget revision\", \"context\": {}, \"evidence\": [{\"node_id\": \"paper\", \"start\": 0, \"end\": 58, \"quote\": \"The budget revision was recorded in the retained document.\"}]}]})\nexpect graph_hybrid_search(db,\"budget revision\", {\"top\":1})[\"hits\"][0][\"id\"] == \"paper\"",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/case-source-original.sqlite"
+    }
+  },
+  "transfer": {
+    "source": "let db = @@GRAPH@@\nlet raw = graph_ingest(db,{\"schema\": \"loom.graph.batch.v1\", \"batch_id\": \"seed\", \"nodes\": [{\"id\": \"s\", \"type\": \"source\", \"origin\": \"synthetic:case-control\", \"locator\": \"test:1\"}, {\"id\": \"paper\", \"type\": \"passage\", \"label\": \"Source document\", \"text\": \"The refund allocation was recorded in the retained document.\", \"source_ids\": [\"s\"]}]}, {\"evolution\": false})\nlet mapped = graph_case_map(db,{\"batch_id\": \"mapped\", \"reviewer\": \"Synthetic test\", \"expected_revision\": 1, \"mappings\": [{\"id\": \"summary\", \"episode\": \"test\", \"kind\": \"statement\", \"summary\": \" refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation refund allocation\", \"context\": {}, \"evidence\": [{\"node_id\": \"paper\", \"start\": 0, \"end\": 60, \"quote\": \"The refund allocation was recorded in the retained document.\"}]}]})\nexpect graph_hybrid_search(db,\"refund allocation\", {\"top\":1})[\"hits\"][0][\"id\"] == \"paper\"",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/case-source-transfer.sqlite"
+    }
+  },
+  "control": {
+    "source": "let db = @@GRAPH@@\nlet raw = graph_ingest(db,{\"schema\": \"loom.graph.batch.v1\", \"batch_id\": \"seed\", \"nodes\": [{\"id\": \"s\", \"type\": \"source\", \"origin\": \"synthetic:case-control\", \"locator\": \"test:1\"}, {\"id\": \"paper\", \"type\": \"passage\", \"label\": \"Source document\", \"text\": \"The signed agreement was recorded in the retained document.\", \"source_ids\": [\"s\"]}]}, {\"evolution\": false})\nexpect graph_hybrid_search(db,\"signed agreement\", {\"top\":1})[\"hits\"][0][\"id\"] == \"paper\"",
+    "mode": "run",
+    "outcome": "accept",
+    "fixtures": {
+      "GRAPH": "examples/data/case-source-control.sqlite"
+    }
+  }
+}

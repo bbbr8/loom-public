@@ -1,0 +1,124 @@
+{
+  "schema": "loom.graph.batch.v1",
+  "batch_id": "synthetic-base",
+  "nodes": [
+    {
+      "id": "S1",
+      "type": "source",
+      "origin": "ORIGIN1",
+      "locator": "SYNTHETIC:S1",
+      "clocks": {
+        "event": [
+          "2020-01-01",
+          "2020-01-01"
+        ],
+        "receipt": {
+          "Actor A": [
+            "2020-01-02",
+            "2020-01-02"
+          ]
+        }
+      }
+    },
+    {
+      "id": "S2",
+      "type": "source",
+      "origin": "ORIGIN2",
+      "locator": "SYNTHETIC:S2",
+      "clocks": {
+        "event": [
+          "2020-01-01",
+          "2020-01-01"
+        ],
+        "receipt": {
+          "Actor A": [
+            "2020-01-02",
+            "2020-01-02"
+          ]
+        }
+      }
+    },
+    {
+      "id": "A",
+      "type": "passage",
+      "label": "Blue invoice",
+      "text": "A blue invoice refers to instrument T1.",
+      "source_ids": [
+        "S1"
+      ],
+      "identifiers": [
+        {
+          "kind": "instrument",
+          "namespace": "SYN-account",
+          "value": "T1",
+          "unique": true
+        }
+      ],
+      "clocks": {
+        "event": [
+          "2020-01-01",
+          "2020-01-01"
+        ],
+        "receipt": {
+          "Actor A": [
+            "2020-01-02",
+            "2020-01-02"
+          ]
+        }
+      }
+    },
+    {
+      "id": "B",
+      "type": "passage",
+      "label": "Payment confirmation",
+      "text": "Payment settled to the vendor.",
+      "source_ids": [
+        "S2"
+      ],
+      "identifiers": [
+        {
+          "kind": "instrument",
+          "namespace": "SYN-account",
+          "value": "T1",
+          "unique": true
+        }
+      ],
+      "clocks": {
+        "event": [
+          "2020-01-03",
+          "2020-01-03"
+        ],
+        "receipt": {
+          "Actor A": [
+            "2020-02-01",
+            "2020-02-01"
+          ]
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "AB",
+      "subject": "A",
+      "predicate": "refers_to",
+      "object": "B",
+      "source_ids": [
+        "S1",
+        "S2"
+      ],
+      "clocks": {
+        "event": [
+          "2020-01-01",
+          "2020-01-03"
+        ],
+        "receipt": {
+          "Actor A": [
+            "2020-02-01",
+            "2020-02-01"
+          ]
+        }
+      }
+    }
+  ]
+}

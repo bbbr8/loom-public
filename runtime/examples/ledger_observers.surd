@@ -1,0 +1,26 @@
+# Synthetic demo: three accounts, a loop of transfers, class money carried through them,
+# two observers who disagree only when pooled, and the language auditor on two audiences.
+let A = [{"date": @2021-03-01, "amount": $9,000, "memo": "owner deposit", "cls": "owner"},
+         {"date": @2021-03-01, "amount": $3,000, "memo": "buyer deposit", "cls": "buyer"},
+         {"date": @2021-03-02, "amount": -$6,000, "memo": "ONLINE TRANSFER TO B"},
+         {"date": @2021-03-09, "amount": $2,000, "memo": "XFER FROM C"}]
+let B = [{"date": @2021-03-02, "amount": $6,000, "memo": "ONLINE TRANSFER FROM A"},
+         {"date": @2021-03-04, "amount": -$4,000, "memo": "lot payment"},
+         {"date": @2021-03-08, "amount": -$2,000, "memo": "XFER TO C"}]
+let C = [{"date": @2021-03-08, "amount": $2,000, "memo": "XFER FROM B"},
+         {"date": @2021-03-09, "amount": -$2,000, "memo": "XFER TO A"}]
+let g = accounts({"A": A, "B": B, "C": C})
+print "transfers:", len(transfers(g)), " cycles:", len(cycles(g)), " group:", consolidate(g)["group"]
+for doc in ["fifo", "lifo", "prorata"] {
+  let lot = filter(fn(o) => o["memo"] == "lot payment", carry(g, doc)["outflows"])[0]
+  print doc, "lot payment from:", lot["from"]
+}
+let facts = [{"id": "stmt", "date": @2021-03-05, "holders": ["bank", "builder"], "quantity": "lot paid by", "value": "owner"},
+             {"id": "draw", "date": @2021-03-06, "holders": ["lender", "builder"], "quantity": "lot paid by", "value": "buyer"}]
+print pooled(facts, ["bank", "lender"], "lot paid by", "owner", @2021-03-10)
+print perspectives(facts, ["bank", "lender", "builder"], "lot paid by", "owner", [@2021-03-04, @2021-03-07], 600, 3)["state"]
+let th = audit_thread([{"speaker": "builder", "audience": "owner", "text": "Don't worry, it will come back in the draw."},
+                       {"speaker": "builder", "audience": "lender", "text": "Owner paid $4,000.00 on the lot, invoice attached."}])
+print th["audience_split"][0]["per_message"]
+expect len(transfers(g)) == 3
+expect pooled(facts, ["bank", "lender"], "lot paid by", "owner", @2021-03-10)["only_when_pooled"]

@@ -1,0 +1,20 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "temporal_dependency_closure",
+  "oracle_basis": "An actor or event-time view must exclude a derived object whose captured dependency is outside that view; a source and dependent both within the cutoff remain available.",
+  "original": {
+    "source": "expect len(graph_snapshot(\"examples/data/research-clock-actor.sqlite\", {\"actor\": \"Actor A\", \"receipt_before\": \"2020-01-10\"})[\"nodes\"]) == 0",
+    "mode": "run",
+    "outcome": "accept"
+  },
+  "transfer": {
+    "source": "expect len(graph_snapshot(\"examples/data/research-clock-event.sqlite\", {\"event_before\": \"2020-01-10\"})[\"nodes\"]) == 0",
+    "mode": "run",
+    "outcome": "accept"
+  },
+  "control": {
+    "source": "expect len(graph_snapshot(\"examples/data/research-clock-control.sqlite\", {\"actor\": \"Actor A\", \"receipt_before\": \"2020-01-10\"})[\"nodes\"]) == 2",
+    "mode": "run",
+    "outcome": "accept"
+  }
+}

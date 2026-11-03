@@ -1,0 +1,32 @@
+# A reusable Surd search/evaluation program. These documents are synthetic examples.
+let docs = [
+    {"id": "record-1", "title": "Authorization", "text": "Payment was not authorized.", "locator": "example.txt:1", "metadata": {"tier": "native"}},
+    {"id": "record-2", "title": "Approval", "text": "Payment was authorized.", "locator": "example.txt:2", "metadata": {"tier": "native"}},
+    {"id": "note-1", "title": "Annotation", "text": "Payment authorization discussed.", "locator": "notes.txt:1", "metadata": {"tier": "annotation"}}
+]
+let ix = search_index(docs)
+print search_info(ix)
+let result = search(ix, "\"not authorized\"", {"where": {"tier": "native"}, "k": 5})
+expect result["hits"][0]["id"] == "record-1"
+expect result["hits"][0]["locator"] == "example.txt:1"
+print result["hits"]
+
+let questions = [
+    {"id": "negation", "query": "\"not authorized\"", "relevant": {"record-1": 2, "record-2": 0, "note-1": 0}},
+    {"id": "identifier", "query": "record-2", "relevant": {"record-2": 1}},
+    {"id": "absent", "query": "unfindable_token", "relevant": {}, "answerable": false}
+]
+let baseline = search_evaluate(ix, questions, {"mode": "overlap"})
+let candidate = search_evaluate(ix, questions)
+let comparison = search_compare(baseline, candidate)
+expect comparison["passed"] == true
+expect candidate["aggregate"]["ndcg@10"] == 1
+expect candidate["aggregate"]["no_answer_accuracy"] == 1
+print candidate["aggregate"]
+print comparison
+
+# Persist deliberately when desired:
+# search_save(ix, "index.json")
+# search_save(candidate, "evaluation.json")
+# let previous = search_load("evaluation.json")
+# expect search_compare(previous, candidate)["passed"] == true

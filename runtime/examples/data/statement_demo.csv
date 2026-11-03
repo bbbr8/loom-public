@@ -1,0 +1,11 @@
+date,description,check_number,amount,direction,type,statement_month,source_page,beginning_balance_for_month,ending_balance_for_month
+2020-01-02,Deposit,,1000.00,credit,deposit,2020-01,DEMO_01,0.00,450.00
+2020-01-06,Deposit,,600.00,credit,deposit,2020-01,DEMO_01,0.00,450.00
+2020-01-07,Check,101,900.00,debit,check,2020-01,DEMO_01,0.00,450.00
+2020-01-09,ACME CO RTRN CK 4410,,600.00,debit,returned,2020-01,DEMO_01,0.00,450.00
+2020-01-09,Chargeback Fee,,10.00,debit,fee,2020-01,DEMO_01,0.00,450.00
+2020-01-10,Deposit,,610.00,credit,deposit,2020-01,DEMO_01,0.00,450.00
+2020-01-14,Check,102,250.00,debit,check,2020-01,DEMO_01,0.00,450.00
+2020-02-03,Check,103,500.00,debit,check,2020-02,DEMO_02,450.00,250.00
+2020-02-03,1 Overdraft Item on 2/3/20,,25.00,debit,fee,2020-02,DEMO_02,450.00,250.00
+2020-02-04,Deposit,,325.00,credit,deposit,2020-02,DEMO_02,450.00,250.00

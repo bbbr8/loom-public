@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: loom
+    runtime: python
+    plan: free
+    buildCommand: python -m compileall -q server.py worker.py runtime
+    startCommand: python -B server.py
+    healthCheckPath: /health
+    autoDeployTrigger: off
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: LOOM_API_KEY
+        generateValue: true
+      - key: PYTHONDONTWRITEBYTECODE
+        value: "1"
+      - key: LOOM_HOST
+        value: 0.0.0.0
+      - key: LOOM_DATA_DIR
+        value: /tmp/loom-graphs
+      - key: LOOM_STORAGE_MODE
+        value: ephemeral

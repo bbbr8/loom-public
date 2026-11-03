@@ -1,0 +1,21 @@
+# FIXTURE, not a case finding. net_bounds: one class of money across several accounts, under every allocation rule.
+# Two owners pay a pool; the pool pays a vendor and a side account; the side account pays a principal.
+let pipes = [
+  {"from": "OWNER", "to": "POOL", "amount": $100.00},
+  {"from": "BUYER", "to": "POOL", "amount": $30.00},
+  {"from": "POOL", "to": "VENDOR", "amount": $50.00},
+  {"from": "POOL", "to": "SIDE", "amount": $70.00},
+  {"from": "SIDE", "to": "PRINCIPAL", "amount": $40.00},
+  {"from": "LENDER", "to": "SIDE", "amount": $25.00},
+  {"from": "SIDE", "to": "PRINCIPAL", "amount": $30.00}
+]
+let to_principal = net_bounds(pipes, fn(p) => p["to"] == "PRINCIPAL", "OWNER")
+print "owner's money reaching the principal:", to_principal["range"], "of", to_principal["total"]
+# at least $40 of the $70 to SIDE was the owner's (the pool held only $30 of the buyer's). SIDE's first
+# $40 out can be the buyer's $30 + $10 of the owner's; its second $30 can be the lender's $25 +
+# $5 of the owner's. Floor $10 + $5. Read pipe by pipe, the joint question has the smaller floor here.
+expect to_principal["floor"] == $15.00
+expect to_principal["ceiling"] == $70.00
+let one = net_bounds(pipes, fn(p) => p["to"] == "PRINCIPAL" and p["amount"] == $40.00, "OWNER")
+print "first principal payment alone:", one["range"]
+expect lo(one["range"]) <= lo(to_principal["range"])

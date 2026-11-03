@@ -1,0 +1,48 @@
+# Surd is a full programming language: functions, closures, recursion, lists, maps, loops, tests —
+# and its functions can build circuits. Run the tests with:  surd test examples/programming.surd
+
+fn fib(n) {
+  if n < 2 { return n }
+  return fib(n - 1) + fib(n - 2)
+}
+print "fib:", map(fib, range(12))
+
+fn compose(f, g) { return fn(x) => f(g(x)) }
+let inc_sq = compose(fn(x) => x * x, fn(x) => x + 1)
+print "(x+1)^2 at 0..4:", map(inc_sq, range(5))
+
+# exact numbers flow through ordinary code
+let probs = map(fn(k) => cos(pi * k / 16)^2, range(4))
+print "cos²(kπ/16):", probs
+print "their sum:", sum(probs)
+
+# a function that builds circuits: a GHZ state on any register
+fn ghz(r) {
+  r[0] <- h
+  for i in 1..len(r) { (r[0], r[i]) <- cx }
+}
+wires q: 4
+ghz(q)
+print "P(0000) =", prob(q, "0000"), "  P(1111) =", prob(q, "1111")
+
+# a tiny search: which single-qubit gates square to x?
+let names = ["h", "s", "t", "sx", "x", "y"]
+let found = []
+for nm in names {
+  let g = {"h": h, "s": s, "t": t, "sx": sx, "x": x, "y": y}[nm]
+  if g ^ 2 == x { push(found, nm) }
+}
+print "gates g with g² = x:", found
+
+test "recursion and closures" {
+  expect fib(10) == 55
+  expect inc_sq(3) == 16
+}
+test "exact arithmetic in ordinary code" {
+  expect sum([1/3, 1/3, 1/3]) == 1
+  expect probs[2] == 1/2 + sqrt(2)/4
+}
+test "circuits from functions" {
+  expect prob(q, "0000") == 1/2
+  expect found == ["sx"]
+}

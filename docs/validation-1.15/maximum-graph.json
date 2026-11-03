@@ -1,0 +1,69 @@
+{
+  "ok": true,
+  "host": "benchmark-host.local",
+  "checks": 9,
+  "failures": [],
+  "measurements": [
+    {
+      "label": "maximum_graph_input",
+      "sha256": "b454c5b129817d3696349dd8c61841340063576fffc6c6722ec5b75cd4827bf9"
+    },
+    {
+      "label": "max_graph_first_page",
+      "status": 200,
+      "seconds": 2.9689439589999997,
+      "bytes": 454596,
+      "pagination": {
+        "total_nodes": 20000,
+        "total_edges": 100000,
+        "returned": 1000,
+        "offset": 0,
+        "next_cursor": "eyJncmFwaF9oYXNoIjoiOWY2NzZmNTM1ODVmYzRjZmZhNzFhOThlYTU0MzEwNmRhZDA0MWVhZmM4ZDc0ZDc0NWUxZWU3NDUwNjZiNGJkYSIsIm9mZnNldCI6MTAwMCwic2NvcGUiOiJmNTVhN2FhM2VjNzNmMGZiNDIyNGYwNmRlZDE3OGYzODM4OWRjMmU2ODc4YjQ3NDY4ODA2NzQ3YjBiMTFlMjI1In0=",
+        "complete": false
+      }
+    },
+    {
+      "label": "max_graph_second_page",
+      "status": 200,
+      "seconds": 0.10859050000000003
+    },
+    {
+      "label": "max_graph_http_search",
+      "iteration": 0,
+      "status": 200,
+      "seconds": 2.2352868750000003,
+      "cache_hit": false
+    },
+    {
+      "label": "max_graph_http_search",
+      "iteration": 1,
+      "status": 200,
+      "seconds": 1.4113233749999994,
+      "cache_hit": true
+    },
+    {
+      "label": "max_graph_async_verify",
+      "state": "succeeded",
+      "seconds": 36.7339325,
+      "result": {
+        "schema": "loom.research.result.v1",
+        "state": "COMPLETE",
+        "proof_effect": "NONE",
+        "ok": true,
+        "revision": 37,
+        "graph_hash": "9f676f53585fc4cffa71a98ea543106dad041eafc8d74d745e1ee745066b4bda",
+        "integrity": "replayed hash chain and materialized graph match"
+      },
+      "error": null
+    },
+    {
+      "label": "real_queued_burst",
+      "requests": 45,
+      "clients": 12,
+      "accepted": 45,
+      "succeeded": 45,
+      "seconds": 3.715129707999999
+    }
+  ],
+  "seconds": 47.852773625
+}

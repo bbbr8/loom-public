@@ -1,0 +1,18 @@
+# Noise as a formula, not a number. symbol p makes every probability an exact polynomial in p.
+symbol p
+wires q: 3                             # 3-wire bit-flip repetition code, corrected without measuring
+q <- bitflip(p)                        # each wire flips with probability p
+(q[0], q[1]) <- cx
+(q[0], q[2]) <- cx
+(q[2], q[1], q[0]) <- ccx              # majority vote back onto q[0]
+let fail = prob(q[0], "1")
+print "logical failure:", fail         # 3p² − 2p³
+expect fail == 3*p^2 - 2*p^3
+print "at p = 1/100:   ", at(fail, p, 1/100)
+print "slope at p = 0: ", at(deriv(fail, p), p, 0)     # 0: the code removes first-order errors
+expect at(fail - p, p, 1/2) == 0       # break-even: the code helps exactly when p < 1/2
+wires b: 2
+b <- h & id >> cx
+b[0] <- depolarize(p)
+print "Bell purity:    ", purity(b)
+expect expval(b, "ZZ") == 1 - 4/3*p

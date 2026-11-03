@@ -1,0 +1,5 @@
+# Portable syntax demonstration, without a native store.
+window 2020-01-01 .. 2020-01-31
+say "Synthetic timeline dialect; use hidden, mail and money with explicit stores."
+count
+timeline

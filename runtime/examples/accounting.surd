@@ -1,0 +1,45 @@
+# Exact accounting in Surd: money and dates are values; tracing follows the conventions the case's engines share
+# (overdraft = a debt repaid by the next deposits; deposits before withdrawals each day; LIBR = others spent first).
+# Case data lives in tests/case_money.py (read-only fixture); this example uses a small made-up pooled account.
+
+let ev = [
+  {"date": @2021-03-01, "amount": $40,000.00, "cls": "owner",    "page": "BK-1"},
+  {"date": @2021-03-02, "amount": $60,000.00, "cls": "lender",   "page": "BK-1"},
+  {"date": @2021-03-05, "amount": -$70,000.00, "cls": "",        "page": "BK-2"},   # a land wire out of the pool
+  {"date": @2021-03-09, "amount": $15,000.00, "cls": "investor", "page": "BK-2"},
+  {"date": @2021-03-12, "amount": -$30,000.00, "cls": "",        "page": "BK-3"},
+  {"date": @2021-03-20, "amount": $5,000.00,  "cls": "owner",    "page": "BK-3"},
+  {"date": @2021-03-21, "amount": -$5,000.00, "cls": "",         "page": "BK-3"}    # same amount back out
+]
+
+# how much of the owner's money can be in the land wire? (holds under EVERY convention)
+let b = share_bounds(ev, @2021-03-05, -$70,000.00, "owner")
+print "owner's share of the $70,000 wire:", b["floor"], "..", b["ceiling"]
+expect b["floor"] == $10,000.00                  # the lender's $60,000 cannot cover it all
+print "each doctrine:", spectrum(ev, @2021-03-05, -$70,000.00, "owner")
+
+# lowest intermediate balance: the most of the owner's money still in the account each day
+for r in libr(ev, "owner") { print "  ", r["date"], "owner at most", r["class_left"], "of", r["balance"] }
+expect libr(ev, "owner")[1]["class_left"] == $40,000.00
+
+# who is in the pool now — as a meaning over the classes (a pro-rata state)
+print "pool on 2021-03-12:", provenance(ev, @2021-03-12)
+print "round trips:", roundtrips(ev, $1,000, 3)
+
+# double-entry books: every posting balances
+let book = []
+post(book, @2021-03-01, "cash", "owner equity", $40,000.00, "owner advance")
+post(book, @2021-03-02, "cash", "loan", $60,000.00, "draw")
+post(book, @2021-03-05, "land", "cash", $70,000.00, "lot wire")
+post(book, @2021-03-12, "builder", "cash", $30,000.00, "builder draw")
+let bal = balances(book)
+print "balances:", bal
+expect sum(map(fn(k) => bal[k] / $1, keys(bal))) == 0
+print "money paths owner equity → builder:", paths(book, "owner equity", "builder")
+
+# exact sums, then the same question on qubits
+let deposits = [$40,000.00, $60,000.00, $15,000.00, $5,000.00]
+print "deposits adding to $75,000:", subset_sum(deposits, $75,000.00)
+let g = grover_sum(deposits, $75,000.00)
+print "Grover:", g["oracle_calls"], "oracle call(s) over", g["subsets"], "subsets, P(success) =", g["p_success"]
+expect len(g["solutions"]) == 1

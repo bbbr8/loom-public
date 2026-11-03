@@ -1,0 +1,12 @@
+# Synthetic hierarchy. Run from the Loom runtime directory.
+let schema = "examples/data/ontology-schema.json"
+let instances = "examples/data/ontology-instances.json"
+let checked = ontology_check(schema)
+expect checked["ok"] == true
+let validated = ontology_validate(schema, instances)
+expect validated["ok"] == true
+let expanded = ontology_expand(schema, instances)
+expect expanded["ok"] == true
+expect expanded["complete"] == true
+expect len(expanded["derived"]) == 3
+print expanded["derived"]

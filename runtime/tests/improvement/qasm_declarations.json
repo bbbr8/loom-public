@@ -1,0 +1,22 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "qasm_declarations",
+  "oracle_basis": "OpenQASM 2 qelib1 does not declare sx or crx. Exported calls need definitions. Reference: https://raw.githubusercontent.com/openqasm/openqasm/OpenQASM2.x/examples/qelib1.inc",
+  "original": {
+    "source": "wires q: 1\nq <- sx",
+    "mode": "qasm",
+    "outcome": "accept",
+    "contains": "gate sx a {"
+  },
+  "transfer": {
+    "source": "wires q: 2\n(q[0],q[1]) <- crx(pi/2)",
+    "mode": "qasm",
+    "outcome": "accept",
+    "contains": "gate crx(theta) c,t {"
+  },
+  "control": {
+    "source": "wires q: 1\nq <- h\nexpect prob(q,\"0\") == 1/2",
+    "mode": "run",
+    "outcome": "accept"
+  }
+}

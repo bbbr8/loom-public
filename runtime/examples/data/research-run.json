@@ -1,0 +1,230 @@
+{
+  "schema": "loom.research.run.v1",
+  "id": "synthetic-credit-research",
+  "batch": {
+    "schema": "loom.graph.batch.v1",
+    "batch_id": "synthetic-credit",
+    "nodes": [
+      {
+        "id": "S_credit",
+        "type": "source",
+        "origin": "SYN_C1",
+        "locator": "SYNTHETIC credit memo C1",
+        "label": "S_credit"
+      },
+      {
+        "id": "S_assumption",
+        "type": "source",
+        "origin": "SYN_MODEL",
+        "locator": "SYNTHETIC modeling assumptions",
+        "label": "S_assumption"
+      },
+      {
+        "id": "variable:issued",
+        "type": "variable",
+        "label": "issued",
+        "status": "annotated",
+        "source_ids": [
+          "S_credit"
+        ],
+        "data": {
+          "reviewed": true,
+          "variable": {
+            "id": "issued",
+            "domain": [
+              60000
+            ],
+            "unit": "cents",
+            "lane": {
+              "currency": "USD",
+              "scope": "synthetic_project_A",
+              "stage": "credit_issued",
+              "basis": "face_value"
+            },
+            "source_ids": [
+              "S_credit"
+            ]
+          }
+        }
+      },
+      {
+        "id": "variable:applied",
+        "type": "variable",
+        "label": "applied",
+        "status": "annotated",
+        "source_ids": [],
+        "data": {
+          "reviewed": true,
+          "variable": {
+            "id": "applied",
+            "domain": [
+              0,
+              60000
+            ],
+            "unit": "cents",
+            "lane": {
+              "currency": "USD",
+              "scope": "synthetic_project_A",
+              "stage": "credit_applied",
+              "basis": "face_value"
+            },
+            "source_ids": [],
+            "next_record": "Vendor job subledger including reversals and the final balance"
+          }
+        }
+      },
+      {
+        "id": "variable:refunded",
+        "type": "variable",
+        "label": "refunded",
+        "status": "annotated",
+        "source_ids": [],
+        "data": {
+          "reviewed": true,
+          "variable": {
+            "id": "refunded",
+            "domain": [
+              0,
+              60000
+            ],
+            "unit": "cents",
+            "lane": {
+              "currency": "USD",
+              "scope": "synthetic_project_A",
+              "stage": "cash_refunded",
+              "basis": "face_value"
+            },
+            "source_ids": [],
+            "next_record": "Refund instrument and recipient bank clearing"
+          }
+        }
+      },
+      {
+        "id": "constraint:single_disposition",
+        "type": "constraint",
+        "label": "single_disposition",
+        "status": "annotated",
+        "source_ids": [
+          "S_assumption"
+        ],
+        "data": {
+          "reviewed": true,
+          "constraint": {
+            "id": "single_disposition",
+            "expr": "applied + refunded <= issued",
+            "source_ids": [
+              "S_assumption"
+            ],
+            "bridge": {
+              "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+              "source_ids": [
+                "S_assumption"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "metric:unresolved_credit",
+        "type": "metric",
+        "label": "unresolved_credit",
+        "status": "annotated",
+        "source_ids": [
+          "S_assumption"
+        ],
+        "data": {
+          "reviewed": true,
+          "metric": {
+            "id": "unresolved_credit",
+            "expr": "issued - applied - refunded",
+            "unit": "cents",
+            "bridge": {
+              "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+              "source_ids": [
+                "S_assumption"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "proposition:credit_not_delivered",
+        "type": "proposition",
+        "label": "credit_not_delivered",
+        "status": "annotated",
+        "source_ids": [
+          "S_assumption"
+        ],
+        "data": {
+          "reviewed": true,
+          "proposition": {
+            "id": "credit_not_delivered",
+            "expr": "issued - applied - refunded > 0",
+            "category": "fraud_mechanism",
+            "bridge": {
+              "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+              "source_ids": [
+                "S_assumption"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "proposition:double_satisfaction",
+        "type": "proposition",
+        "label": "double_satisfaction",
+        "status": "annotated",
+        "source_ids": [
+          "S_assumption"
+        ],
+        "data": {
+          "reviewed": true,
+          "proposition": {
+            "id": "double_satisfaction",
+            "expr": "applied + refunded > issued",
+            "category": "accounting",
+            "bridge": {
+              "reason": "Alternative dispositions of the same synthetic credit; face value across stages is reconciled rather than added as loss",
+              "source_ids": [
+                "S_assumption"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "credit-passage",
+        "type": "passage",
+        "label": "Credit disposition alternatives",
+        "text": "The synthetic credit memo allows applied or refunded alternatives.",
+        "source_ids": [
+          "S_credit"
+        ]
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": "credit",
+      "query": "credit disposition"
+    }
+  ],
+  "model": {
+    "id": "credit",
+    "nodes": [
+      "variable:issued",
+      "variable:applied",
+      "variable:refunded",
+      "constraint:single_disposition",
+      "metric:unresolved_credit",
+      "proposition:credit_not_delivered",
+      "proposition:double_satisfaction"
+    ],
+    "source_tier": "synthetic"
+  },
+  "plan": {
+    "objective": "unresolved_credit",
+    "max_bundle": 2
+  }
+}

@@ -1,0 +1,12 @@
+# Invented records: exact quantum simulation of explicit scenario assumptions.
+let ix = search_index("examples/data/quantum-documents.json")
+let spec = "examples/data/quantum-contract.json"
+let qr = search_quantum(ix, "Which records discriminate the credit scenarios?", spec)
+expect qr["feasible_states"] == 4
+expect qr["marked_states"] == 1
+expect qr["quantum"]["initial_marked_share"]["exact"] == "1/8"
+expect qr["quantum"]["final_marked_share"]["exact"] == "121/128"
+expect qr["quantum"]["iterations"] == 2
+expect qr["posture"]["issues"][0]["record_floor"]["status"] == "supported"
+print qr["basis"]
+print qr["quantum"]["final_marked_share"]["exact"]

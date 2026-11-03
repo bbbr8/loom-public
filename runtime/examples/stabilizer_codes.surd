@@ -1,0 +1,18 @@
+# Stabilizers: the exact Pauli checks a state passes — the language of error correction.
+wires b: 2
+b <- h & id >> cx
+print "Bell pair:   ", stabilizers(b)
+expect stabilizers(b) == "+XX +ZZ"
+wires g: 3
+g[0] <- h
+(g[0], g[1..]) <- cx
+print "GHZ state:   ", stabilizers(g)
+expect is_stabilizer(g)
+wires c: 3                             # bit-flip code codeword |000>+|111> passes ZZI and IZZ
+c[0] <- h
+(c[0], c[1..]) <- cx
+expect stabilizers(c) == stabilizers(g)
+wire m
+m <- h >> t                            # a magic state: no stabilizer except the identity
+print "T state:     ", stabilizers(m)
+expect not is_stabilizer(m)

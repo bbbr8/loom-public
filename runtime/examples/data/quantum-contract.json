@@ -1,0 +1,159 @@
+{
+  "posture": {
+    "argument": {
+      "claims": [
+        {
+          "id": "issued",
+          "text": "A credit was issued.",
+          "support": [
+            {
+              "document": "credit",
+              "quote": "A credit of $100 was issued for Job A."
+            }
+          ]
+        },
+        {
+          "id": "demand",
+          "text": "The demand lists no application of this credit.",
+          "support": [
+            {
+              "document": "demand",
+              "quote": "The demand lists a balance without this credit."
+            }
+          ]
+        },
+        {
+          "id": "due",
+          "text": "Assume the issued credit remains due on this obligation.",
+          "assumption": true
+        },
+        {
+          "id": "elsewhere",
+          "text": "Assume the credit was applied to another obligation.",
+          "assumption": true
+        },
+        {
+          "id": "here",
+          "text": "Assume the credit was applied to this obligation.",
+          "assumption": true
+        },
+        {
+          "id": "reconcile",
+          "text": "Under these assumptions the demand requires reconciliation."
+        }
+      ],
+      "rules": [
+        {
+          "id": "reconciliation",
+          "if": [
+            "issued",
+            "demand",
+            "due",
+            "elsewhere"
+          ],
+          "then": "reconcile"
+        }
+      ]
+    },
+    "issues": [
+      {
+        "id": "credit-treatment",
+        "title": "Test the accounting application, retaining the issued-credit floor.",
+        "goal": "reconcile",
+        "floor": "issued",
+        "bridges": [
+          {
+            "role": "application",
+            "claim": "here"
+          }
+        ]
+      }
+    ],
+    "source_families": {
+      "credit": "credit-origin",
+      "demand": "demand-origin"
+    },
+    "records": [
+      {
+        "id": "application-ledger",
+        "claims": [
+          "here",
+          "elsewhere"
+        ],
+        "record": "Posting ledger and audit trail",
+        "custodian": "Bookkeeper",
+        "identifier": "SYNTHETIC C-1",
+        "if_confirms": "A matched posting to Job A resolves that application branch.",
+        "if_weakens": "A posting to another obligation requires transaction-specific reconciliation."
+      }
+    ]
+  },
+  "variables": [
+    "due",
+    "elsewhere",
+    "here"
+  ],
+  "target": "reconcile",
+  "exclusive_groups": [
+    [
+      "elsewhere",
+      "here"
+    ]
+  ],
+  "guards": [
+    {
+      "id": "issued-kind",
+      "kind": "fact_kind",
+      "claims": [
+        "issued"
+      ],
+      "expected": "credit_issued"
+    },
+    {
+      "id": "job-aligned",
+      "kind": "same_scope",
+      "claims": [
+        "issued",
+        "demand"
+      ],
+      "field": "project"
+    },
+    {
+      "id": "sequence",
+      "kind": "before",
+      "claims": [
+        "issued",
+        "demand"
+      ],
+      "field": "event_date"
+    },
+    {
+      "id": "amount",
+      "kind": "money_equal",
+      "claims": [
+        "issued",
+        "demand"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "id": "posting",
+      "claim": "elsewhere",
+      "record": "Posting ledger and audit trail",
+      "custodian": "Bookkeeper",
+      "identifier": "SYNTHETIC C-1",
+      "if_confirms": "A different-obligation posting selects the corresponding scenario branch.",
+      "if_weakens": "A matched posting to this obligation selects the other branch."
+    },
+    {
+      "id": "credit-validity",
+      "claim": "due",
+      "record": "Credit, reversal and release records",
+      "custodian": "Issuer",
+      "identifier": "SYNTHETIC C-1",
+      "if_confirms": "A surviving credit narrows the due-credit branch.",
+      "if_weakens": "A valid reversal or release narrows the opposing branch."
+    }
+  ]
+}

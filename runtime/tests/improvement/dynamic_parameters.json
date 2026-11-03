@@ -1,0 +1,22 @@
+{
+  "schema": "surd.improvement.v1",
+  "name": "dynamic_parameters",
+  "oracle_basis": "Measurement-dependent parameters and loop counts must require explicit single-run trace acceptance.",
+  "original": {
+    "source": "wires q: 1\nbits c: 1\nq <- h\nc <- measure q\nq <- rx(pi*c[0])",
+    "mode": "qasm",
+    "outcome": "reject",
+    "error_code": "S-E013"
+  },
+  "transfer": {
+    "source": "wires q: 1\nbits c: 1\nq <- h\nc <- measure q\nrepeat c[0] { q <- x }",
+    "mode": "opt",
+    "outcome": "reject",
+    "error_code": "S-E013"
+  },
+  "control": {
+    "source": "wires q: 1\nq <- rx(pi)\nexpect prob(q,\"1\") == 1",
+    "mode": "run",
+    "outcome": "accept"
+  }
+}

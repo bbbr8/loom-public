@@ -1,0 +1,11 @@
+# QFT for any register size, written once with a register argument and recursion.
+gate qft: r[] {
+  r[0] <- h
+  for k in 1..len(r) { (r[k], r[0]) <- cp(pi/2^k) }
+  if len(r) > 1 { r[1..] <- qft }
+}
+wires q: 4
+q[1] <- x
+q <- qft
+q <- ~qft
+expect prob(q, "0100") == 1           # π/8 phases run in float, and are exactly undone

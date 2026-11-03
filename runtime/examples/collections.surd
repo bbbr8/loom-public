@@ -1,0 +1,27 @@
+# Synthetic table pipeline: identifiers and locators survive grouping.
+let rows = [
+  {"id":"r1", "kind":"test", "amount":$0.10, "ok":true, "locator":"fixture/a:1"},
+  {"id":"r2", "kind":"review", "amount":$0.20, "ok":false, "locator":"fixture/b:1"},
+  {"id":"r3", "kind":"test", "amount":$0.30, "ok":true, "locator":"fixture/a:2"}
+]
+let groups = group_by(fn(row) => row["kind"], rows)
+expect len(groups) == 2
+expect groups[0]["key"] == "test"
+expect map(fn(row) => row["id"], groups[0]["items"]) == ["r1", "r3"]
+expect groups[0]["items"][0]["locator"] == "fixture/a:1"
+let first = unique_by(fn(row) => row["kind"], rows)
+expect map(fn(row) => row["id"], first) == ["r1", "r2"]
+let sides = partition(fn(row) => row["ok"], rows)
+expect len(sides["matched"]) == 2
+expect sides["rest"][0]["id"] == "r2"
+let running = scan(fn(total, row) => total + row["amount"], rows, $0)
+expect running == [$0, $0.10, $0.30, $0.60]
+expect exactness(running)["status"] == "exact"
+expect chunk(map(fn(row) => row["id"], rows), 2) == [["r1", "r2"], ["r3"]]
+expect flatten(chunk(rows, 2)) == rows
+expect flat_map(fn(group) => map(fn(row) => row["id"], group["items"]), groups) == ["r1", "r3", "r2"]
+expect flatten([1, [2, [3]], 4]) == [1, 2, [3], 4]
+expect unique_by(fn(x) => x, [1/3, 2/6, 1]) == [1/3, 1]
+expect len(group_by(fn(x) => x, [1, "1", true, float(1), $1])) == 5
+print groups
+print running
