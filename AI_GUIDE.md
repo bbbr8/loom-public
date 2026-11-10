@@ -1,5 +1,10 @@
 # Loom: AI entry point
 
+`python runtime/loom.py frontier --db graph.sqlite --input runtime/examples/frontier.json`
+is the read-only recipe archive evaluator. Supply development queries, proposed recipe
+parameters and optional disjoint-family audit queries. Audit results do not select
+the recipe; activation still uses the existing measured-method gates.
+
 Loom is a local analytical research engine with a browser workbench, authenticated JSON API, CLI and persistent source graph. This guide is for AI coding assistants and developers.
 
 ## Read in order

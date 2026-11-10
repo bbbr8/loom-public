@@ -102,7 +102,8 @@
     "tests/test_case_api.py",
     "runtime/loom_research/normalization.py",
     "runtime/tests/test_normalization.py",
-    "tests/test_normalization_api.py"
+    "tests/test_normalization_api.py",
+    "runtime/loom_research/frontier.py"
   ],
   "registries": [
     "SOURCE_MANIFEST.json"
@@ -117,5 +118,9 @@
   ],
   "checks": {
     "require_test_for_source": false
-  }
+  },
+  "tests": [
+    "runtime/tests/test_frontier.py",
+    "runtime/tests/test_frontier_hardening.py"
+  ]
 }

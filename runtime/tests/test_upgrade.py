@@ -91,14 +91,30 @@ class UpgradeTests(unittest.TestCase):
                 self.assertFalse(gate.run('timeout', ['unused']))
 
     def test_gate_exit_accumulates_failures(self):
-        for failed in ('selftest', 'selftest without numpy', 'upgrade regressions',
-                       'case known answers (explicit skip when stores absent)', 'numpy oracle fuzz'):
+        # Exercise every currently scheduled group, including newly added ones.
+        # Historical labels for removed groups cannot test failure propagation.
+        labels = []
+        with patch.object(gate, 'run', side_effect=lambda label, *a, **k: labels.append(label) or True):
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(gate.main(), 0)
+        self.assertIn('selftest', labels)
+        self.assertGreater(len(labels), 10)
+        for failed in set(labels):
             with patch.object(gate, 'run', side_effect=lambda label, *a, **k: label != failed):
                 with contextlib.redirect_stdout(io.StringIO()):
                     self.assertEqual(gate.main(), 1)
         with patch.object(gate, 'run', side_effect=lambda label, *a, **k: 'seed 2' not in label):
             with contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(gate.main(), 1)
+
+    def test_read_respects_explicit_cue_map(self):
+        source = ('space P { construction, overage }\n'
+                  'let both=read(P,"construction overage",{"construction":"construction","overage":"overage"})\n'
+                  'expect distribution(both)=={"construction":1/2,"overage":1/2}\n'
+                  'let one=read(P,"construction overage",{"house":"construction","overage":"overage"})\n'
+                  'expect distribution(one)=={"overage":1}\n')
+        it = surd.Interp(seed=1, echo=False).run(source)
+        self.assertTrue(all(x['ok'] for x in it.expects))
 
 
 if __name__ == '__main__':

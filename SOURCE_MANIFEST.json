@@ -1,7 +1,7 @@
 {
   "schema": "loom.full-stack.source.v1",
   "runtime_version": "1.19.1",
-  "runtime_manifest_sha256": "7fc2cc7b926163f7fb7bb1f05a3a7d9e4e57e666c522f704b14dd2902ce07191",
+  "runtime_manifest_sha256": "5074df6f045734458fe7510e479e805bcc809ffba62b09ec94062abdbd051d08",
   "files": {
     "AGENTS.md": "cedc09922ebc80deb230b33454674fa5ba302eee4559317fa3ec8870d8268a3d",
     "ARCHITECTURE.md": "a7e400536c4718e9ac044c882c83b7a39b22db5dd9a3ac953d341fe02ef183cf",
@@ -101,7 +101,7 @@
     "examples/timeline.loom": "0301da45d3b7dfb9b420c4d0a349aa529628023614463e6241ade716c8bc3ec2",
     "examples/unified.loom": "03bac0144b25575f47813574155b98f26189bc8144162a92105cab4e4181f800",
     "gate.sh": "6e2a0b49e7505fbf4bc9f3a14bdd83cfede03620815bb1ad174d647bb4618f2c",
-    "loom.py": "c2a8d259b5b46c0f57d48ea93d92f864452fa4d1aaa389c31684128ac5c7ed2d",
+    "loom.py": "2953b538d5650a981e6005c84048a52692f0f10231a29f691bc358e3fc36ba87",
     "loom_qulap/UPSTREAM.json": "317ee95c45d18f4b5cd8fdc4f4f41c8653ed7e98d2dc183fdac5a131e5da825f",
     "loom_qulap/__init__.py": "29f16876affa7ec814a540424fc11b659ed47887008585a7fecb4de23c39d2b2",
     "loom_qulap/accounting.py": "16e1359fc4290df4bdaabbe585c8bc85340042126be60a21d43ab74c1892b3f3",
@@ -119,7 +119,7 @@
     "loom_research/cli.py": "e390d22fb148b6ae2bdefa55ab7dfd1ac2c51a6f93008d2c566b16e6a9c10ce0",
     "loom_research/compiler.py": "e251d8a43c8708917de196e4b09cbc2c2b356d3de7524d3b1787fa6b150b1711",
     "loom_research/contracts.py": "b64c93c3e4e40750c3b15ea8b3a1ee48b41d0a2f8ab8dbde210b7b3d814dc0e0",
-    "loom_research/engine.py": "6e3bbcb7078bb38c25ca76c62b9f72d5de4931bdff18161ab144beac35271151",
+    "loom_research/engine.py": "8fc669e8bb52dfaf489aa1d70e21dbc53581ade84dbc990b394947507750115b",
     "loom_research/evidence.py": "871fad3a460050d0c1a05cd123c88a61917d758ea731a6f9853462f151709b40",
     "loom_research/identity.py": "28b91cb52a326e38b7ec5a61b38fc351950b439595eb000e481a064f037489ee",
     "loom_research/indexed.py": "7de2698120cc35d137a0f57349b4bcbab0155b3c03ca24436987707f318458a8",
@@ -134,8 +134,8 @@
     "loom_research/studio.py": "634a14cbc6b739fb178d63921d986049fb01ad357484dff252b89c72b9d57aca",
     "loom_sqlite.py": "7efc4a78565cb01b43d1cd86d334afb1f5a70efff908d2b17ba53324624df1dd",
     "sqlite-bootstrap.sql": "3c08d5975f17f15db3fbb674c707efbb26d38c64f5bd40944169a3b89260a68c",
-    "surd.build.json": "d56086fd88ee05f7d0357fe09e11b094e6226e29ab1f55de47dae74c3ef154ab",
-    "surd.py": "12cd11ec431ace4ffe837d1f1a2806bec340095f0885199968bf515ee9f36755",
+    "surd.build.json": "bda22359f0e7e8aec42e1bb2806e2a2d45501ee54a6ba1202eb59633c87b43f3",
+    "surd.py": "b8e094ee00cc8acdb86cb5b90ee18347a101a64ba6e29b590b4ea4df67d9151f",
     "surd_bank.py": "ba34a0d2adcd07c23f6d1ea15db4250c50a8999d4b9edbf841949b9d3c85029c",
     "surd_build.py": "ade277f56960decf499fe324d5ff24b458c3531340c675181d1511335aefda3e",
     "surd_collections.py": "88ae0b8efd6566ada2f0ead4597a9b7e1a743a133325ff9fd7c5f9a1ce746d5a",
@@ -152,7 +152,7 @@
     "surd_quantum.py": "591d779a0b41445c969d8773702317bdf11689e76d7d119de84906fd01fb9362",
     "surd_quantum_core.py": "2560c81ad748b714f49b0586756f3cd11914b076f58fa1d5a6e17a510947000e",
     "surd_reason.py": "819236ca6ca745c4b40102bca4d8e96647e9843277e61e44a2e2ddaa31f1e0b2",
-    "surd_release.py": "48f1d0fe9b2222a0a897acc475e5123dc83e49a93bf673f777c3734c9ea99903",
+    "surd_release.py": "766893efb7ea7930e7e2d793fd7764b1ae54b5a8d168da851e3b2132fa0add55",
     "surd_search.py": "bc0763242bc7afdff990a867c9f85d35d27bcf7292c90a30dfcdc719f178a551",
     "surd_search_core.py": "019e38927e4cf7ae91cd2aa9b7220ccafe9f1d64922ab62e3cb6f6711421c695",
     "surd_stemmer.py": "06e5afe4024c88817fd5f7f344c0a837d4382a1eeb8c07fba0943773780c2b91",
@@ -178,7 +178,7 @@
     "tests/reasoning_oracle.py": "65670bc1e9d2244b9a8241c4f01a31b665eb31a78cf018080aca9b754987d5a9",
     "tests/research_fixtures.py": "b2b2b4be2188bbed017bc52b57324d79167b9d4a4d01c0b16ff9e5f6db689209",
     "tests/research_oracle.py": "b36582c9715d5ef7b569de608677fc171736f01562fa97bca860d42b7ca1aa69",
-    "tests/test_architecture.py": "e9bc9e72c060be2627770a2e1ea0b01fe726e170717bd98d3f9166ceda36eb20",
+    "tests/test_architecture.py": "1837d9ff019b3e6dce3d643ce0a62498b9693d9ce34b3a5e23f5b4510faa2520",
     "tests/test_assumption_frontiers.py": "f9d41f8da245a0c048fd33e90c8535ca2487ff92d0e2be7dc3bd2f656f950174",
     "tests/test_collections.py": "27c59b21059c0e6f22e2c30ccbaa552df8382f02caad5202f818a8697ed77929",
     "tests/test_document_config.py": "071ed815414e13c8184ef191ebc61c3d2a8e7dfd29726c065fb83a9d3ea16dd1",
@@ -190,7 +190,7 @@
     "tests/test_quantum_reasoning.py": "c9469799a979361b8d37e7f2259ea54fe8df1d66a2a4d97d0e4ac0c9e373f83d",
     "tests/test_qulap_embedded.py": "c7eb75616b522283bf5742850b47f2f674593cbd71c22b914df12a51444005df",
     "tests/test_reasoning.py": "bc94c50667a03b2697612240c376fe4a6f2672c8e87cb7c29676a1da77574f2e",
-    "tests/test_research.py": "83cda372e2db7a6ae110bbc26b8f2c3fb4864d0320ee3a1ae5c3eb06528c59be",
+    "tests/test_research.py": "16f38169aafd50495169e5efcad9e4c33af2943b135be919c4894a76060ffd4f",
     "tests/test_review_regressions.py": "45d61119e1790d37aab9ff74c42016129007de7d8e40e25142236ab1254072df",
     "tests/test_runtime_upgrade.py": "dcf1bb1808898097e92605a6b16de55fae199705b3794edffbdab2733ac73828",
     "tests/test_scalability.py": "b9a643e5a6ca477488b413e64448eb5b4347923e2aa955c222becf9f608ce161",
@@ -198,10 +198,19 @@
     "tests/test_sqlite_bootstrap.py": "2d5028cc3aa47a00b68eed73b28b5d775cc66c98a27c5b65e998f8d79794af67",
     "tests/test_storage_architecture.py": "f5627ae7d6193bb2b95fa8f1109c549fa348f4c84a517f402e55e34bd754b11b",
     "tests/test_studio.py": "288847aa0bae2d5b778c9e272ac7cac0c91b3bbdc4f5b11add2bb722b9425e69",
-    "tests/test_upgrade.py": "6c488d89df13370a20710fd5c599e4c0e1f878c5e972d937188871df79f0ae49",
-    "tests/test_usage.py": "3a2585ad1757a2359ad5c5e60c0cdd3656f63b5a9aeba399b2044fdc4af9a205"
+    "tests/test_upgrade.py": "08f45164c869b60546e7f454b05443aa6a9697391aea50d6ef8f6856690061f6",
+    "tests/test_usage.py": "3a2585ad1757a2359ad5c5e60c0cdd3656f63b5a9aeba399b2044fdc4af9a205",
+    "loom_research/frontier.py": "d208de80aef4158f8e7612c786a08ab6035450cdaeaded125c990415b7ef7bf9",
+    "tests/test_frontier.py": "7dbfcbec7d068cb2ce9b900484e073e80c8c3dbed52373b33829cbb05172118c",
+    "examples/frontier.json": "f8ccaccb3748d4af5809b54d85114f4b5d27944a7f835b1e2e939adb0bc693cb",
+    "examples/frontier-batch.json": "beaabeb6d171adc8ceca8d26625380316057827ff7308f18ec52b9429a8d5f0a",
+    "tests/test_frontier_hardening.py": "901b18581e089a4a80eab1dcd7329ccbf39f9b81f41ae6e1a08834778b6d2953"
   },
   "sanitized_working_tree": true,
   "upstream_runtime_archive_sha256": "d00a1762930554982b1102645e074c2d6f7cc7276bbb13d34f71e2129bcde8b7",
-  "distribution_note": "Current runtime files are fingerprinted here; upstream archive hash identifies the original input only."
+  "distribution_note": "Current runtime files are fingerprinted here; upstream archive hash identifies the original input only.",
+  "local_derivation": {
+    "purpose": "public AI capability upgrade",
+    "base_commit": "4b032f2359e26c5d1a6ac7120ead479be88384df"
+  }
 }

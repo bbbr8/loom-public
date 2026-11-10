@@ -6611,7 +6611,7 @@ def selftest(verbose=False):
          lambda _: all(b["verified"] for b in describe_builtins() if b["scope"] == "portable"))
     case("semantics: meanings, joint meanings, encode on wires, trust, belnap, jaccard",
          'space P { construction, furniture, overage, other }\nspace A { lender, owner }\n'
-         'let m1 = read(P, "synthetic construction overage", {"overage": "overage", "house": "construction"})\n'
+         'let m1 = read(P, "synthetic construction overage", {"overage": "overage", "construction": "construction"})\n'
          'let m2 = read(P, "towards the furniture", {"furniture": "furniture"})\n'
          'expect distribution(m1) == {"overage": 1/2, "construction": 1/2}\nexpect fidelity(m1, m2) == 0\n'
          'expect read(P, "coverage of the lot", {"overage": "overage"}) == none\n'

@@ -1,0 +1,48 @@
+{
+  "schema": "loom.graph.batch.v1",
+  "batch_id": "synthetic-frontier",
+  "nodes": [
+    {
+      "id": "s1",
+      "type": "source",
+      "origin": "synthetic:invoice",
+      "locator": "fixture:invoice"
+    },
+    {
+      "id": "s2",
+      "type": "source",
+      "origin": "synthetic:payment",
+      "locator": "fixture:payment"
+    },
+    {
+      "id": "invoice",
+      "type": "passage",
+      "label": "Blue invoice",
+      "text": "blue invoice",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    {
+      "id": "payment",
+      "type": "passage",
+      "label": "Payment confirmation",
+      "text": "payment confirmation",
+      "source_ids": [
+        "s2"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "link",
+      "subject": "invoice",
+      "predicate": "refers_to",
+      "object": "payment",
+      "source_ids": [
+        "s1",
+        "s2"
+      ]
+    }
+  ]
+}

@@ -5,7 +5,7 @@ from itertools import combinations
 import hashlib
 from pathlib import Path
 from .contracts import (canonical, digest, fields, normalize_node, normalize_edge, read_json,
-                        require, result, text, integer, MAX_BATCH, ResearchConflict)
+                        require, result, text, integer, MAX_BATCH, ResearchConflict, ResearchError)
 from .store import GraphStore
 from .identity import resolve, keyset
 from .retrieval import search, terms

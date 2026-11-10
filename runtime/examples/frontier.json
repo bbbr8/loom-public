@@ -1,0 +1,46 @@
+{
+  "development": [
+    {
+      "id": "exact",
+      "query": "blue invoice",
+      "family": "development",
+      "relevant": [
+        "invoice"
+      ]
+    },
+    {
+      "id": "linked",
+      "query": "blue invoice",
+      "family": "development",
+      "relevant": [
+        "payment"
+      ]
+    }
+  ],
+  "audit": [
+    {
+      "id": "audit",
+      "query": "payment confirmation",
+      "family": "reserved",
+      "relevant": [
+        "payment"
+      ]
+    }
+  ],
+  "recipes": [
+    {
+      "id": "literal",
+      "params": {
+        "top": 1,
+        "hops": 0
+      }
+    },
+    {
+      "id": "graph",
+      "params": {
+        "top": 1,
+        "hops": 1
+      }
+    }
+  ]
+}

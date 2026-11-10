@@ -125,12 +125,13 @@ class BuildTests(unittest.TestCase):
 
     def test_documentation_cannot_pass_with_only_excluded_examples(self):
         from surd_release import builtin_verdict
-        rows = [{"name": n,"scope":"native-case-integration","verified":None,"status":"integration_required"} for n in ("docs","anchor_check","stages")]
-        self.assertEqual(builtin_verdict({"builtins":rows})["state"], "failed")
-        rows.append({"name":"ordinary","scope":"portable","verified":True})
-        self.assertEqual(builtin_verdict({"builtins":rows})["state"], "passed")
-        rows[-1]["verified"] = False
-        self.assertEqual(builtin_verdict({"builtins":rows})["state"], "failed")
+        for scope in ('native-case-integration', 'configured-data-integration'):
+            rows = [{"name": n,"scope":scope,"verified":None,"status":"integration_required"} for n in ("docs","anchor_check","stages")]
+            self.assertEqual(builtin_verdict({"builtins":rows})["state"], "failed")
+            rows.append({"name":"ordinary","scope":"portable","verified":True})
+            self.assertEqual(builtin_verdict({"builtins":rows})["state"], "passed")
+            rows[-1]["verified"] = False
+            self.assertEqual(builtin_verdict({"builtins":rows})["state"], "failed")
 
 
 if __name__ == "__main__":

@@ -7,6 +7,9 @@ LoomError = SurdError
 
 def main(argv):
     """Shared command, with explicit dialects and legacy timeline invocation."""
+    if argv and argv[0]=='frontier':
+        from loom_research.frontier import main as frontier_main
+        return frontier_main(argv[1:])
     from pathlib import Path
     if argv and argv[0] in ("-e", "--execute"):
         return runtime_main(["timeline"] + list(argv))

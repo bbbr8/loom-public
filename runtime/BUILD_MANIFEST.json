@@ -108,6 +108,11 @@
       "mode": 420,
       "sha256": "a051a67b1b116b080a5df153e0466a3fb8ef1281862483a9f578def9b08068ee"
     },
+    "CASE_WORKBENCH.md": {
+      "bytes": 4809,
+      "mode": 420,
+      "sha256": "af1b6f896a5ffb172eef1d7e8685ebaf0e2bde8bd3ad7c86de0dde286a4d0739"
+    },
     "COLLECTIONS.md": {
       "bytes": 4654,
       "mode": 420,
@@ -117,6 +122,11 @@
       "bytes": 4963,
       "mode": 420,
       "sha256": "6b8205165d5470ec471b8610c0fb8e868b7d55ec937bbd159c5308758996167d"
+    },
+    "NORMALIZATION.md": {
+      "bytes": 5100,
+      "mode": 420,
+      "sha256": "133aa73630957fc1d1ddd727ccb0d6852bf48fcb89e98ad94e0efffd0ae42d4d"
     },
     "ONTOLOGY.md": {
       "bytes": 9094,
@@ -248,6 +258,21 @@
       "mode": 420,
       "sha256": "40add7dac95c1037978f52153b7131380f9179cd8ecd635e171083060211c5cd"
     },
+    "examples/data/case-source-control.sqlite": {
+      "bytes": 90112,
+      "mode": 420,
+      "sha256": "b4186950efacc1cec036324165e96b39d9e9783f465bafd56fcb2c538ce40935"
+    },
+    "examples/data/case-source-original.sqlite": {
+      "bytes": 90112,
+      "mode": 420,
+      "sha256": "b4186950efacc1cec036324165e96b39d9e9783f465bafd56fcb2c538ce40935"
+    },
+    "examples/data/case-source-transfer.sqlite": {
+      "bytes": 90112,
+      "mode": 420,
+      "sha256": "b4186950efacc1cec036324165e96b39d9e9783f465bafd56fcb2c538ce40935"
+    },
     "examples/data/ghz_fanout.qasm": {
       "bytes": 310,
       "mode": 420,
@@ -272,6 +297,21 @@
       "bytes": 176128,
       "mode": 420,
       "sha256": "d4ca76a1d95a8ca1a6c547d7531151eac0d48564571e46d7484fea254558cff6"
+    },
+    "examples/data/normalization-control.sqlite": {
+      "bytes": 90112,
+      "mode": 420,
+      "sha256": "469538daad63bdedf085aa963d969b2f6ced85f98e5e0dec20dfc44109e052dd"
+    },
+    "examples/data/normalization-original.sqlite": {
+      "bytes": 90112,
+      "mode": 420,
+      "sha256": "cf151863694a41b1ffcd52a264c61bfa51d9b83ba654fbbc0f2c0ae440204505"
+    },
+    "examples/data/normalization-transfer.sqlite": {
+      "bytes": 90112,
+      "mode": 420,
+      "sha256": "a47f416e40a9a23daff4d3df98781f72edf37bf66bb76c7f09977f178c8a8d87"
     },
     "examples/data/ontology-instances.json": {
       "bytes": 978,
@@ -408,10 +448,35 @@
       "mode": 420,
       "sha256": "d773785541cadb49a609d9023b83f1b7eaa9689daa00c3a81b44426e37595bcc"
     },
+    "examples/data/to-date-control.csv": {
+      "bytes": 28,
+      "mode": 420,
+      "sha256": "4a23e0f4f8d32f738dfc4bd33f148c9978df97bbf52bbed87b256aa1413b9e62"
+    },
+    "examples/data/to-date-original.csv": {
+      "bytes": 25,
+      "mode": 420,
+      "sha256": "5521c275df124a61e79487707e6ff07296f592b85a4d6cf96f78c3f51cf953be"
+    },
+    "examples/data/to-date-transfer.csv": {
+      "bytes": 26,
+      "mode": 420,
+      "sha256": "cbf31c33cb8466b6ded2cf021cf15faaf6310f28fc13393ec3125dd44994dd7e"
+    },
     "examples/deutsch_jozsa.surd": {
       "bytes": 296,
       "mode": 420,
       "sha256": "854a6b598a587206c01250cde7660847fceeb28a05fd1dbcc5839112697edb22"
+    },
+    "examples/frontier-batch.json": {
+      "bytes": 885,
+      "mode": 420,
+      "sha256": "beaabeb6d171adc8ceca8d26625380316057827ff7308f18ec52b9429a8d5f0a"
+    },
+    "examples/frontier.json": {
+      "bytes": 688,
+      "mode": 420,
+      "sha256": "f8ccaccb3748d4af5809b54d85114f4b5d27944a7f835b1e2e939adb0bc693cb"
     },
     "examples/games.surd": {
       "bytes": 1553,
@@ -579,9 +644,9 @@
       "sha256": "6e2a0b49e7505fbf4bc9f3a14bdd83cfede03620815bb1ad174d647bb4618f2c"
     },
     "loom.py": {
-      "bytes": 1277,
+      "bytes": 1418,
       "mode": 420,
-      "sha256": "c2a8d259b5b46c0f57d48ea93d92f864452fa4d1aaa389c31684128ac5c7ed2d"
+      "sha256": "2953b538d5650a981e6005c84048a52692f0f10231a29f691bc358e3fc36ba87"
     },
     "loom_qulap/UPSTREAM.json": {
       "bytes": 1431,
@@ -653,6 +718,11 @@
       "mode": 420,
       "sha256": "1e0b07808ce193bedf957607b9b89f4f38c8083c5e66fb489b5db5a3d03b4fb9"
     },
+    "loom_research/casework.py": {
+      "bytes": 18478,
+      "mode": 420,
+      "sha256": "9915c4d5a4eb38fc50ad0caf3fd120d6dabb783777b3213ee03018f6a824291f"
+    },
     "loom_research/cli.py": {
       "bytes": 10401,
       "mode": 420,
@@ -669,14 +739,19 @@
       "sha256": "b64c93c3e4e40750c3b15ea8b3a1ee48b41d0a2f8ab8dbde210b7b3d814dc0e0"
     },
     "loom_research/engine.py": {
-      "bytes": 22076,
+      "bytes": 22091,
       "mode": 420,
-      "sha256": "6e3bbcb7078bb38c25ca76c62b9f72d5de4931bdff18161ab144beac35271151"
+      "sha256": "8fc669e8bb52dfaf489aa1d70e21dbc53581ade84dbc990b394947507750115b"
     },
     "loom_research/evidence.py": {
       "bytes": 12319,
       "mode": 420,
       "sha256": "871fad3a460050d0c1a05cd123c88a61917d758ea731a6f9853462f151709b40"
+    },
+    "loom_research/frontier.py": {
+      "bytes": 7342,
+      "mode": 420,
+      "sha256": "d208de80aef4158f8e7612c786a08ab6035450cdaeaded125c990415b7ef7bf9"
     },
     "loom_research/identity.py": {
       "bytes": 4929,
@@ -697,6 +772,11 @@
       "bytes": 11031,
       "mode": 420,
       "sha256": "183b4d86320774c24ad4b40c19bae42dd44925874f5a3a954efcacf1eec29b8b"
+    },
+    "loom_research/normalization.py": {
+      "bytes": 22707,
+      "mode": 420,
+      "sha256": "c8c705f3499a7209cdf6fd72b5f522fb22e8746d7b0650ebf2daa44335fc0a8b"
     },
     "loom_research/ontology.py": {
       "bytes": 19949,
@@ -744,14 +824,14 @@
       "sha256": "3c08d5975f17f15db3fbb674c707efbb26d38c64f5bd40944169a3b89260a68c"
     },
     "surd.build.json": {
-      "bytes": 7261,
+      "bytes": 7430,
       "mode": 420,
-      "sha256": "d56086fd88ee05f7d0357fe09e11b094e6226e29ab1f55de47dae74c3ef154ab"
+      "sha256": "bda22359f0e7e8aec42e1bb2806e2a2d45501ee54a6ba1202eb59633c87b43f3"
     },
     "surd.py": {
-      "bytes": 406216,
+      "bytes": 406223,
       "mode": 420,
-      "sha256": "12cd11ec431ace4ffe837d1f1a2806bec340095f0885199968bf515ee9f36755"
+      "sha256": "b8e094ee00cc8acdb86cb5b90ee18347a101a64ba6e29b590b4ea4df67d9151f"
     },
     "surd_bank.py": {
       "bytes": 12752,
@@ -834,9 +914,9 @@
       "sha256": "819236ca6ca745c4b40102bca4d8e96647e9843277e61e44a2e2ddaa31f1e0b2"
     },
     "surd_release.py": {
-      "bytes": 10677,
+      "bytes": 10964,
       "mode": 420,
-      "sha256": "48f1d0fe9b2222a0a897acc475e5123dc83e49a93bf673f777c3734c9ea99903"
+      "sha256": "766893efb7ea7930e7e2d793fd7764b1ae54b5a8d168da851e3b2132fa0add55"
     },
     "surd_search.py": {
       "bytes": 50488,
@@ -883,6 +963,11 @@
       "mode": 420,
       "sha256": "788f4be60690d57d4bc8eec8cb47193c6a961619fdf194eaf93de4859e1569c3"
     },
+    "tests/improvement/case_source_search.json": {
+      "bytes": 3811,
+      "mode": 420,
+      "sha256": "28e646c09319b782b27eb5ea163cfe4d93778c16405293c351e388c8e280b927"
+    },
     "tests/improvement/dynamic_parameters.json": {
       "bytes": 675,
       "mode": 420,
@@ -892,6 +977,11 @@
       "bytes": 984,
       "mode": 420,
       "sha256": "f18ca4f83d20e9f77a3eb87eea0c1e1ab0fad7228eb0345994562ee0286016f9"
+    },
+    "tests/improvement/financial_to_date.json": {
+      "bytes": 2088,
+      "mode": 420,
+      "sha256": "05f90ad54a41567173c75fc1a1a58a1dee0e635733490b574e94c8b4d78626ae"
     },
     "tests/improvement/float_dispatch.json": {
       "bytes": 474,
@@ -908,6 +998,11 @@
       "mode": 420,
       "sha256": "a863289f7c18d99bc336650a02c1a3c4a7e25fab4b1b8b56bd4c0c01f21a4612"
     },
+    "tests/improvement/native_workbook_versions.json": {
+      "bytes": 4543,
+      "mode": 420,
+      "sha256": "91513184c2c2c16b58c9515390c2121c8bcfac9135557c686fadcb944c623a7e"
+    },
     "tests/improvement/noise_domain.json": {
       "bytes": 597,
       "mode": 420,
@@ -923,10 +1018,20 @@
       "mode": 420,
       "sha256": "fcc0f0192022cc37cac871d32a1340c0ccc36dbb8b0c3ae1bb10ede10a8fc6ea"
     },
+    "tests/improvement/source_candidate_slots.json": {
+      "bytes": 11975,
+      "mode": 420,
+      "sha256": "0dcff16e55993426fdd61391fddb35c8ff51143a0bd22c96f9fffae656e36ebe"
+    },
     "tests/improvement/temporal_dependency.json": {
       "bytes": 944,
       "mode": 420,
       "sha256": "4363b2465f403e6bafc0f1e80cec5d45f622a8da87264b52a4c3694b81f7eef6"
+    },
+    "tests/improvement/typed_normalization.json": {
+      "bytes": 1044,
+      "mode": 420,
+      "sha256": "17fc3be13424fd29498f148ff7246659ac6cadcc1921f2520b8fed615643cbeb"
     },
     "tests/posture_oracle.py": {
       "bytes": 4987,
@@ -964,19 +1069,34 @@
       "sha256": "b36582c9715d5ef7b569de608677fc171736f01562fa97bca860d42b7ca1aa69"
     },
     "tests/test_architecture.py": {
-      "bytes": 7384,
+      "bytes": 7469,
       "mode": 420,
-      "sha256": "e9bc9e72c060be2627770a2e1ea0b01fe726e170717bd98d3f9166ceda36eb20"
+      "sha256": "1837d9ff019b3e6dce3d643ce0a62498b9693d9ce34b3a5e23f5b4510faa2520"
     },
     "tests/test_assumption_frontiers.py": {
       "bytes": 10135,
       "mode": 420,
       "sha256": "f9d41f8da245a0c048fd33e90c8535ca2487ff92d0e2be7dc3bd2f656f950174"
     },
+    "tests/test_casework.py": {
+      "bytes": 12444,
+      "mode": 420,
+      "sha256": "e4a4f10f7e52905c838188ceb09ff7802aff2951f84640e0ff8873a51b669517"
+    },
     "tests/test_collections.py": {
       "bytes": 9888,
       "mode": 420,
       "sha256": "27c59b21059c0e6f22e2c30ccbaa552df8382f02caad5202f818a8697ed77929"
+    },
+    "tests/test_frontier.py": {
+      "bytes": 2856,
+      "mode": 420,
+      "sha256": "7dbfcbec7d068cb2ce9b900484e073e80c8c3dbed52373b33829cbb05172118c"
+    },
+    "tests/test_frontier_hardening.py": {
+      "bytes": 2154,
+      "mode": 420,
+      "sha256": "901b18581e089a4a80eab1dcd7329ccbf39f9b81f41ae6e1a08834778b6d2953"
     },
     "tests/test_fuzz_harness.py": {
       "bytes": 2299,
@@ -992,6 +1112,11 @@
       "bytes": 6173,
       "mode": 420,
       "sha256": "3c7afc4848e1ae62709f3890d6d013c1137df884b20dd22073a3570b10b1346f"
+    },
+    "tests/test_normalization.py": {
+      "bytes": 16915,
+      "mode": 420,
+      "sha256": "820ca4813d70a758aa5707cc3f31a3dd6ae91ca89093161231142af5c78609d7"
     },
     "tests/test_ontology.py": {
       "bytes": 9109,
@@ -1019,9 +1144,9 @@
       "sha256": "bc94c50667a03b2697612240c376fe4a6f2672c8e87cb7c29676a1da77574f2e"
     },
     "tests/test_research.py": {
-      "bytes": 23485,
+      "bytes": 24194,
       "mode": 420,
-      "sha256": "83cda372e2db7a6ae110bbc26b8f2c3fb4864d0320ee3a1ae5c3eb06528c59be"
+      "sha256": "16f38169aafd50495169e5efcad9e4c33af2943b135be919c4894a76060ffd4f"
     },
     "tests/test_review_regressions.py": {
       "bytes": 6358,
@@ -1059,27 +1184,17 @@
       "sha256": "288847aa0bae2d5b778c9e272ac7cac0c91b3bbdc4f5b11add2bb722b9425e69"
     },
     "tests/test_upgrade.py": {
-      "bytes": 5519,
+      "bytes": 6438,
       "mode": 420,
-      "sha256": "6c488d89df13370a20710fd5c599e4c0e1f878c5e972d937188871df79f0ae49"
+      "sha256": "08f45164c869b60546e7f454b05443aa6a9697391aea50d6ef8f6856690061f6"
     },
     "tests/test_usage.py": {
       "bytes": 3889,
       "mode": 420,
       "sha256": "3a2585ad1757a2359ad5c5e60c0cdd3656f63b5a9aeba399b2044fdc4af9a205"
-    },
-    "DOCUMENT_CONFIGURATION.md": {
-      "mode": 420,
-      "sha256": "b30a546e4fd804114504e9af4ec5ac303309732c114681084e819a357b874519",
-      "bytes": 1291
-    },
-    "tests/test_document_config.py": {
-      "mode": 420,
-      "sha256": "071ed815414e13c8184ef191ebc61c3d2a8e7dfd29726c065fb83a9d3ea16dd1",
-      "bytes": 3636
     }
   },
   "python_minimum": "3.9",
   "schema": "surd.build.v1",
-  "version": "1.17.0"
+  "version": "1.19.1"
 }

@@ -18,6 +18,19 @@ from research_fixtures import batch,credit_graph,run_packet,ROOT
 
 
 class ResearchTests(unittest.TestCase):
+    def test_evolution_capacity_and_storage_error_paths(self):
+        self.base()
+        with patch.object(self.store, 'apply', side_effect=ResearchError('graph capacity exceeded')):
+            report = engine.evolve(self.store)
+        self.assertEqual(report['state'], 'PARTIAL')
+        self.assertIn('graph capacity exceeded', report['limits'])
+        error = ResearchError('storage unavailable')
+        with patch.object(self.store, 'apply', side_effect=error):
+            with self.assertRaises(ResearchError) as caught:
+                engine.evolve(self.store)
+        self.assertIs(caught.exception, error)
+        self.assertIn(engine.evolve(self.store)['state'], ('COMPLETE', 'IDEMPOTENT'))
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
         self.path=Path(self.tmp.name)/'graph.sqlite';self.store=GraphStore(self.path,create=True)

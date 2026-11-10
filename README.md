@@ -4,7 +4,25 @@ AI assistants: start with [AI_GUIDE.md](AI_GUIDE.md) and [AGENTS.md](AGENTS.md).
 
 Loom is a local-first analytical research engine for building tools that connect records, explain calculations and keep answers traceable as information changes. It brings source retrieval, an evolving knowledge graph, exact conditional models and classical quantum-circuit simulation into one Python runtime.
 
-This private repository contains **Loom 1.19.1**, a browser workbench, authenticated HTTP API, persistent graph storage, CLI, documentation, synthetic examples and tests. It is intended for developers and analysts working on document research, reconciliation, relationship analysis and questions with several possible explanations.
+This distribution contains **Loom 1.19.1**, a browser workbench, authenticated HTTP API, persistent graph storage, CLI, documentation, synthetic examples and tests. It is intended for developers and analysts working on document research, reconciliation, relationship analysis and questions with several possible explanations.
+
+## Evaluate proposed retrieval recipes
+
+`python runtime/loom.py frontier --db graph.sqlite --input runtime/examples/frontier.json`
+compares proposed recipes on a fixed graph snapshot and keeps a Pareto archive of
+per-query results. Development labels select the recipe; a disjoint-family audit
+is scored afterwards. Duplicate parameter sets share one evaluation. Budgets,
+policy/graph/benchmark hashes, incomplete results and selection rules are explicit.
+This read-only command never activates a method or calls a model. Use the existing
+measured learning gates for activation.
+
+Run the synthetic example in a new database:
+
+```sh
+python runtime/loom.py graph init --db demo.sqlite
+python runtime/loom.py graph ingest --db demo.sqlite runtime/examples/frontier-batch.json
+python runtime/loom.py frontier --db demo.sqlite --input runtime/examples/frontier.json
+```
 
 ## Try Loom
 
@@ -161,3 +179,7 @@ Source-span adapters, versioned findings, actor-specific knowledge states, money
 Original values, rules and ambiguity accompany normalized names, dates, identifiers, exact amounts and document fields. Derived views retain source dependencies; normalized-form retrieval is opt-in. See [Normalization](runtime/NORMALIZATION.md).
 
 Larger native-data reliability fixes and validation: [Loom 1.19.1](docs/UPGRADE-1.19.1.md).
+
+## Evaluation hardening
+
+Recipe selection is stable under proposal reordering and duplicate aliases. `selected_params_sha256` identifies selected parameters; the smallest sorted alias names a recipe. Ties use parameter hashes so renaming/copying aliases cannot change selected parameters. The selected alias can change when a new smaller alias is added. Labels are distinct graph node IDs; `answerable` must be boolean and consistent. Score vectors require equal nonzero dimensions and finite numbers.

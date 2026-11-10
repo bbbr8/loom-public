@@ -29,7 +29,7 @@ def verdict(code, stdout, require_json=False):
 def builtin_verdict(data):
     rows = data.get("builtins", []) if isinstance(data, dict) else []
     portable = [x for x in rows if x.get("scope") == "portable"]
-    integrations = [x for x in rows if x.get("scope") == "native-case-integration"]
+    integrations = [x for x in rows if x.get("scope") in ("native-case-integration", "configured-data-integration")]
     ok = bool(portable) and len(portable) + len(integrations) == len(rows)
     ok = ok and all(x.get("verified") is True for x in portable)
     ok = ok and {x.get("name") for x in integrations} == {"docs", "anchor_check", "stages"}
@@ -56,6 +56,10 @@ def validate(archive, profile, report_path):
             checks = []
             if profile != "fuzz":
                 scripts = ["test_architecture.py", "test_search.py", "test_reasoning.py", "test_upgrade.py"]
+                if (root/'tests/test_frontier.py').is_file():
+                    scripts.append('test_frontier.py')
+                if (root/'tests/test_frontier_hardening.py').is_file():
+                    scripts.append('test_frontier_hardening.py')
                 if (root/"tests/test_ontology.py").is_file():
                     scripts.append("test_ontology.py")
                 if tuple(int(x) for x in manifest["version"].split(".")) >= (1,14,0):
