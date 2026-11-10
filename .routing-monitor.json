@@ -2,8 +2,6 @@
   "version": 1,
   "project_id": "loom-full-stack",
   "entrypoints": [
-    "server.py",
-    "worker.py",
     "loom",
     "runtime/surd.py",
     "runtime/surd_bank.py",
@@ -77,8 +75,6 @@
     "runtime/tests/test_research.py",
     "runtime/tests/research_fixtures.py",
     "runtime/tests/research_oracle.py",
-    "jobs.py",
-    "tests/test_jobs.py",
     "runtime/tests/test_scalability.py",
     "runtime/surd_stemmer.py",
     "bench/real_eval.py",
@@ -86,9 +82,6 @@
     "runtime/tests/test_storage_architecture.py",
     "runtime/loom_sqlite.py",
     "runtime/tests/test_sqlite_bootstrap.py",
-    "access.py",
-    "admin.py",
-    "tests/test_studio_access.py",
     "runtime/tests/test_studio.py",
     "runtime/loom_research/indexed.py",
     "runtime/loom_research/semantic.py",
@@ -99,10 +92,8 @@
     "runtime/tests/test_ontology.py",
     "runtime/loom_research/casework.py",
     "runtime/tests/test_casework.py",
-    "tests/test_case_api.py",
     "runtime/loom_research/normalization.py",
     "runtime/tests/test_normalization.py",
-    "tests/test_normalization_api.py",
     "runtime/loom_research/frontier.py"
   ],
   "registries": [
@@ -110,17 +101,21 @@
   ],
   "docs": [
     "README.md",
-    "docs/API.md",
-    "docs/DESIGN.md",
-    "docs/VALIDATION.md",
     "runtime/SQLITE_BOOTSTRAP.md",
-    "runtime/RESEARCH_STUDIO.md"
+    "runtime/RESEARCH_STUDIO.md",
+    "QUICK_START.md",
+    "AI_GUIDE.md",
+    "PUBLIC_DISTRIBUTION.md",
+    "PUBLIC_DISTRIBUTION.md",
+    "PUBLIC_DISTRIBUTION.md"
   ],
   "checks": {
     "require_test_for_source": false
   },
   "tests": [
     "runtime/tests/test_frontier.py",
-    "runtime/tests/test_frontier_hardening.py"
+    "runtime/tests/test_frontier_hardening.py",
+    "tests/test_public_distribution.py",
+    "tests/test_public_distribution.py"
   ]
 }

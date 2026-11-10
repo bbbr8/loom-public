@@ -1,8 +1,0 @@
-.git
-.env*
-.loom-data
-__pycache__
-*.pyc
-work
-.venv
-runtime/state

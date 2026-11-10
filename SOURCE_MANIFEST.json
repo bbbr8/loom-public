@@ -1,7 +1,7 @@
 {
   "schema": "loom.full-stack.source.v1",
   "runtime_version": "1.19.1",
-  "runtime_manifest_sha256": "5074df6f045734458fe7510e479e805bcc809ffba62b09ec94062abdbd051d08",
+  "runtime_manifest_sha256": "7579ec472669eacca24975c01832b194879c32aacb7ecf615dba0a71ae204d33",
   "files": {
     "AGENTS.md": "cedc09922ebc80deb230b33454674fa5ba302eee4559317fa3ec8870d8268a3d",
     "ARCHITECTURE.md": "a7e400536c4718e9ac044c882c83b7a39b22db5dd9a3ac953d341fe02ef183cf",
@@ -15,8 +15,8 @@
     "README.md": "5d2b4a69350d8d534bf48ca5cf90e0f151372fe9e5a011001d0d2377368f5d0c",
     "REASONING_ENGINE.md": "ec748dd9766a9902f2573ebedba1d5fa4edcad465e6b441f28f795ec65fcc108",
     "RESEARCH_ENGINE.md": "99ca3885b002effe4e11d4f146b042e84759c10f164a9e50807f2ae5d35ac477",
-    "RESEARCH_STUDIO.md": "34080d8b8502358879eaeb84f129611678467f71f81ee33197201eeb3b91625a",
-    "SCALABILITY.md": "89122e2cc3d229ae3455c66a1283c8e43add9f6ba022c677ca41683daab30888",
+    "RESEARCH_STUDIO.md": "4ce892df36c9428b98f4c26f80df67dcc9171d7fae816cdb4be2a60a9d5354a9",
+    "SCALABILITY.md": "e5c34811fc25c0a18fed3234a5e5253b069ca7657339da9f3a736f54a0057a73",
     "SEARCH_ENGINE.md": "56a2c61d11f3133d3439ea3a48c4f1926dd8b682ae8c86289e140e83104ae690",
     "SELF_IMPROVEMENT.md": "a3a1eb517a835d6eaaf54528e0bc507c8d4b63ecacfda750c022e59809ff5abd",
     "SQLITE_BOOTSTRAP.md": "50e29d34f75c97f02186daa79bb8f114b814f8c2cdda0dc0b296ad737dafd342",
@@ -212,5 +212,12 @@
   "local_derivation": {
     "purpose": "public AI capability upgrade",
     "base_commit": "4b032f2359e26c5d1a6ac7120ead479be88384df"
-  }
+  },
+  "distribution_files": {
+    "README.md": "f0789ba336f5976246ef65e1acd422891f6e46356d1ef61067cfcdace80e87f4",
+    "AI_GUIDE.md": "ebade956c66b1278dad61051a11a70c1aa5ae6bfcf9be03a1d9d28e128cca802",
+    "PUBLIC_DISTRIBUTION.md": "aef28d00ac5121e17bd6e5f278f8ada0cf02fbc24d32a8def9e18ab775798764",
+    "tests/test_public_distribution.py": "770e5f593ce5a38bcee98daa0ec85a2d00d9c30835213ddef3919dac9d62fe0a"
+  },
+  "public_profile": "local-only; no network service or provider adapter"
 }

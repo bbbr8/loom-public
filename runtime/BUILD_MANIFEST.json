@@ -159,14 +159,14 @@
       "sha256": "99ca3885b002effe4e11d4f146b042e84759c10f164a9e50807f2ae5d35ac477"
     },
     "RESEARCH_STUDIO.md": {
-      "bytes": 9243,
+      "bytes": 7872,
       "mode": 420,
-      "sha256": "34080d8b8502358879eaeb84f129611678467f71f81ee33197201eeb3b91625a"
+      "sha256": "4ce892df36c9428b98f4c26f80df67dcc9171d7fae816cdb4be2a60a9d5354a9"
     },
     "SCALABILITY.md": {
-      "bytes": 3099,
+      "bytes": 2800,
       "mode": 420,
-      "sha256": "89122e2cc3d229ae3455c66a1283c8e43add9f6ba022c677ca41683daab30888"
+      "sha256": "e5c34811fc25c0a18fed3234a5e5253b069ca7657339da9f3a736f54a0057a73"
     },
     "SEARCH_ENGINE.md": {
       "bytes": 11726,

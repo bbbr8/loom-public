@@ -106,38 +106,11 @@ dimensions. They generate record orientation and source cards, rather than a
 free-form causal or legal narrative. Human reader comprehension and case-wide
 accuracy require independent evaluation.
 
-## Service permissions and operator recovery
+## Local ownership and recovery
 
-The original `LOOM_API_KEY` remains an operator key. Optionally set
-`LOOM_ACCESS_FILE` to an operator-owned JSON file:
-
-```json
-{"schema":"loom.access.v1","principals":[
-  {"id":"reviewer","sha256":"REPLACE_WITH_SHA256_OF_A_RANDOM_TOKEN","role":"reader","graphs":["project-a"]}
-]}
-```
-
-Readers can search/inspect/explain their projects; editors can mutate their
-projects; admins can perform operator diagnostics. `*` explicitly permits all
-projects. Tokens require at least 32 characters; only hashes appear in this
-configuration. Obtain a hash through `python admin.py token-hash --stdin` with a
-trusted secret-input workflow. Keys stay outside requests, job records and logs.
-Scoped job polling checks the retained graph scope, including after payloads are
-cleared. Existing jobs with unknown scope require admin access. Access applies
-at the service boundary; users with direct filesystem access retain that access.
-
-Stop the service before archival (exclusive ownership is enforced):
-
-```sh
-python admin.py archive-jobs --data-dir /operator/loom-data --out /private/archive/jobs.json --before UNIX_SECONDS
-```
-
-The archive is exclusively created, fsynced and hash-verified before terminal
-payloads are removed transactionally. Durable tombstones reject old key reuse
-after restart; a changed request under the same key remains a conflict. The
-tombstone cap is 8,192 and requires a future explicit operator migration when
-full. Interrupted jobs remain unknown-outcome records and are never replayed
-automatically. Graph backup/restore and job archival are separate workflows.
+Graph files are owned by the local user. Use the documented SQLite backup and
+verification commands before changing or archiving a graph. This distribution
+contains no network service or token-based access configuration.
 
 ## Method references
 

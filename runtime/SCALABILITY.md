@@ -6,7 +6,7 @@ Graph search ranks direct evidence before graph-only neighbors. Concepts and sou
 
 Graph evolution now uses max_concepts/max_links as per-page sizes. `continuation` binds further pages to unchanged underlying evidence. `remaining`, `limits` and `evolution_complete` expose exact pending work. Invoke `graph_evolve(path,{"max_batches":64,"seconds":90})` for bounded multi-page growth, or pass the returned continuation to the next call. Source-reference shards prevent popular concepts from silently losing their provenance. Existing source records and reviewed identities remain authoritative. Actual graph, source-reference and identity-pair caps still produce explicit partial results. Time budgets are checked between atomic page commits.
 
-GraphStore.page(limit=200,cursor=None,**snapshot_options) provides byte-bounded, revision-bound graph pages. Cursors must be restarted after an incompatible revision/view change. Disposable page caches accelerate later pages. Native graph_snapshot retains its full output contract; the full-stack HTTP snapshot operation uses pagination by default. Expensive verification runs through authenticated, durable jobs with a larger bounded budget. See the full-stack docs/API.md for queue, idempotency and interruption contracts.
+GraphStore.page(limit=200,cursor=None,**snapshot_options) provides byte-bounded, revision-bound graph pages. Cursors must be restarted after an incompatible revision/view change. Disposable page caches accelerate later pages.
 
 All performance and accuracy figures belong in the accompanying measured release report. These capabilities do not establish source truth, calibrated probabilities, natural-language entailment, or unlimited-scale performance.
 
