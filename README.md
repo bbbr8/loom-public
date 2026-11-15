@@ -50,3 +50,10 @@ See [AI_GUIDE.md](AI_GUIDE.md), [local setup](QUICK_START.md),
 [runtime reference](runtime/README.md), [research guide](runtime/RESEARCH_ENGINE.md),
 [SQLite guide](runtime/SQLITE_BOOTSTRAP.md) and [public distribution policy](PUBLIC_DISTRIBUTION.md).
 Finite test results describe supplied inputs and models; their bounds remain explicit.
+
+Frontier packets can set `"aggregation": "family_macro"` to give each development
+family equal weight when ranking Pareto-eligible recipes. For each metric Loom
+averages its defined query values within each family, then averages those family
+means. False hits use only explicitly unanswerable queries. The default
+`query_micro` keeps the existing per-query means and total false hits. Each
+recipe exposes its `ranking_metrics`; audit queries run after selection.

@@ -1,7 +1,7 @@
 {
   "schema": "loom.full-stack.source.v1",
   "runtime_version": "1.19.1",
-  "runtime_manifest_sha256": "7579ec472669eacca24975c01832b194879c32aacb7ecf615dba0a71ae204d33",
+  "runtime_manifest_sha256": "7fb0ea3aebba2537d871a5a399498b310b2f88e79f1d02b7797d8a6721444c39",
   "files": {
     "AGENTS.md": "cedc09922ebc80deb230b33454674fa5ba302eee4559317fa3ec8870d8268a3d",
     "ARCHITECTURE.md": "a7e400536c4718e9ac044c882c83b7a39b22db5dd9a3ac953d341fe02ef183cf",
@@ -200,8 +200,8 @@
     "tests/test_studio.py": "288847aa0bae2d5b778c9e272ac7cac0c91b3bbdc4f5b11add2bb722b9425e69",
     "tests/test_upgrade.py": "08f45164c869b60546e7f454b05443aa6a9697391aea50d6ef8f6856690061f6",
     "tests/test_usage.py": "3a2585ad1757a2359ad5c5e60c0cdd3656f63b5a9aeba399b2044fdc4af9a205",
-    "loom_research/frontier.py": "d208de80aef4158f8e7612c786a08ab6035450cdaeaded125c990415b7ef7bf9",
-    "tests/test_frontier.py": "7dbfcbec7d068cb2ce9b900484e073e80c8c3dbed52373b33829cbb05172118c",
+    "loom_research/frontier.py": "02c7e6c0e96012d5124e8569aec814f5087e1505500b3cb2679b952d3019c588",
+    "tests/test_frontier.py": "a73960cc360b71526a7ba38bd79281515a8f61bc64e45cf48e666aacf42a63b0",
     "examples/frontier.json": "f8ccaccb3748d4af5809b54d85114f4b5d27944a7f835b1e2e939adb0bc693cb",
     "examples/frontier-batch.json": "beaabeb6d171adc8ceca8d26625380316057827ff7308f18ec52b9429a8d5f0a",
     "tests/test_frontier_hardening.py": "901b18581e089a4a80eab1dcd7329ccbf39f9b81f41ae6e1a08834778b6d2953"
@@ -214,7 +214,7 @@
     "base_commit": "4b032f2359e26c5d1a6ac7120ead479be88384df"
   },
   "distribution_files": {
-    "README.md": "296f81b4b11af907769e4eda2863260967cdcf54533e64ca250cf6df91f0bb7e",
+    "README.md": "d007d4ea24a794ea5c7a035bc1ff3ced12cd7eb9875ca25ffe7d85adabcdd787",
     "AI_GUIDE.md": "ebade956c66b1278dad61051a11a70c1aa5ae6bfcf9be03a1d9d28e128cca802",
     "PUBLIC_DISTRIBUTION.md": "aef28d00ac5121e17bd6e5f278f8ada0cf02fbc24d32a8def9e18ab775798764",
     "tests/test_public_distribution.py": "6a1ebf6d69ba95913bf1f6ff4a1c9dbac82dbf7a04520cd4f6b1a5af26ffdaf6",

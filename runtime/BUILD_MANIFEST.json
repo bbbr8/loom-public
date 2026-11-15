@@ -749,9 +749,9 @@
       "sha256": "871fad3a460050d0c1a05cd123c88a61917d758ea731a6f9853462f151709b40"
     },
     "loom_research/frontier.py": {
-      "bytes": 7342,
+      "bytes": 8295,
       "mode": 420,
-      "sha256": "d208de80aef4158f8e7612c786a08ab6035450cdaeaded125c990415b7ef7bf9"
+      "sha256": "02c7e6c0e96012d5124e8569aec814f5087e1505500b3cb2679b952d3019c588"
     },
     "loom_research/identity.py": {
       "bytes": 4929,
@@ -1089,9 +1089,9 @@
       "sha256": "27c59b21059c0e6f22e2c30ccbaa552df8382f02caad5202f818a8697ed77929"
     },
     "tests/test_frontier.py": {
-      "bytes": 2856,
+      "bytes": 4467,
       "mode": 420,
-      "sha256": "7dbfcbec7d068cb2ce9b900484e073e80c8c3dbed52373b33829cbb05172118c"
+      "sha256": "a73960cc360b71526a7ba38bd79281515a8f61bc64e45cf48e666aacf42a63b0"
     },
     "tests/test_frontier_hardening.py": {
       "bytes": 2154,

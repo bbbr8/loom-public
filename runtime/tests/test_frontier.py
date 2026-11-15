@@ -3,6 +3,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from loom_research.store import GraphStore
 from loom_research.frontier import evaluate_frontier,dominates
@@ -47,6 +48,34 @@ class RecipeFrontier(unittest.TestCase):
     def test_pareto_tradeoffs(self):
         self.assertFalse(dominates([1,0],[0,1]));self.assertTrue(dominates([1,1],[1,0]))
         self.assertFalse(dominates([1,1],[1,1]))
+
+
+    def test_family_weighting_changes_a_winner_without_using_audit_labels(self):
+        self.packet['development'] = [
+            dict(id=str(i), query=family, family=family, relevant=['A'])
+            for i, family in enumerate(['common'] * 3 + ['rare1', 'rare2'])]
+        self.packet['audit'] = []
+        def search(snapshot, query, *, top, hops):
+            correct = (query == 'common') == (hops == 0)
+            return {'state': 'COMPLETE', 'hits': [{'id': 'A' if correct else 'B'}]}
+        with patch('loom_research.frontier.search', side_effect=search):
+            default = evaluate_frontier(self.store, self.packet)
+            self.packet['aggregation'] = 'family_macro'
+            balanced = evaluate_frontier(self.store, self.packet)
+            self.assertEqual(default['selected'], 'literal')
+            self.assertEqual(balanced['selected'], 'graph')
+            graph = next(r for r in balanced['recipes'] if r['id'] == 'graph')
+            self.assertAlmostEqual(graph['ranking_metrics']['ndcg'], 2 / 3)
+            self.assertEqual(balanced['evaluations'], 10)
+
+    def test_unanswerable_families_report_false_hits(self):
+        self.packet['development'] = [
+            dict(id='none', query='blue invoice', family='neg', relevant=[], answerable=False)]
+        self.packet['aggregation'] = 'family_macro'
+        result = evaluate_frontier(self.store, self.packet)
+        for recipe in result['recipes']:
+            self.assertIsNone(recipe['ranking_metrics']['ndcg'])
+            self.assertEqual(recipe['ranking_metrics']['false_hits'], 1)
 
 
 if __name__=='__main__':unittest.main()
