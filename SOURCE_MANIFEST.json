@@ -214,10 +214,11 @@
     "base_commit": "4b032f2359e26c5d1a6ac7120ead479be88384df"
   },
   "distribution_files": {
-    "README.md": "f0789ba336f5976246ef65e1acd422891f6e46356d1ef61067cfcdace80e87f4",
+    "README.md": "296f81b4b11af907769e4eda2863260967cdcf54533e64ca250cf6df91f0bb7e",
     "AI_GUIDE.md": "ebade956c66b1278dad61051a11a70c1aa5ae6bfcf9be03a1d9d28e128cca802",
     "PUBLIC_DISTRIBUTION.md": "aef28d00ac5121e17bd6e5f278f8ada0cf02fbc24d32a8def9e18ab775798764",
-    "tests/test_public_distribution.py": "770e5f593ce5a38bcee98daa0ec85a2d00d9c30835213ddef3919dac9d62fe0a"
+    "tests/test_public_distribution.py": "6a1ebf6d69ba95913bf1f6ff4a1c9dbac82dbf7a04520cd4f6b1a5af26ffdaf6",
+    "loom": "9ad2189656ae90c1a3ce826ef8e5373fe7730223e28ca41ddbb442ef0e3aef95"
   },
   "public_profile": "local-only; no network service or provider adapter"
 }

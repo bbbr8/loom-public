@@ -36,10 +36,14 @@ models and document readers are separate installations; no model service is bund
 
 ## Verify
 
+Start in the repository root. The final command runs the full runtime suite,
+including numerical tests that require NumPy in the selected Python environment.
+
 ```sh
-python -m unittest discover -s runtime/tests -p 'test_*.py' -v
 python -m unittest discover -s tests -v
-python runtime/surd.py selftest
+cd runtime
+python surd.py selftest
+python -m unittest discover -s tests -v
 ```
 
 See [AI_GUIDE.md](AI_GUIDE.md), [local setup](QUICK_START.md),

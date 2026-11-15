@@ -1,5 +1,8 @@
 """Regression gates for the local-only public source profile."""
 import ast
+import os
+import subprocess
+import sys
 from pathlib import Path
 import re
 import unittest
@@ -13,6 +16,13 @@ def files():
             yield path
 
 class PublicDistribution(unittest.TestCase):
+    @unittest.skipUnless(os.name == "posix", "POSIX launcher")
+    def test_launcher_runs_from_outside_checkout(self):
+        result = subprocess.run([str(ROOT / "loom"), "version"], cwd=ROOT.parent,
+                                env={**os.environ, "PYTHON": sys.executable},
+                                capture_output=True, text=True, check=True)
+        self.assertRegex(result.stdout.strip(), r"^loom [0-9]+\.[0-9]+\.[0-9]+")
+
     def test_no_network_server_or_client_imports(self):
         for path in files():
             if path.suffix!='.py':continue
