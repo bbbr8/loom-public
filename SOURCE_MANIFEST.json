@@ -219,9 +219,10 @@
     "PUBLIC_DISTRIBUTION.md": "aef28d00ac5121e17bd6e5f278f8ada0cf02fbc24d32a8def9e18ab775798764",
     "tests/test_public_distribution.py": "6a1ebf6d69ba95913bf1f6ff4a1c9dbac82dbf7a04520cd4f6b1a5af26ffdaf6",
     "loom": "9ad2189656ae90c1a3ce826ef8e5373fe7730223e28ca41ddbb442ef0e3aef95",
-    "bench/README.md": "b8fb2f90d2bc5bf81306ba290a3e1678ea48cdf031fb34909331656d66fb2c1e",
-    "bench/real_eval.py": "f2f54e96ccb45aedf3a49b574e77306a2c55a08df82a3e3ec05e11f1d52b76e9",
-    "tests/test_benchmark_arithmetic.py": "cbb5201324301bd32899621b1fdf1b472873fd2d8e10cdbd62e0c57d5af19bad"
+    "bench/README.md": "51fa8f829313be0977f1a5c3a68d6872f47d02d7e5eec5b68a0167859c51072c",
+    "bench/real_eval.py": "d4203bd41e2274f188d2fd3cdc03e4ef927d8442f4197225de6d794039388ff7",
+    "tests/test_benchmark_arithmetic.py": "5d052be27f31f73611c5dd2a92657e621076c039b2ec7994d6f5151be8277ece",
+    "bench/paired_metrics.py": "69ce1fb7a398664bd72b048aab3d4621f454c0e02b5228bfeaafd3328a658b11"
   },
   "public_profile": "local-only; no network service or provider adapter"
 }

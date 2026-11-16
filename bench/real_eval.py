@@ -2,7 +2,8 @@
 import argparse,hashlib,json,math,platform,statistics,sys,time,zipfile
 from fractions import Fraction
 from pathlib import Path
-p=argparse.ArgumentParser();p.add_argument('--runtime',required=True);p.add_argument('--dataset',required=True);p.add_argument('--out',required=True);a=p.parse_args()
+from paired_metrics import paired_comparison
+p=argparse.ArgumentParser();p.add_argument('--runtime',required=True);p.add_argument('--dataset',required=True);p.add_argument('--out',required=True);p.add_argument('--baseline', help='Earlier report on the same dataset and queries');a=p.parse_args()
 sys.path.insert(0,str(Path(a.runtime).resolve()))
 from surd_search import SearchIndex
 started=time.perf_counter()
@@ -40,4 +41,11 @@ report={'ok':True,'host':platform.node(),'dataset':prefix,'documents':len(docs),
         'dataset_sha256':hashlib.sha256(Path(a.dataset).read_bytes()).hexdigest(),'rankings':ranks}
 mean_ap = sum(average_precisions, Fraction(0)) / len(average_precisions)
 report.update(map10=float(mean_ap), map10_fraction=str(mean_ap))
+if a.baseline:
+    baseline_bytes = Path(a.baseline).read_bytes()
+    try:
+        report["paired"] = paired_comparison(report, json.loads(baseline_bytes))
+    except (ValueError, KeyError, TypeError, ZeroDivisionError) as error:
+        p.error(f"Invalid comparison baseline: {error}")
+    report["paired"]["baseline_sha256"] = hashlib.sha256(baseline_bytes).hexdigest()
 Path(a.out).write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items() if k!='rankings'}))
