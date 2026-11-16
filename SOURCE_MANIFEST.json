@@ -214,11 +214,14 @@
     "base_commit": "4b032f2359e26c5d1a6ac7120ead479be88384df"
   },
   "distribution_files": {
-    "README.md": "d007d4ea24a794ea5c7a035bc1ff3ced12cd7eb9875ca25ffe7d85adabcdd787",
+    "README.md": "402669458a5f577768f2d4e738ede427ba21ba6b62d9c7e746bfd4e98b7bfd37",
     "AI_GUIDE.md": "ebade956c66b1278dad61051a11a70c1aa5ae6bfcf9be03a1d9d28e128cca802",
     "PUBLIC_DISTRIBUTION.md": "aef28d00ac5121e17bd6e5f278f8ada0cf02fbc24d32a8def9e18ab775798764",
     "tests/test_public_distribution.py": "6a1ebf6d69ba95913bf1f6ff4a1c9dbac82dbf7a04520cd4f6b1a5af26ffdaf6",
-    "loom": "9ad2189656ae90c1a3ce826ef8e5373fe7730223e28ca41ddbb442ef0e3aef95"
+    "loom": "9ad2189656ae90c1a3ce826ef8e5373fe7730223e28ca41ddbb442ef0e3aef95",
+    "bench/README.md": "b8fb2f90d2bc5bf81306ba290a3e1678ea48cdf031fb34909331656d66fb2c1e",
+    "bench/real_eval.py": "f2f54e96ccb45aedf3a49b574e77306a2c55a08df82a3e3ec05e11f1d52b76e9",
+    "tests/test_benchmark_arithmetic.py": "cbb5201324301bd32899621b1fdf1b472873fd2d8e10cdbd62e0c57d5af19bad"
   },
   "public_profile": "local-only; no network service or provider adapter"
 }

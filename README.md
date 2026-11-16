@@ -57,3 +57,6 @@ averages its defined query values within each family, then averages those family
 means. False hits use only explicitly unanswerable queries. The default
 `query_micro` keeps the existing per-query means and total false hits. Each
 recipe exposes its `ranking_metrics`; audit queries run after selection.
+
+The [retrieval benchmark](bench/README.md) reports exact per-query average
+precision at 10 and its mean across the evaluation set.
