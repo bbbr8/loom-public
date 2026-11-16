@@ -22,7 +22,9 @@ def dominates(left,right):
 
 
 def evaluate_frontier(store,packet):
-    fields(packet,('development','recipes'),('audit','max_evaluations'))
+    fields(packet,('development','recipes'),('audit','max_evaluations','aggregation'))
+    aggregation = packet.get('aggregation', 'query_micro')
+    require(aggregation in ('query_micro', 'family_macro'), 'unknown ranking aggregation')
     development=packet['development'];audit=packet.get('audit',[]);recipes=packet['recipes']
     require(isinstance(development,list) and 1<=len(development)<=200,'supply 1..200 development queries')
     require(isinstance(audit,list) and len(audit)<=200,'supply at most 200 audit queries')
@@ -52,7 +54,7 @@ def evaluate_frontier(store,packet):
         recipe['aliases'].sort();recipe['id']=recipe['aliases'][0]
     require(len(cutoffs)==1,'recipe cutoffs must match')
     required=len(grouped)*len(development)+len(audit)
-    basis={'benchmark_sha256':digest({'development':development,'audit':audit}),
+    basis={'aggregation': aggregation, 'benchmark_sha256':digest({'development':development,'audit':audit}),
            'evaluator_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
            'proposal_sha256':digest(recipes),'evidence_graph_hash':snapshot['projection_hash'],
            'policy_hash':policy_hash(),'max_evaluations':budget,'required_evaluations':required,
@@ -75,13 +77,32 @@ def evaluate_frontier(store,packet):
     eligible=[r for r in evaluated if r['complete']]
     frontier=[r for r in eligible if not any(dominates(other['score_vector'],r['score_vector']) for other in eligible)]
     # Aggregate tie-breaking is explicit; audit values never affect this choice.
+    for recipe in evaluated:
+        checks = recipe['development']
+        metrics = {}
+        for key in ('ndcg', 'recall', 'chain_coverage', 'false_hits'):
+            by_family = {}
+            values = []
+            for check, query in zip(checks, development):
+                if key == 'false_hits':
+                    value = None if query['relevant'] else len(check['metrics']['hits'])
+                else:
+                    value = check['metrics'][key]
+                if value is not None:
+                    values.append(value)
+                    by_family.setdefault(check['family'], []).append(value)
+            if aggregation == 'family_macro':
+                values = [sum(group) / len(group) for group in by_family.values()]
+            if key == 'false_hits' and aggregation == 'query_micro':
+                metrics[key] = sum(values)
+            else:
+                metrics[key] = sum(values) / len(values) if values else None
+        recipe['ranking_metrics'] = metrics
+
     def rank(recipe):
-        qs=recipe['development'];averages=[]
-        for key in ('ndcg','recall','chain_coverage'):
-            values=[q['metrics'][key] for q in qs if q['metrics'][key] is not None]
-            averages.append(sum(values)/len(values) if values else 0)
-        false_hits=sum(len(q['metrics']['hits']) for q,source in zip(qs,development) if not source['relevant'])
-        return tuple(-v for v in averages)+(false_hits,recipe['params_sha256'])
+        m = recipe['ranking_metrics']
+        return tuple(-(m[k] or 0) for k in ('ndcg', 'recall', 'chain_coverage')) + (
+            m['false_hits'] or 0, recipe['params_sha256'])
     frontier.sort(key=rank);selected=frontier[0] if frontier else None
     audit_checks=[evaluate(selected,q) for q in audit] if selected else [];count+=len(audit_checks)
     unchanged=store.snapshot()['projection_hash']==snapshot['projection_hash']
@@ -93,7 +114,7 @@ def evaluate_frontier(store,packet):
                   selected_before_audit=selected['id'] if selected else None,
                   audit_state='EVALUATED_AFTER_SELECTION' if audit_checks else 'NOT_SUPPLIED',
                   audit=audit_checks,evaluations=count,
-                  selection_policy='Pareto on per-query scores, then mean nDCG/recall/chain coverage, false hits, parameter hash; smallest alias identifies each recipe',
+                  selection_policy='Pareto on per-query scores, then development metrics under the declared aggregation, false hits, parameter hash; smallest alias identifies each recipe',
                   graph_unchanged=unchanged)
 
 

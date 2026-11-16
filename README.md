@@ -36,13 +36,27 @@ models and document readers are separate installations; no model service is bund
 
 ## Verify
 
+Start in the repository root. The final command runs the full runtime suite,
+including numerical tests that require NumPy in the selected Python environment.
+
 ```sh
-python -m unittest discover -s runtime/tests -p 'test_*.py' -v
 python -m unittest discover -s tests -v
-python runtime/surd.py selftest
+cd runtime
+python surd.py selftest
+python -m unittest discover -s tests -v
 ```
 
 See [AI_GUIDE.md](AI_GUIDE.md), [local setup](QUICK_START.md),
 [runtime reference](runtime/README.md), [research guide](runtime/RESEARCH_ENGINE.md),
 [SQLite guide](runtime/SQLITE_BOOTSTRAP.md) and [public distribution policy](PUBLIC_DISTRIBUTION.md).
 Finite test results describe supplied inputs and models; their bounds remain explicit.
+
+Frontier packets can set `"aggregation": "family_macro"` to give each development
+family equal weight when ranking Pareto-eligible recipes. For each metric Loom
+averages its defined query values within each family, then averages those family
+means. False hits use only explicitly unanswerable queries. The default
+`query_micro` keeps the existing per-query means and total false hits. Each
+recipe exposes its `ranking_metrics`; audit queries run after selection.
+
+The [retrieval benchmark](bench/README.md) reports exact per-query average
+precision at 10 and its mean across the evaluation set.
