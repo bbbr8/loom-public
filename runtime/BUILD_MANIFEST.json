@@ -829,9 +829,9 @@
       "sha256": "bda22359f0e7e8aec42e1bb2806e2a2d45501ee54a6ba1202eb59633c87b43f3"
     },
     "surd.py": {
-      "bytes": 406223,
+      "bytes": 406507,
       "mode": 420,
-      "sha256": "b8e094ee00cc8acdb86cb5b90ee18347a101a64ba6e29b590b4ea4df67d9151f"
+      "sha256": "7a174a5f8e953d4caf50cd1eadbe0a238bb10f9e1f2e432063a93e697e9012d6"
     },
     "surd_bank.py": {
       "bytes": 12752,

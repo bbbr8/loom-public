@@ -6579,7 +6579,9 @@ def selftest(verbose=False):
         open(os.path.join(d, "a.qasm"), "w").write('OPENQASM 2.0;\ninclude "qelib1.inc";\nqreg q[2];\nh q[0];\ncx q[0],q[1];\n')
         open(os.path.join(d, "b.qasm"), "w").write('OPENQASM 2.0;\ninclude "qelib1.inc";\ngate bell a, b { u2(0,pi) a; cx a, b; }\n'
                                                    'qreg r[2];\nbell r[0], r[1];\nu1(pi/4) r[1];\nu1(-pi/4) r[1];\n')
-        it = Interp(seed=1, echo=False).run(f'let a = qasm("{d}/a.qasm")\nlet b = qasm("{d}/b.qasm")\nexpect a =~ b\n'
+        a_path = json.dumps(os.path.join(d, "a.qasm"))
+        b_path = json.dumps(os.path.join(d, "b.qasm"))
+        it = Interp(seed=1, echo=False).run(f'let a = qasm({a_path})\nlet b = qasm({b_path})\nexpect a =~ b\n'
                                             f'expect a == b\nwires q: 2\nq <- a\nexpect prob(q, "11") == 1/2')
         return ok_expects(it)
     case("OpenQASM import: custom gates, u2/u1, exact equivalence", "wire q", qasm_case)
@@ -7222,7 +7224,12 @@ def _main(argv):
     if cmd == "version":
         print(f"loom {VERSION}"); return 0
     if cmd == "selftest":
-        return 0 if selftest() else 1
+        original_directory = os.getcwd()
+        try:
+            os.chdir(os.path.dirname(os.path.realpath(__file__)))
+            return 0 if selftest() else 1
+        finally:
+            os.chdir(original_directory)
     if cmd == "describe":
         if flags.get("json"): print(json.dumps(dict(DESCRIBE, builtins=describe_builtins(flags.get("integrations", False))), indent=2, ensure_ascii=False))
         else:

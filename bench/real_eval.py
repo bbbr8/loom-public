@@ -7,10 +7,10 @@ from surd_search import SearchIndex
 started=time.perf_counter()
 with zipfile.ZipFile(a.dataset) as z:
     prefix=z.namelist()[0].split('/')[0]
-    docs=[json.loads(x) for x in z.read(prefix+'/corpus.jsonl').decode().splitlines()]
-    queries={q['_id']:q['text'] for q in map(json.loads,z.read(prefix+'/queries.jsonl').decode().splitlines())}
+    docs=[json.loads(x) for x in z.read(prefix+'/corpus.jsonl').decode("utf-8-sig").splitlines()]
+    queries={q['_id']:q['text'] for q in map(json.loads,z.read(prefix+'/queries.jsonl').decode("utf-8-sig").splitlines())}
     qrels={}
-    for line in z.read(prefix+'/qrels/test.tsv').decode().splitlines()[1:]:
+    for line in z.read(prefix+'/qrels/test.tsv').decode("utf-8-sig").splitlines()[1:]:
         q,d,s=line.split('\t');qrels.setdefault(q,{})[d]=int(s)
 rows=[{'id':d['_id'],'title':d.get('title',''),'text':d['text'],'locator':'BEIR:'+prefix+':'+d['_id']} for d in docs]
 ix=SearchIndex(rows);nd=[];rec=[];rr=[];times=[];ranks=[];snippets=0
