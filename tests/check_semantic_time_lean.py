@@ -35,6 +35,41 @@ def scaled_pair(value, scale):
     return tuple(components)
 
 
+def matrix_certificates():
+    rng = random.Random(2200)
+    checks = ["open SemanticTime"]
+    entries = 0
+    shapes = [(1, 1, 1), (1, 8, 1), (9, 1, 7), (2, 3, 4),
+              (5, 3, 2), (4, 4, 4), (1, 12, 5), (6, 9, 7)]
+    for trial in range(48):
+        m, n, p = shapes[trial % len(shapes)]
+        real_only = trial % 3 == 0
+
+        def operand(rows, cols, denominator):
+            values, literals = [], []
+            for _ in range(rows):
+                pairs = [(rng.randint(-6, 6), 0 if real_only else rng.randint(-6, 6))
+                         for _ in range(cols)]
+                values.append(pairs)
+                tokens = [f"{a}/{denominator}" if real_only else f"complex({a}/{denominator},{b}/{denominator})"
+                          for a, b in pairs]
+                literals.append("[" + ",".join(tokens) + "]")
+            return values, "[" + ",".join(literals) + "]"
+
+        a, left = operand(m, n, 3)
+        b, right = operand(n, p, 5)
+        output = surd.Interp(echo=False).run(f"let c = matmul({left},{right})").globals["c"]
+        def entry(value):
+            if real_only:
+                value = {"real": value, "imag": surd.R2(0)}
+            return scaled_pair(value, 15)
+
+        actual = [[entry(value) for value in row] for row in output]
+        checks.append(f"#guard matrixProduct {p} {a} {b} == {actual}")
+        entries += m*p
+    return "\n".join(checks), entries
+
+
 def polynomial_certificates():
     rng = random.Random(2100)
     sizes = [0, 1, 2, 3, 5, 9, 13, 17, 25, 33, 49, 65]
@@ -112,7 +147,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     model = Path(__file__).with_name("SemanticTime.lean").read_text(encoding="utf-8")
     stress, probes = polynomial_certificates()
-    subprocess.run([args.lean, "--stdin"], input=model + "\n" + certificates() + "\n" + stress + "\n",
+    matrices, entries = matrix_certificates()
+    subprocess.run([args.lean, "--stdin"], input="\n".join([model, certificates(), stress, matrices, ""]),
                    encoding="utf-8", check=True)
     print(f"Lean verified 6 identities, 75 semantic-time results, 144 polynomial values, "
           f"{probes} translation probes and 2 negative controls.")
+    print(f"Lean verified 48 matrix products covering {entries} exact entries.")

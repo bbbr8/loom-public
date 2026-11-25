@@ -49,7 +49,7 @@ import surd_bank
 import surd_ext
 import surd_timing
 
-VERSION = "1.21.0"
+VERSION = "1.22.0"
 sys.setrecursionlimit(max(sys.getrecursionlimit(), 12000))   # Loom functions recurse through the interpreter
 SQRT2 = math.sqrt(2.0)
 TOL = 1e-9
@@ -2100,7 +2100,7 @@ SEM_FUNCS = {"phase", "meaning_overlap", "evolve_phase", "sense", "blend", "read
              "encode", "senses", "beliefs", "trust", "belnap", "jaccard"}
 SIGNAL_FUNCS = {"complex", "complex_add", "complex_sub", "complex_mul", "complex_div",
                 "complex_conj", "magnitude2", "phasor", "elapsed_seconds", "shift_instant",
-                "poly_eval", "poly_shift"}
+                "poly_eval", "poly_shift", "matmul"}
 CORE_FUNCS = SIGNAL_FUNCS | {"range", "push", "pop", "str", "join", "split", "keys", "values", "map", "filter", "reduce", "sum",
               "min", "max", "sorted", "reverse", "contains", "type", "int", "floor", "set", "upper", "lower", "replace", "startswith", "endswith",
               "count", "any", "all", "zip", "enumerate", "repr", "get", "exactness"} | surd_collections.FUNCTIONS
@@ -6115,6 +6115,51 @@ def amplitude_parts(value):
     return {"real": value.real, "imag": value.imag}
 
 
+def matrix_product(left, right, pos, budget, as_number, finite_parts):
+    complex_output = False
+
+    def rows(matrix, side):
+        nonlocal complex_output
+        if not isinstance(matrix, list):
+            raise SurdError("S-E009", f"matmul {side} operand must be a list of rows", pos)
+        converted = []
+        width = 0
+        for index, row in enumerate(matrix):
+            budget.checkpoint(pos)
+            if not isinstance(row, list):
+                raise SurdError("S-E009", f"matmul {side} row {index} must be a list", pos)
+            if index == 0:
+                width = len(row)
+            elif len(row) != width:
+                raise SurdError("S-E009", f"matmul {side} row {index} has {len(row)} entries, expected {width}", pos)
+            entries = []
+            for value in row:
+                budget.checkpoint(pos)
+                entries.append(as_number(value))
+                if isinstance(value, dict):
+                    complex_output = True
+            converted.append(entries)
+        return converted, width
+
+    a, n = rows(left, "left")
+    b, p = rows(right, "right")
+    if n != len(b):
+        raise SurdError("S-E009", f"matmul cannot multiply shapes {len(a)}x{n} and {len(b)}x{p}", pos)
+    columns = list(zip(*b))
+    result = []
+    for row in a:
+        product_row = []
+        for column in columns:
+            total = QZ
+            for x, y in zip(row, column):
+                budget.checkpoint(pos)
+                total = _mix(total, _mul(x, y))
+            parts = finite_parts(total)
+            product_row.append(parts if complex_output else parts["real"])
+        result.append(product_row)
+    return result
+
+
 def signal_function(name, args, pos, budget):
     unary = name in ("phasor", "complex_conj", "magnitude2")
     arity = 1 if unary else 2
@@ -6131,7 +6176,7 @@ def signal_function(name, args, pos, budget):
             return complex(float(re_part), float(im_part))
         raise SurdError("S-E009", "complex components must be finite real numbers", pos)
 
-    def polynomial_number(value):
+    def scalar_number(value):
         if isinstance(value, R2):
             return value.q
         if type(value) is float and math.isfinite(value):
@@ -6144,14 +6189,16 @@ def signal_function(name, args, pos, budget):
         return amplitude_parts(value)
 
     try:
+        if name == "matmul":
+            return matrix_product(args[0], args[1], pos, budget, scalar_number, finite_parts)
         if name in ("poly_eval", "poly_shift"):
             if not isinstance(args[0], list):
                 raise SurdError("S-E009", f"{name} needs coefficients in ascending degree order", pos)
-            point = polynomial_number(args[1])
+            point = scalar_number(args[1])
             coefficients = []
             for value in args[0]:
                 budget.checkpoint(pos)
-                coefficients.append(polynomial_number(value))
+                coefficients.append(scalar_number(value))
             if name == "poly_eval":
                 result = coefficients.pop() if coefficients else QZ
                 for coefficient in reversed(coefficients):
@@ -6927,6 +6974,9 @@ def selftest(verbose=False):
 
 DESCRIBE = {
     "complex_and_time": {"functions": sorted(SIGNAL_FUNCS | {"meaning_overlap", "evolve_phase"}),
+                         "matmul": {"inputs": "rectangular lists of rows, real or complex entries",
+                                    "shape": "(m,n) times (n,p) gives (m,p); [] represents (0,0)",
+                                    "output": "real entries unless either input contains an explicit complex value"},
                          "polynomials": {"coefficient_order": "ascending degree", "inputs": "real or complex",
                                          "poly_eval": "P(point), empty list gives complex zero",
                                          "poly_shift": "coefficients of P(point+h), same length as the input"},
@@ -7127,6 +7177,8 @@ BUILTIN_DOCS = [
     ("fidelity", "fidelity(m1, m2)", "1 = the same meaning, 0 = orthogonal (also records)",
      'space P { a, b, c }\nfidelity(blend(P, {"a": 1, "b": 1, "c": 2}), sense(P, "c"))', "1/2"),
     ("complex", "complex(real, imag)", "construct a complex value", 'complex(2,3)["imag"]', "3"),
+    ("matmul", "matmul(left,right)", "row-by-column matrix multiplication without conjugation",
+     'matmul([[1,2],[3,4]],[[5],[6]])[1][0]', "39"),
     ("poly_eval", "poly_eval(coefficients,point)", "evaluate a polynomial in ascending degree order",
      'poly_eval([1,2,3],complex(0,1))["real"]', "-2"),
     ("poly_shift", "poly_shift(coefficients,point)", "coefficients of P(point+h) in ascending degree order",

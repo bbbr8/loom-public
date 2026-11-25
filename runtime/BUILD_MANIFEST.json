@@ -835,9 +835,9 @@
       "sha256": "0e02caba1424f29404560c03cc6973922ef8c7b83aa9a31f03444959fba95ca8"
     },
     "surd.py": {
-      "bytes": 415683,
+      "bytes": 417956,
       "mode": 420,
-      "sha256": "fd318c4ef5ed6ddc71f3cc40d1ab811ebaf9bedd94e445d9d4185e963381aa78"
+      "sha256": "c702e909bcbe810fd4215f74497339205d52b872e3e3e6b902ddee353ff6b6e4"
     },
     "surd_bank.py": {
       "bytes": 12752,
@@ -1175,9 +1175,9 @@
       "sha256": "64739a612b54f64053ee119ad6d16692b1373d686dc29215913f3b1543680bb9"
     },
     "tests/test_semantic_time.py": {
-      "bytes": 5178,
+      "bytes": 6469,
       "mode": 420,
-      "sha256": "27a3136032cd9924e53afcca8c03c31b58a33d27b927ab4497c6667d632389e0"
+      "sha256": "83a241c99e7dfef6fc621f489b14dce02de81a4a9e3a3ca6c78f9bd36a37c9cb"
     },
     "tests/test_sqlite_bootstrap.py": {
       "bytes": 9893,
@@ -1207,5 +1207,5 @@
   },
   "python_minimum": "3.9",
   "schema": "surd.build.v1",
-  "version": "1.21.0"
+  "version": "1.22.0"
 }
