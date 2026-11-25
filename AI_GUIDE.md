@@ -49,3 +49,11 @@ through degree 64, including rational complex inputs. It checks evaluation by
 summing powers directly and tests each translation at enough distinct points
 to determine every coefficient. It also proves Horner's rule for all lists of
 Gaussian integer coefficients.
+
+Use `matmul(left, right)` for matrix multiplication. Both operands are lists of
+equal-length rows. The left column count must equal the right row count. Each
+output entry sums the products of a row and column without conjugation. If
+either operand contains a `complex(real, imag)` value, every output entry has
+numeric `real` and `imag` fields. Real-only inputs return ordinary real numbers.
+An empty outer list represents a 0-by-0 matrix. A list of empty rows represents
+a matrix with that many rows and zero columns.

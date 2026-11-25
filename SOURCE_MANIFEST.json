@@ -1,7 +1,7 @@
 {
   "schema": "loom.full-stack.source.v1",
-  "runtime_version": "1.21.0",
-  "runtime_manifest_sha256": "105ac44f0eb57a5ceb9e005dbdf467201fb01aa07ff0758c60879152738107b2",
+  "runtime_version": "1.22.0",
+  "runtime_manifest_sha256": "049cf3c55ce045858ce717e6738cf45231d14887e8551b03e72733931025fc44",
   "files": {
     "AGENTS.md": "cedc09922ebc80deb230b33454674fa5ba302eee4559317fa3ec8870d8268a3d",
     "ARCHITECTURE.md": "a7e400536c4718e9ac044c882c83b7a39b22db5dd9a3ac953d341fe02ef183cf",
@@ -135,7 +135,7 @@
     "loom_sqlite.py": "7efc4a78565cb01b43d1cd86d334afb1f5a70efff908d2b17ba53324624df1dd",
     "sqlite-bootstrap.sql": "3c08d5975f17f15db3fbb674c707efbb26d38c64f5bd40944169a3b89260a68c",
     "surd.build.json": "0e02caba1424f29404560c03cc6973922ef8c7b83aa9a31f03444959fba95ca8",
-    "surd.py": "fd318c4ef5ed6ddc71f3cc40d1ab811ebaf9bedd94e445d9d4185e963381aa78",
+    "surd.py": "c702e909bcbe810fd4215f74497339205d52b872e3e3e6b902ddee353ff6b6e4",
     "surd_bank.py": "ba34a0d2adcd07c23f6d1ea15db4250c50a8999d4b9edbf841949b9d3c85029c",
     "surd_build.py": "ade277f56960decf499fe324d5ff24b458c3531340c675181d1511335aefda3e",
     "surd_collections.py": "88ae0b8efd6566ada2f0ead4597a9b7e1a743a133325ff9fd7c5f9a1ce746d5a",
@@ -206,24 +206,24 @@
     "examples/frontier-batch.json": "beaabeb6d171adc8ceca8d26625380316057827ff7308f18ec52b9429a8d5f0a",
     "tests/test_frontier_hardening.py": "901b18581e089a4a80eab1dcd7329ccbf39f9b81f41ae6e1a08834778b6d2953",
     "examples/semantic_time.loom": "67eff4231a85b8f9c8286b58fe9ccee2b01b987ceac623aa077dbdcce080c5bd",
-    "tests/test_semantic_time.py": "27a3136032cd9924e53afcca8c03c31b58a33d27b927ab4497c6667d632389e0"
+    "tests/test_semantic_time.py": "83a241c99e7dfef6fc621f489b14dce02de81a4a9e3a3ca6c78f9bd36a37c9cb"
   },
   "sanitized_working_tree": true,
   "upstream_runtime_archive_sha256": "d00a1762930554982b1102645e074c2d6f7cc7276bbb13d34f71e2129bcde8b7",
   "distribution_note": "Current runtime files are fingerprinted here; upstream archive hash identifies the original input only.",
   "local_derivation": {
-    "base_commit": "ecc22642ceb87f1ae89949e351eb6279d9d019ba",
-    "purpose": "return a shortest two-wire circuit on first forward discovery"
+    "base_commit": "7a8f06254f9c978b99aa1a3c434ef4ccd8aa0cf5",
+    "purpose": "real and complex rectangular matrix multiplication"
   },
   "distribution_files": {
-    "README.md": "bd4b27b120e6ec7d7ebb23ddd76602a0f5c9986da776085eff40e38da80ad2db",
-    "AI_GUIDE.md": "4f9b464e1775ca15eb8de114555a2cfbf13ff7abc909be580fec6daa394c1017",
+    "README.md": "0e7883949f873ef9eee3e23ba062ccf8e73c01f4a594e96ba1afa07c915f73ab",
+    "AI_GUIDE.md": "befdeae6638e5a15285bf7eb200f9daf8c08228aa1954f740a905d8728d95b2a",
     "PUBLIC_DISTRIBUTION.md": "aef28d00ac5121e17bd6e5f278f8ada0cf02fbc24d32a8def9e18ab775798764",
     "tests/test_public_distribution.py": "770e5f593ce5a38bcee98daa0ec85a2d00d9c30835213ddef3919dac9d62fe0a",
     "bench/real_eval.py": "270a292582657034b754f5e7c0f2f38b89ea3323aadde6a499de6fca4a7c30eb",
     "tests/test_benchmark_encoding.py": "0a9bcaf88d7202672c76971b5b737163b0060aefd43765d9cb3811591ad30102",
-    "tests/check_semantic_time_lean.py": "2567c0431544d26754a3c4d6ba7505a370deb94e5c9ebc9d0852d16b63724f17",
-    "tests/SemanticTime.lean": "c4c8e4f95dfcddc780ce966dc3c7e3769c278c321c9a6e664bbc8b1083a697ad"
+    "tests/check_semantic_time_lean.py": "688a23fc41c8a9e234e96321a7ce7e749aa91e60985db57662cd4ff5c549f331",
+    "tests/SemanticTime.lean": "5539ec481eb1e632402073196b1eea3855ae11e776093da18f98f905d5e2be8d"
   },
   "public_profile": "local-only; no network service or provider adapter"
 }

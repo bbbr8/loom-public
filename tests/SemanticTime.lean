@@ -12,6 +12,12 @@ def mul (z w : Gaussian) : Gaussian :=
 
 def add (z w : Gaussian) : Gaussian := (z.1 + w.1, z.2 + w.2)
 
+-- Each output row is a linear combination of rows of the right operand.
+def matrixProduct (width : Nat) (a b : List (List Gaussian)) : List (List Gaussian) :=
+  a.map fun row =>
+    (row.zip b).foldl (fun acc (weight, rhs) =>
+      acc.zipWith add (rhs.map (mul weight))) (List.replicate width (0, 0))
+
 theorem mul_add (u v w : Gaussian) : mul u (add v w) = add (mul u v) (mul u w) := by
   apply Prod.ext <;> simp [mul, add] <;> grind
 

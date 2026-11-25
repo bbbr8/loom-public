@@ -85,6 +85,28 @@ expect exactness(mixed[1])["status"] == "exact"
             surd.Interp(echo=False, max_steps=200).run("poly_shift(range(50),1)")
         self.assertEqual(failure.exception.code, "S-E017")
 
+    def test_matmul(self):
+        self.check('''
+let a = [[1,2,3],[4,5,6]]
+let b = [[7,8],[9,10],[11,12]]
+expect matmul(a,b) == [[58,64],[139,154]]
+expect matmul(b,a) == [[39,54,69],[49,68,87],[59,82,105]]
+expect a == [[1,2,3],[4,5,6]]
+expect matmul([[1/3,sqrt(2)]],[[3],[sqrt(2)]]) == [[3]]
+let i = complex(0,1)
+expect matmul([[i]],[[i]]) == [[complex(-1,0)]]
+expect matmul([[i,0],[0,1]],[[2],[3]]) == [[complex(0,2)],[complex(3,0)]]
+expect matmul([[float(1/2),2]],[[2],[3]]) == [[float(7)]]
+expect exactness(matmul([[float(1/2)]],[[2]]))["status"] == "approximate"
+expect matmul([],[]) == []
+expect matmul([[],[]],[]) == [[],[]]
+expect matmul([[1,2]],[[],[]]) == [[]]
+''')
+        program = "let r = range(16)\nlet a = [" + ",".join(["r"]*16) + "]\nmatmul(a,a)"
+        with self.assertRaises(surd.SurdError) as failure:
+            surd.Interp(echo=False, max_steps=1000).run(program)
+        self.assertEqual(failure.exception.code, "S-E017")
+
     def test_rejected_inputs(self):
         invalid = [
             ('complex_div(complex(1,1),complex(0,0))', "S-E015"),
@@ -95,6 +117,13 @@ expect exactness(mixed[1])["status"] == "exact"
             ('poly_shift([0,true],1)', "S-E009"),
             ('poly_eval([],{"imag":0})', "S-E009"),
             ('poly_shift([1,2])', "S-E004"),
+            ('matmul([[1]],[[1],[2]])', "S-E009"),
+            ('matmul([[1],[1,2]],[[1]])', "S-E009"),
+            ('matmul([[1,2]],[[1],[]])', "S-E009"),
+            ('matmul([1,2],[[3],[4]])', "S-E009"),
+            ('matmul([[true]],[[1]])', "S-E009"),
+            ('matmul([],[[1]])', "S-E009"),
+            ('matmul([[1]])', "S-E004"),
             ('shift_instant("2030-01-01T00:00:00Z",1/3)', "S-E009"),
             ('shift_instant("9999-12-31T23:59:59Z",1)', "S-E009"),
             ('elapsed_seconds("2030-01-01T00:00:00","2030-01-01T00:00:00Z")', "S-E009"),

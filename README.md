@@ -46,6 +46,10 @@ point. `poly_shift([0, 0, 0, 1], 2)` returns the four complex coefficients
 of `(2 + h)³` in ascending degree order, with real parts `[8, 12, 6, 1]`.
 The coefficient of `h` gives the first derivative at the chosen point.
 
+`matmul(A, B)` multiplies two rectangular matrices written as lists of rows.
+For example, `matmul([[1,2],[3,4]], [[5],[6]])` returns `[[17],[39]]`.
+Rational and supported cyclotomic values stay exact, including complex entries.
+
 Inputs and generated graphs belong in directories you choose outside version
 control. The included examples and test databases are synthetic. Optional offline
 models and document readers are separate installations; no model service is bundled.
