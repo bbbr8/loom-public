@@ -10,6 +10,7 @@
         "surd_integrations",
         "surd_search",
         "surd_timeline",
+        "surd_timing",
         "surd_usage"
       ],
       "surd_bank": [],
@@ -583,6 +584,11 @@
       "mode": 420,
       "sha256": "e9a8c4047b006796d2d7fcf62a1f7fdefd289d9977e016b038705a6f786193d8"
     },
+    "examples/semantic_time.loom": {
+      "bytes": 883,
+      "mode": 420,
+      "sha256": "67eff4231a85b8f9c8286b58fe9ccee2b01b987ceac623aa077dbdcce080c5bd"
+    },
     "examples/semantics.surd": {
       "bytes": 2337,
       "mode": 420,
@@ -824,14 +830,14 @@
       "sha256": "3c08d5975f17f15db3fbb674c707efbb26d38c64f5bd40944169a3b89260a68c"
     },
     "surd.build.json": {
-      "bytes": 7430,
+      "bytes": 7500,
       "mode": 420,
-      "sha256": "bda22359f0e7e8aec42e1bb2806e2a2d45501ee54a6ba1202eb59633c87b43f3"
+      "sha256": "0e02caba1424f29404560c03cc6973922ef8c7b83aa9a31f03444959fba95ca8"
     },
     "surd.py": {
-      "bytes": 406507,
+      "bytes": 415403,
       "mode": 420,
-      "sha256": "7a174a5f8e953d4caf50cd1eadbe0a238bb10f9e1f2e432063a93e697e9012d6"
+      "sha256": "3754ddc11932402359e738ba22fefd7bc0484f183e81ac5213356229305a27c1"
     },
     "surd_bank.py": {
       "bytes": 12752,
@@ -914,9 +920,9 @@
       "sha256": "819236ca6ca745c4b40102bca4d8e96647e9843277e61e44a2e2ddaa31f1e0b2"
     },
     "surd_release.py": {
-      "bytes": 10964,
+      "bytes": 11168,
       "mode": 420,
-      "sha256": "766893efb7ea7930e7e2d793fd7764b1ae54b5a8d168da851e3b2132fa0add55"
+      "sha256": "5d74082a2db8b3e22906ae750c06dd591ae4686bd75869c98355d92337fb700b"
     },
     "surd_search.py": {
       "bytes": 50488,
@@ -939,9 +945,9 @@
       "sha256": "c54b7bb019d07c8ccd3904fe0b43a28015189ad7a1ca0fff5b79770b62657bb8"
     },
     "surd_timing.py": {
-      "bytes": 1811,
+      "bytes": 2869,
       "mode": 420,
-      "sha256": "9b230aa4a842fabfd812059ef1802e7ba565305ab7c81517d20ea4c1208b331a"
+      "sha256": "082a6bd7c881a85ac0a06444dd3dd310015026a611514d375036ad616af5de59"
     },
     "surd_usage.py": {
       "bytes": 4480,
@@ -1168,6 +1174,11 @@
       "mode": 420,
       "sha256": "64739a612b54f64053ee119ad6d16692b1373d686dc29215913f3b1543680bb9"
     },
+    "tests/test_semantic_time.py": {
+      "bytes": 5178,
+      "mode": 420,
+      "sha256": "27a3136032cd9924e53afcca8c03c31b58a33d27b927ab4497c6667d632389e0"
+    },
     "tests/test_sqlite_bootstrap.py": {
       "bytes": 9893,
       "mode": 420,
@@ -1196,5 +1207,5 @@
   },
   "python_minimum": "3.9",
   "schema": "surd.build.v1",
-  "version": "1.19.1"
+  "version": "1.21.0"
 }

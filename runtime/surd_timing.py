@@ -1,3 +1,4 @@
+# Private - personal, financial, and mental-health data
 """surd_timing — exact timing test: do statements land nearer money events than their own calendar would by chance?
 
 hits(A, B, before, after): statements a in A with an event b in B at lag b − a in [−before, +after] days.
@@ -6,7 +7,31 @@ offset (no sampling): p = share of offsets whose hit count is at least the obser
 fractions. Pure module (stdlib only); surd_ext wraps it as the Surd built-in timing(statements, events, before, after).
 """
 from bisect import bisect_left
+from datetime import datetime, timedelta, timezone
 from fractions import Fraction as F
+import re
+
+
+def instant(text):
+    """Offset-qualified civil timestamp at microsecond resolution, normalized to UTC."""
+    if not isinstance(text, str) or not re.fullmatch(
+        r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.[0-9]{1,6})?"
+        r"(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])", text
+    ):
+        raise ValueError("use YYYY-MM-DDTHH:MM:SS with Z or a signed HH:MM offset and up to six fractional digits")
+    return datetime.fromisoformat(text.replace("Z", "+00:00")).astimezone(timezone.utc)
+
+
+def elapsed_seconds(start, end):
+    return F((instant(end) - instant(start)) // timedelta(microseconds=1), 1_000_000)
+
+
+def shift_instant(start, seconds):
+    micros = seconds * 1_000_000
+    if micros.denominator != 1:
+        raise ValueError("time shift must be a whole number of microseconds")
+    result = instant(start) + timedelta(microseconds=micros.numerator)
+    return result.isoformat().replace("+00:00", "Z")
 
 
 def _hits(A, B, before, after):

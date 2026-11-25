@@ -30,6 +30,22 @@ provides the same local commands on systems with a POSIX shell.
 - Read-only retrieval-recipe Pareto evaluation with separate development/audit families.
 - Circuit simulation and exact supported arithmetic on the local CPU.
 
+## Complex arithmetic and time
+
+The runnable example `semantic_time.loom` starts with equal amplitudes on two labels and advances one
+label by a quarter turn. Their probabilities stay equal. The overlap with the
+original meaning becomes `1/2 + (1/2)i`, and the fidelity becomes `1/2`.
+
+`elapsed_seconds(start, end)` returns an exact signed duration for timestamps
+with a UTC offset. `shift_instant(start, seconds)` returns a UTC timestamp at
+microsecond resolution. Pass the duration to `evolve_phase(meaning, label,
+cycles_per_second, seconds)` to connect clock time to the phase of that label.
+
+`poly_eval([1, 2, 3], z)` computes `1 + 2z + 3z²` at a real or complex
+point. `poly_shift([0, 0, 0, 1], 2)` returns the four complex coefficients
+of `(2 + h)³` in ascending degree order, with real parts `[8, 12, 6, 1]`.
+The coefficient of `h` gives the first derivative at the chosen point.
+
 Inputs and generated graphs belong in directories you choose outside version
 control. The included examples and test databases are synthetic. Optional offline
 models and document readers are separate installations; no model service is bundled.

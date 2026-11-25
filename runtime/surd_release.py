@@ -1,3 +1,4 @@
+# Private - personal, financial, and mental-health data
 """Bounded, side-effect-free validation of a frozen portable Surd release."""
 import argparse
 import json
@@ -95,6 +96,8 @@ def validate(archive, profile, report_path):
                     scripts.append("test_collections.py")
                 if tuple(int(x) for x in manifest["version"].split(".")) >= (1, 11, 0):
                     scripts.append("test_quantum_reasoning.py")
+                if tuple(int(x) for x in manifest["version"].split(".")) >= (1, 20, 0):
+                    scripts.append("test_semantic_time.py")
                 for script in scripts:
                     checks.append((script, [py, "tests/"+script], False, {}))
                 checks.append(("builtin documentation", [py, "surd.py", "describe", "--json"], "builtins", {}))
