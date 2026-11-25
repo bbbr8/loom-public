@@ -4715,6 +4715,10 @@ def synth_2q(target, fwd_depth=5, back_depth=9, cap=400_000):
     G = _gens2()
     I = tuple(tuple(1 if i == j else 0 for j in range(4)) for i in range(4))
     fwd = {_key(I): []}
+    T = tuple(tuple(complex(x) for x in row) for row in target)
+    target_key = _key(T)
+    if target_key in fwd:
+        return []
     layer = [(I, [])]
     for _ in range(fwd_depth):
         nxt = []
@@ -4723,12 +4727,16 @@ def synth_2q(target, fwd_depth=5, back_depth=9, cap=400_000):
                 M2 = _mm(GM, M)
                 k = _key(M2)
                 if k not in fwd:
-                    fwd[k] = w + [g]; nxt.append((M2, w + [g]))
+                    word = w + [g]
+                    # Breadth-first discovery already certifies minimal gate count.
+                    if k == target_key:
+                        return word
+                    fwd[k] = word
+                    nxt.append((M2, word))
         layer = nxt
         if len(fwd) > cap: break
-    T = tuple(tuple(complex(x) for x in row) for row in target)
     best = None
-    seen_b = {_key(T)}
+    seen_b = {target_key}
     blayer = [(T, [])]
     for j in range(back_depth + 1):
         for M, bw in blayer:

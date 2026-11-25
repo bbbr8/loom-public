@@ -835,9 +835,9 @@
       "sha256": "0e02caba1424f29404560c03cc6973922ef8c7b83aa9a31f03444959fba95ca8"
     },
     "surd.py": {
-      "bytes": 415403,
+      "bytes": 415683,
       "mode": 420,
-      "sha256": "3754ddc11932402359e738ba22fefd7bc0484f183e81ac5213356229305a27c1"
+      "sha256": "fd318c4ef5ed6ddc71f3cc40d1ab811ebaf9bedd94e445d9d4185e963381aa78"
     },
     "surd_bank.py": {
       "bytes": 12752,
@@ -1160,9 +1160,9 @@
       "sha256": "45d61119e1790d37aab9ff74c42016129007de7d8e40e25142236ab1254072df"
     },
     "tests/test_runtime_upgrade.py": {
-      "bytes": 9895,
+      "bytes": 10485,
       "mode": 420,
-      "sha256": "dcf1bb1808898097e92605a6b16de55fae199705b3794edffbdab2733ac73828"
+      "sha256": "3873d1340074394036c051b5e41a3264fd2fcafd282cbff0af8c6c5d4d44a469"
     },
     "tests/test_scalability.py": {
       "bytes": 7320,

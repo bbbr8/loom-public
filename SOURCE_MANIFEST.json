@@ -1,7 +1,7 @@
 {
   "schema": "loom.full-stack.source.v1",
   "runtime_version": "1.21.0",
-  "runtime_manifest_sha256": "74e620e46301bb34187f6056704edf9fa801153a3f0eb0546261f917f8963b2d",
+  "runtime_manifest_sha256": "105ac44f0eb57a5ceb9e005dbdf467201fb01aa07ff0758c60879152738107b2",
   "files": {
     "AGENTS.md": "cedc09922ebc80deb230b33454674fa5ba302eee4559317fa3ec8870d8268a3d",
     "ARCHITECTURE.md": "a7e400536c4718e9ac044c882c83b7a39b22db5dd9a3ac953d341fe02ef183cf",
@@ -135,7 +135,7 @@
     "loom_sqlite.py": "7efc4a78565cb01b43d1cd86d334afb1f5a70efff908d2b17ba53324624df1dd",
     "sqlite-bootstrap.sql": "3c08d5975f17f15db3fbb674c707efbb26d38c64f5bd40944169a3b89260a68c",
     "surd.build.json": "0e02caba1424f29404560c03cc6973922ef8c7b83aa9a31f03444959fba95ca8",
-    "surd.py": "3754ddc11932402359e738ba22fefd7bc0484f183e81ac5213356229305a27c1",
+    "surd.py": "fd318c4ef5ed6ddc71f3cc40d1ab811ebaf9bedd94e445d9d4185e963381aa78",
     "surd_bank.py": "ba34a0d2adcd07c23f6d1ea15db4250c50a8999d4b9edbf841949b9d3c85029c",
     "surd_build.py": "ade277f56960decf499fe324d5ff24b458c3531340c675181d1511335aefda3e",
     "surd_collections.py": "88ae0b8efd6566ada2f0ead4597a9b7e1a743a133325ff9fd7c5f9a1ce746d5a",
@@ -192,7 +192,7 @@
     "tests/test_reasoning.py": "bc94c50667a03b2697612240c376fe4a6f2672c8e87cb7c29676a1da77574f2e",
     "tests/test_research.py": "16f38169aafd50495169e5efcad9e4c33af2943b135be919c4894a76060ffd4f",
     "tests/test_review_regressions.py": "45d61119e1790d37aab9ff74c42016129007de7d8e40e25142236ab1254072df",
-    "tests/test_runtime_upgrade.py": "dcf1bb1808898097e92605a6b16de55fae199705b3794edffbdab2733ac73828",
+    "tests/test_runtime_upgrade.py": "3873d1340074394036c051b5e41a3264fd2fcafd282cbff0af8c6c5d4d44a469",
     "tests/test_scalability.py": "b9a643e5a6ca477488b413e64448eb5b4347923e2aa955c222becf9f608ce161",
     "tests/test_search.py": "64739a612b54f64053ee119ad6d16692b1373d686dc29215913f3b1543680bb9",
     "tests/test_sqlite_bootstrap.py": "2d5028cc3aa47a00b68eed73b28b5d775cc66c98a27c5b65e998f8d79794af67",
@@ -212,8 +212,8 @@
   "upstream_runtime_archive_sha256": "d00a1762930554982b1102645e074c2d6f7cc7276bbb13d34f71e2129bcde8b7",
   "distribution_note": "Current runtime files are fingerprinted here; upstream archive hash identifies the original input only.",
   "local_derivation": {
-    "purpose": "exact complex polynomial evaluation and translation",
-    "base_commit": "460010b9061ac216499138077e0d3bd9cffacbba"
+    "base_commit": "ecc22642ceb87f1ae89949e351eb6279d9d019ba",
+    "purpose": "return a shortest two-wire circuit on first forward discovery"
   },
   "distribution_files": {
     "README.md": "bd4b27b120e6ec7d7ebb23ddd76602a0f5c9986da776085eff40e38da80ad2db",
