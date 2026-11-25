@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Private - personal, financial, and mental-health data
 """Loom — a qubit programming language where wires receive gates and gates are exact values.
 
 Quantum-circuit semantics on a classical simulator. Supported dyadic phases use exact cyclotomic
@@ -46,8 +47,9 @@ import surd_search
 import surd_collections
 import surd_bank
 import surd_ext
+import surd_timing
 
-VERSION = "1.19.1"
+VERSION = "1.21.0"
 sys.setrecursionlimit(max(sys.getrecursionlimit(), 12000))   # Loom functions recurse through the interpreter
 SQRT2 = math.sqrt(2.0)
 TOL = 1e-9
@@ -2094,9 +2096,12 @@ INTEGRATION_FUNCS |= {"graph_init","graph_ingest","graph_snapshot","graph_diff",
                       "graph_search","graph_paths","graph_overview","graph_resolve","graph_analyze","graph_compile","graph_evolve",
                       "graph_import_timeline","graph_ingest_files","research_plan","research_run","research_learn","research_methods",
                       "graph_propose_predicate","graph_activate_predicate"}
-SEM_FUNCS = {"phase", "sense", "blend", "read", "joint", "distribution", "gap", "entropy", "given", "normalize", "condition", "collapse", "reframe",
+SEM_FUNCS = {"phase", "meaning_overlap", "evolve_phase", "sense", "blend", "read", "joint", "distribution", "gap", "entropy", "given", "normalize", "condition", "collapse", "reframe",
              "encode", "senses", "beliefs", "trust", "belnap", "jaccard"}
-CORE_FUNCS = {"range", "push", "pop", "str", "join", "split", "keys", "values", "map", "filter", "reduce", "sum",
+SIGNAL_FUNCS = {"complex", "complex_add", "complex_sub", "complex_mul", "complex_div",
+                "complex_conj", "magnitude2", "phasor", "elapsed_seconds", "shift_instant",
+                "poly_eval", "poly_shift"}
+CORE_FUNCS = SIGNAL_FUNCS | {"range", "push", "pop", "str", "join", "split", "keys", "values", "map", "filter", "reduce", "sum",
               "min", "max", "sorted", "reverse", "contains", "type", "int", "floor", "set", "upper", "lower", "replace", "startswith", "endswith",
               "count", "any", "all", "zip", "enumerate", "repr", "get", "exactness"} | surd_collections.FUNCTIONS
 
@@ -2937,6 +2942,8 @@ class Interp:
         def less(a, b):
             if isinstance(a, str) and isinstance(b, str): return a < b
             return compare("<", a, b, pos)
+        if name in SIGNAL_FUNCS:
+            return signal_function(name, v, pos, self.budget)
         if name in surd_collections.FUNCTIONS:
             return self.collection_fn(name, v, pos)
         if name == "range":
@@ -3666,6 +3673,23 @@ class Interp:
             sp, lab = self._space(args[0], env), ev(1)
             sp.index(lab, pos)
             return Meaning((sp,), {lab: Q1})
+        if name == "meaning_overlap":
+            need(2, "(left, right)")
+            return amplitude_parts(meaning_overlap(meaning(0), meaning(1), pos, name))
+        if name == "evolve_phase":
+            need(4, "(meaning, label, cycles_per_second, seconds)")
+            m, label = meaning(0), ev(1)
+            if len(m.spaces) == 1:
+                m.spaces[0].index(label, pos)
+            else:
+                if not isinstance(label, list) or len(label) != len(m.spaces):
+                    raise SurdError("S-E009", "use one label per space in the joint meaning", pos)
+                for space, part in zip(m.spaces, label):
+                    space.index(part, pos)
+                label = tuple(label)
+            turns = exact_rational(ev(2), pos, name) * exact_rational(ev(3), pos, name)
+            factor = turn_factor(turns)
+            return Meaning(m.spaces, {k: _mul(factor, a) if k == label else a for k, a in m.amps.items()})
         if name == "blend":
             need(2, "(space, {\"label\": weight, …})")
             sp, w = self._space(args[0], env), ev(1)
@@ -4691,6 +4715,10 @@ def synth_2q(target, fwd_depth=5, back_depth=9, cap=400_000):
     G = _gens2()
     I = tuple(tuple(1 if i == j else 0 for j in range(4)) for i in range(4))
     fwd = {_key(I): []}
+    T = tuple(tuple(complex(x) for x in row) for row in target)
+    target_key = _key(T)
+    if target_key in fwd:
+        return []
     layer = [(I, [])]
     for _ in range(fwd_depth):
         nxt = []
@@ -4699,12 +4727,16 @@ def synth_2q(target, fwd_depth=5, back_depth=9, cap=400_000):
                 M2 = _mm(GM, M)
                 k = _key(M2)
                 if k not in fwd:
-                    fwd[k] = w + [g]; nxt.append((M2, w + [g]))
+                    word = w + [g]
+                    # Breadth-first discovery already certifies minimal gate count.
+                    if k == target_key:
+                        return word
+                    fwd[k] = word
+                    nxt.append((M2, word))
         layer = nxt
         if len(fwd) > cap: break
-    T = tuple(tuple(complex(x) for x in row) for row in target)
     best = None
-    seen_b = {_key(T)}
+    seen_b = {target_key}
     blayer = [(T, [])]
     for j in range(back_depth + 1):
         for M, bw in blayer:
@@ -6062,6 +6094,110 @@ def _mul(a, b):
 def _conj(a): return a.conj() if isinstance(a, QW) else complex(a).conjugate()
 
 
+def exact_rational(value, pos, name):
+    if isinstance(value, R2) and value.is_rational():
+        return value.a
+    raise SurdError("S-E009", f"{name} needs an exact rational number", pos)
+
+
+def turn_factor(turns):
+    # Reduce before conversion so even very large whole turns cannot lose phase.
+    angle = PiVal(2 * (turns % 1))
+    try:
+        return EX.expi(angle)
+    except NotExact:
+        return FL.expi(angle)
+
+
+def amplitude_parts(value):
+    if isinstance(value, QW):
+        return {"real": value.re(), "imag": value.im()}
+    return {"real": value.real, "imag": value.imag}
+
+
+def signal_function(name, args, pos, budget):
+    unary = name in ("phasor", "complex_conj", "magnitude2")
+    arity = 1 if unary else 2
+    if len(args) != arity:
+        raise SurdError("S-E004", f"{name} takes {arity} arguments", pos)
+
+    def amplitude(value):
+        if not isinstance(value, dict) or set(value) != {"real", "imag"}:
+            raise SurdError("S-E009", f"{name} needs a complex(real, imag) value", pos)
+        re_part, im_part = value["real"], value["imag"]
+        if isinstance(re_part, R2) and isinstance(im_part, R2):
+            return re_part.q + QI * im_part.q
+        if all(isinstance(x, R2) or (type(x) is float and math.isfinite(x)) for x in (re_part, im_part)):
+            return complex(float(re_part), float(im_part))
+        raise SurdError("S-E009", "complex components must be finite real numbers", pos)
+
+    def polynomial_number(value):
+        if isinstance(value, R2):
+            return value.q
+        if type(value) is float and math.isfinite(value):
+            return complex(value)
+        return amplitude(value)
+
+    def finite_parts(value):
+        if isinstance(value, complex) and not (math.isfinite(value.real) and math.isfinite(value.imag)):
+            raise ValueError("nonfinite result")
+        return amplitude_parts(value)
+
+    try:
+        if name in ("poly_eval", "poly_shift"):
+            if not isinstance(args[0], list):
+                raise SurdError("S-E009", f"{name} needs coefficients in ascending degree order", pos)
+            point = polynomial_number(args[1])
+            coefficients = []
+            for value in args[0]:
+                budget.checkpoint(pos)
+                coefficients.append(polynomial_number(value))
+            if name == "poly_eval":
+                result = coefficients.pop() if coefficients else QZ
+                for coefficient in reversed(coefficients):
+                    budget.checkpoint(pos)
+                    result = _mix(coefficient, _mul(point, result))
+                return finite_parts(result)
+            # Horner translation by (point + h), keeping every coefficient of h.
+            for start in range(len(coefficients) - 2, -1, -1):
+                for j in range(start, len(coefficients) - 1):
+                    budget.checkpoint(pos)
+                    coefficients[j] = _mix(coefficients[j], _mul(point, coefficients[j + 1]))
+            return [finite_parts(value) for value in coefficients]
+        if name == "elapsed_seconds":
+            return R2(surd_timing.elapsed_seconds(*args))
+        if name == "shift_instant":
+            return surd_timing.shift_instant(args[0], exact_rational(args[1], pos, name))
+        if name == "phasor":
+            return amplitude_parts(turn_factor(exact_rational(args[0], pos, name)))
+        if name == "complex":
+            return amplitude_parts(amplitude(dict(zip(("real", "imag"), args))))
+        left = amplitude(args[0])
+        if name == "magnitude2":
+            result = left.norm2() if isinstance(left, QW) else abs(left)**2
+            if isinstance(result, float) and not math.isfinite(result):
+                raise ValueError("nonfinite result")
+            return result
+        if name == "complex_conj":
+            return amplitude_parts(_conj(left))
+        right = amplitude(args[1])
+        if name == "complex_add":
+            result = _mix(left, right)
+        elif name == "complex_sub":
+            result = _mix(left, -right)
+        elif name == "complex_mul":
+            result = _mul(left, right)
+        elif isinstance(left, QW) and isinstance(right, QW):
+            result = left * right.conj() * right.norm2().inv().q
+        else:
+            result = complex(left) / complex(right)
+        return finite_parts(result)
+    except ZeroDivisionError:
+        raise SurdError("S-E015", "division by zero", pos)
+    except (ValueError, OverflowError) as exc:
+        raise SurdError("S-E009", f"{name}: {exc}", pos) from exc
+
+
 def normalize_meaning(m, pos=None):
     """Return a new unit vector, preserving relative phase and leaving the input untouched."""
     n = m.norm()
@@ -6080,18 +6216,24 @@ def normalize_meaning(m, pos=None):
     return Meaning(m.spaces, {k: complex(v) / float(root) for k, v in m.amps.items()})
 
 
-def meaning_fidelity(m1, m2, pos):
-    """|⟨m1|m2⟩|² / (⟨m1|m1⟩⟨m2|m2⟩): 1 = the same meaning, 0 = orthogonal"""
+def meaning_overlap(m1, m2, pos, name):
+    """Raw Hermitian inner product, conjugate-linear in its first argument."""
     for m in (m1, m2):
         if not isinstance(m, Meaning):
-            raise SurdError("S-E009", f"fidelity compares two meanings; got {type_name(m)}", pos,
+            raise SurdError("S-E009", f"{name} compares two meanings; got {type_name(m)}", pos,
                             "read(…) gives none when no cue fires — check for none first" if m is NONE else None)
     if m1.spaces != m2.spaces:
-        raise SurdError("S-E009", "fidelity compares meanings over the same space(s)", pos,
+        raise SurdError("S-E009", f"{name} compares meanings over the same space(s)", pos,
                         f"{' ⊗ '.join(s.name for s in m1.spaces)} vs {' ⊗ '.join(s.name for s in m2.spaces)}")
     ip = QZ if (m1.exact and m2.exact) else 0j
     for k, v in m1.amps.items():
         if k in m2.amps: ip = _mix(ip, _mul(_conj(v), m2.amps[k]))
+    return ip
+
+
+def meaning_fidelity(m1, m2, pos):
+    """Squared overlap normalized by both squared norms."""
+    ip = meaning_overlap(m1, m2, pos, "fidelity")
     num = ip.norm2() if isinstance(ip, QW) else abs(ip) ** 2
     den = m1.norm() * m2.norm() if isinstance(m1.norm(), R2) and isinstance(m2.norm(), R2) else \
         float(m1.norm()) * float(m2.norm())
@@ -6784,6 +6926,14 @@ def selftest(verbose=False):
 
 
 DESCRIBE = {
+    "complex_and_time": {"functions": sorted(SIGNAL_FUNCS | {"meaning_overlap", "evolve_phase"}),
+                         "polynomials": {"coefficient_order": "ascending degree", "inputs": "real or complex",
+                                         "poly_eval": "P(point), empty list gives complex zero",
+                                         "poly_shift": "coefficients of P(point+h), same length as the input"},
+                         "complex": {"real": "real component", "imag": "imaginary component"},
+                         "time": "UTC-offset timestamps to microseconds; signed exact rational seconds",
+                         "evolution": "cycles per second times elapsed seconds; positive phase is counterclockwise",
+                         "overlap": "unnormalized Hermitian inner product, conjugating the first meaning"},
     "integrations": {"guide": "INTEGRATIONS.md", "functions": sorted(INTEGRATION_FUNCS),
                      "commands": ["timeline", "qulap", "qulaps", "graph", "research", "sqlite", "studio", "ontology", "normalize"], "qulap_version": "0.2.0",
                      "ontology_guide": "ONTOLOGY.md", "ontology_command": "ontology check|format|validate|expand|project|diff",
@@ -6976,6 +7126,26 @@ BUILTIN_DOCS = [
      'space P { a, b }\nspace Q { x, y }\ngiven(joint(P, Q, [["a", "x", 1], ["b", "y", 1]]), "y")', "√2/2|b>   in P"),
     ("fidelity", "fidelity(m1, m2)", "1 = the same meaning, 0 = orthogonal (also records)",
      'space P { a, b, c }\nfidelity(blend(P, {"a": 1, "b": 1, "c": 2}), sense(P, "c"))', "1/2"),
+    ("complex", "complex(real, imag)", "construct a complex value", 'complex(2,3)["imag"]', "3"),
+    ("poly_eval", "poly_eval(coefficients,point)", "evaluate a polynomial in ascending degree order",
+     'poly_eval([1,2,3],complex(0,1))["real"]', "-2"),
+    ("poly_shift", "poly_shift(coefficients,point)", "coefficients of P(point+h) in ascending degree order",
+     'poly_shift([0,0,0,1],2)[1]["real"]', "12"),
+    ("complex_add", "complex_add(a,b)", "add complex values", 'complex_add(complex(2,3),complex(1,-1))["imag"]', "2"),
+    ("complex_sub", "complex_sub(a,b)", "subtract b from a", 'complex_sub(complex(2,3),complex(1,-1))["imag"]', "4"),
+    ("complex_mul", "complex_mul(a,b)", "multiply complex values", 'complex_mul(complex(3,-4),complex(1,2))["real"]', "11"),
+    ("complex_div", "complex_div(a,b)", "divide by a nonzero complex value", 'complex_div(complex(3,4),complex(0,1))["imag"]', "-3"),
+    ("complex_conj", "complex_conj(z)", "conjugate a complex value", 'complex_conj(complex(2,3))["imag"]', "-3"),
+    ("magnitude2", "magnitude2(z)", "squared magnitude", 'magnitude2(complex(3,4))', "25"),
+    ("phasor", "phasor(turns)", "unit phase for rational turns", 'phasor(1/4)["imag"]', "1"),
+    ("elapsed_seconds", "elapsed_seconds(start,end)", "signed seconds between offset-qualified timestamps",
+     'elapsed_seconds("2030-01-01T00:00:00Z","2030-01-01T00:00:01Z")', "1"),
+    ("shift_instant", "shift_instant(start,seconds)", "shift by whole microseconds and render UTC",
+     'shift_instant("2030-01-01T00:00:00Z",1)', "2030-01-01T00:00:01Z"),
+    ("meaning_overlap", "meaning_overlap(left,right)", "raw complex overlap in one shared basis",
+     'space P { a,b }\nmeaning_overlap(sense(P,"a"),sense(P,"a"))["real"]', "1"),
+    ("evolve_phase", "evolve_phase(m,label,hertz,seconds)", "rotate one amplitude over a signed duration",
+     'space P { a,b }\nlet m = sense(P,"a")\nmeaning_overlap(m,evolve_phase(m,"a",1,1/4))["imag"]', "1"),
     ("gap", "gap(m1, m2)", "1 − fidelity", 'space P { a, b }\ngap(sense(P, "a"), sense(P, "b"))', "1"),
     ("phase", "phase(m, \"label\", angle)", "turn one sense's amplitude by an angle",
      'space P { a, b }\nfidelity(phase(blend(P, {"a": 1, "b": 1}), "b", pi/2), blend(P, {"a": 1, "b": 1}))', "1/2"),

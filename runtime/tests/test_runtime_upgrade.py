@@ -1,4 +1,5 @@
-"""Synthetic regressions for 1.8: conditional states, value metadata and bounded sessions."""
+# Private - personal, financial, and mental-health data
+"""Synthetic regressions for conditional states, value metadata and bounded sessions."""
 import contextlib
 from fractions import Fraction
 import io
@@ -201,6 +202,18 @@ class BudgetTests(unittest.TestCase):
         self.assertTrue(rows[6]['exactness']['exact'])
         self.assertFalse(rows[7]['ok'])
         self.assertEqual(rows[9]['error']['code'], 'S-E017')
+
+
+class SynthesisTests(unittest.TestCase):
+    def test_forward_hit_stops_before_expanding_another_gate(self):
+        generator, matrix = surd._gens2()[0]
+        with patch.object(surd, "_mm", wraps=surd._mm) as multiply:
+            self.assertEqual(surd.synth_2q(matrix), [generator])
+            self.assertEqual(multiply.call_count, 1)
+
+    def test_backward_search_when_forward_depth_is_zero(self):
+        generator, matrix = surd._gens2()[0]
+        self.assertEqual(surd.synth_2q(matrix, fwd_depth=0, back_depth=1), [generator])
 
 
 if __name__ == '__main__':

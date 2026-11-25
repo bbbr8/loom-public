@@ -1,0 +1,17 @@
+# Private - personal, financial, and mental-health data
+# A synthetic two-sense signal changes relative phase over a quarter second.
+space SIGNAL { reference, carrier }
+let original = blend(SIGNAL, {"reference": 1, "carrier": 1})
+let start = "2030-01-01T01:00:00+01:00"
+let finish = shift_instant(start, 1/4)
+let seconds = elapsed_seconds(start, finish)
+let rotated = evolve_phase(original, "carrier", 1, seconds)
+let overlap = meaning_overlap(original, rotated)
+expect seconds == 1/4
+expect overlap == complex(1/2, 1/2)
+expect magnitude2(overlap) == fidelity(original, rotated)
+expect distribution(original) == distribution(rotated)
+expect meaning_overlap(rotated, original) == complex_conj(overlap)
+expect fidelity(original, evolve_phase(rotated, "carrier", 1, -seconds)) == 1
+expect complex_div(complex_mul(complex(3,-4), phasor(1/4)), phasor(1/4)) == complex(3,-4)
+print overlap
